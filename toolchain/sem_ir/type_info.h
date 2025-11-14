@@ -228,6 +228,7 @@ struct NumericTypeLiteralInfo {
 };
 
 // Information about a literal that corresponds to a type.
+// TODO: Rename to `RecognizedTypeInfo` (Cpp types are not type literals).
 struct TypeLiteralInfo {
   enum Kind : char {
     None,
@@ -235,8 +236,9 @@ struct TypeLiteralInfo {
     Numeric,
     // `char` / `Core.Char`.
     Char,
+    // `Core.CppCompat.Long32` which is `Cpp.long` when `long` is 32 bits.
+    CppLong32,
     // `Cpp.nullptr_t` / `Core.CppCompat.NullptrT`.
-    // TODO: This isn't a type literal.
     CppNullptrT,
     // `str` / `Core.String`.
     // TODO: Rename `Core.String` to `Core.Str`.

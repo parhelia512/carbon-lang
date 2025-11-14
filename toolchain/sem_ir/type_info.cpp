@@ -176,6 +176,7 @@ auto TypeLiteralInfo::ForType(const File& file, ClassType class_type)
       file.names().GetAsStringIfIdentifier(parent_scope_name_id);
   if (parent_name_ident == "CppCompat") {
     Kind kind = llvm::StringSwitch<Kind>(*name_ident)
+                    .Case("Long32", CppLong32)
                     .Case("NullptrT", CppNullptrT)
                     .Default(None);
     return {.kind = kind};
@@ -194,6 +195,17 @@ auto TypeLiteralInfo::PrintLiteral(const File& file,
       break;
     case Char:
       out << "char";
+      break;
+    case CppLong32:
+      if (file.clang_ast_unit()) {
+        const clang::ASTContext& ast_context =
+            file.clang_ast_unit()->getASTContext();
+        if (ast_context.getIntWidth(ast_context.LongTy) == 32) {
+          out << "Cpp.long";
+          break;
+        }
+      }
+      out << "Core.CppCompat.Long32";
       break;
     case CppNullptrT:
       out << "Cpp.nullptr_t";
