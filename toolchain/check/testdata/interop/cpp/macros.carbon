@@ -85,18 +85,7 @@ library "[[@TEST_NAME]]";
 import Cpp library "integer_literal_too_big.h";
 
 fn F() {
-  // CHECK:STDERR: fail_import_integer_literal_too_big.carbon:[[@LINE+15]]:3: note: in `Cpp` name lookup for `CONFIG_VALUE` [InCppNameLookup]
-  // CHECK:STDERR:   Cpp.CONFIG_VALUE;
-  // CHECK:STDERR:   ^~~~~~~~~~~~~~~~
-  // CHECK:STDERR:
-  // CHECK:STDERR: fail_import_integer_literal_too_big.carbon:[[@LINE+11]]:3: error: semantics TODO: `Unsupported: C++ literal's type `unsigned long long` could not be mapped to a Carbon type` [SemanticsTodo]
-  // CHECK:STDERR:   Cpp.CONFIG_VALUE;
-  // CHECK:STDERR:   ^~~~~~~~~~~~~~~~
-  // CHECK:STDERR: fail_import_integer_literal_too_big.carbon:[[@LINE+8]]:3: note: in `Cpp` name lookup for `CONFIG_VALUE` [InCppNameLookup]
-  // CHECK:STDERR:   Cpp.CONFIG_VALUE;
-  // CHECK:STDERR:   ^~~~~~~~~~~~~~~~
-  // CHECK:STDERR:
-  // CHECK:STDERR: fail_import_integer_literal_too_big.carbon:[[@LINE+4]]:3: error: member name `CONFIG_VALUE` not found in `Cpp` [MemberNameNotFoundInInstScope]
+  // CHECK:STDERR: fail_import_integer_literal_too_big.carbon:[[@LINE+4]]:3: note: in `Cpp` name lookup for `CONFIG_VALUE` [InCppNameLookup]
   // CHECK:STDERR:   Cpp.CONFIG_VALUE;
   // CHECK:STDERR:   ^~~~~~~~~~~~~~~~
   // CHECK:STDERR:
