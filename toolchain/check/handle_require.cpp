@@ -246,6 +246,7 @@ auto HandleParseNode(Context& context, Parse::RequireDeclId node_id) -> bool {
   auto introducer =
       context.decl_introducer_state_stack().Pop<Lex::TokenKind::Require>();
   LimitModifiersOnDecl(context, introducer, KeywordModifierSet::Extend);
+  bool extend = introducer.modifier_set.HasAnyOf(KeywordModifierSet::Extend);
 
   auto scope_inst_id =
       context.node_stack().Pop<Parse::NodeKind::RequireIntroducer>();
@@ -253,6 +254,12 @@ auto HandleParseNode(Context& context, Parse::RequireDeclId node_id) -> bool {
   auto validated = ValidateRequire(context, node_id, self_inst_id,
                                    constraint_inst_id, scope_inst_id);
   if (!validated) {
+    // In an `extend` decl, errors get propagated into the parent scope just as
+    // names do.
+    if (extend) {
+      auto scope_id = context.scope_stack().PeekNameScopeId();
+      context.name_scopes().Get(scope_id).set_has_error();
+    }
     DiscardGenericDecl(context);
     return true;
   }
@@ -260,13 +267,10 @@ auto HandleParseNode(Context& context, Parse::RequireDeclId node_id) -> bool {
   auto [constraint_type_id, identified_facet_type] = *validated;
   if (identified_facet_type->required_interfaces().empty()) {
     // A `require T impls type` adds no actual constraints, so nothing to do.
+    // This is not an error though.
     DiscardGenericDecl(context);
     return true;
   }
-
-  // TODO: When extend is true, any errors should propagate up to the parent
-  // scope.
-  bool extend = introducer.modifier_set.HasAnyOf(KeywordModifierSet::Extend);
 
   auto require_impls_decl =
       SemIR::RequireImplsDecl{// To be filled in after.
