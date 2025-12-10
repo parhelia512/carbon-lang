@@ -189,7 +189,7 @@ fn TestSpecific(a: A({})*) -> {}* {
 // CHECK:STDOUT:   %pattern_type.loc13_26: type = pattern_type %ptr.loc13_30.1 [symbolic = %pattern_type.loc13_26 (constants.%pattern_type.4f4b84.2)]
 // CHECK:STDOUT:
 // CHECK:STDOUT: !definition:
-// CHECK:STDOUT:   %require_complete.loc13_26: <witness> = require_complete_type %ptr.loc13_30.1 [symbolic = %require_complete.loc13_26 (constants.%require_complete.ef162c.1)]
+// CHECK:STDOUT:   %require_complete.loc13_30: <witness> = require_complete_type %ptr.loc13_30.1 [symbolic = %require_complete.loc13_30 (constants.%require_complete.ef162c.1)]
 // CHECK:STDOUT:   %require_complete.loc13_16: <witness> = require_complete_type %A [symbolic = %require_complete.loc13_16 (constants.%require_complete.a096cd.1)]
 // CHECK:STDOUT:   %A.elem: type = unbound_element_type %A, %V [symbolic = %A.elem (constants.%A.elem.b1fb46.2)]
 // CHECK:STDOUT:   %.loc14_12.2: require_specific_def_type = require_specific_def @ptr.as.Copy.impl(%V) [symbolic = %.loc14_12.2 (constants.%.841)]
@@ -329,7 +329,7 @@ fn TestSpecific(a: A({})*) -> {}* {
 // CHECK:STDOUT:   %pattern_type.loc13_26 => constants.%pattern_type.1cc
 // CHECK:STDOUT:
 // CHECK:STDOUT: !definition:
-// CHECK:STDOUT:   %require_complete.loc13_26 => constants.%complete_type.38e
+// CHECK:STDOUT:   %require_complete.loc13_30 => constants.%complete_type.38e
 // CHECK:STDOUT:   %require_complete.loc13_16 => constants.%complete_type.0a6
 // CHECK:STDOUT:   %A.elem => constants.%A.elem.2af
 // CHECK:STDOUT:   %.loc14_12.2 => constants.%.a00

@@ -486,7 +486,7 @@ fn Read(y:! Core.IntLiteral()) {
 // CHECK:STDOUT:   %pattern_type.loc5_49: type = pattern_type %IntRange [symbolic = %pattern_type.loc5_49 (constants.%pattern_type.95e)]
 // CHECK:STDOUT:
 // CHECK:STDOUT: !definition:
-// CHECK:STDOUT:   %require_complete.loc5_49: <witness> = require_complete_type %IntRange [symbolic = %require_complete.loc5_49 (constants.%require_complete.852)]
+// CHECK:STDOUT:   %require_complete.loc5_52: <witness> = require_complete_type %IntRange [symbolic = %require_complete.loc5_52 (constants.%require_complete.852)]
 // CHECK:STDOUT:   %require_complete.loc5_16: <witness> = require_complete_type %Int.loc5_28.1 [symbolic = %require_complete.loc5_16 (constants.%require_complete.9019d7.1)]
 // CHECK:STDOUT:   %struct_type.start.end: type = struct_type {.start: @IntRange.Make.%Int.loc5_28.1 (%Int.fc6021.1), .end: @IntRange.Make.%Int.loc5_28.1 (%Int.fc6021.1)} [symbolic = %struct_type.start.end (constants.%struct_type.start.end.ff1)]
 // CHECK:STDOUT:   %.loc6_22.2: require_specific_def_type = require_specific_def @Int.as.Copy.impl(%N) [symbolic = %.loc6_22.2 (constants.%.2e8)]
@@ -570,7 +570,7 @@ fn Read(y:! Core.IntLiteral()) {
 // CHECK:STDOUT:   %pattern_type.loc11_47: type = pattern_type %Optional.loc11_75.1 [symbolic = %pattern_type.loc11_47 (constants.%pattern_type.ca4)]
 // CHECK:STDOUT:
 // CHECK:STDOUT: !definition:
-// CHECK:STDOUT:   %require_complete.loc11_47: <witness> = require_complete_type %Optional.loc11_75.1 [symbolic = %require_complete.loc11_47 (constants.%require_complete.0e6)]
+// CHECK:STDOUT:   %require_complete.loc11_75: <witness> = require_complete_type %Optional.loc11_75.1 [symbolic = %require_complete.loc11_75 (constants.%require_complete.0e6)]
 // CHECK:STDOUT:   %require_complete.loc11_17: <witness> = require_complete_type %IntRange [symbolic = %require_complete.loc11_17 (constants.%require_complete.852)]
 // CHECK:STDOUT:   %require_complete.loc11_31: <witness> = require_complete_type %ptr.loc11_44.1 [symbolic = %require_complete.loc11_31 (constants.%require_complete.45c)]
 // CHECK:STDOUT:   %require_complete.loc12: <witness> = require_complete_type %Int.loc11_43.1 [symbolic = %require_complete.loc12 (constants.%require_complete.9019d7.1)]
@@ -824,7 +824,7 @@ fn Read(y:! Core.IntLiteral()) {
 // CHECK:STDOUT:   %pattern_type.loc5_49 => constants.%pattern_type.d16
 // CHECK:STDOUT:
 // CHECK:STDOUT: !definition:
-// CHECK:STDOUT:   %require_complete.loc5_49 => constants.%complete_type.c45
+// CHECK:STDOUT:   %require_complete.loc5_52 => constants.%complete_type.c45
 // CHECK:STDOUT:   %require_complete.loc5_16 => constants.%complete_type.f8a
 // CHECK:STDOUT:   %struct_type.start.end => constants.%struct_type.start.end.d0a
 // CHECK:STDOUT:   %.loc6_22.2 => constants.%.0d3

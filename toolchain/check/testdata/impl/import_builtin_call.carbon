@@ -478,7 +478,7 @@ var n: Int(64) = MakeFromClass(FromLiteral(64) as OtherInt);
 // CHECK:STDOUT:   %Main.import_ref.b31: @MyInt.as.Add.impl.%MyInt.as.Add.impl.Op.type (%MyInt.as.Add.impl.Op.type.72f) = import_ref Main//generic_impl, loc16_42, loaded [symbolic = @MyInt.as.Add.impl.%MyInt.as.Add.impl.Op (constants.%MyInt.as.Add.impl.Op.cfb)]
 // CHECK:STDOUT:   %Add.impl_witness_table = impl_witness_table (%Main.import_ref.b31), @MyInt.as.Add.impl [concrete]
 // CHECK:STDOUT:   %Main.import_ref.6b552a.3: Core.IntLiteral = import_ref Main//generic_impl, loc15_14, loaded [symbolic = @MyInt.as.Add.impl.%N (constants.%N)]
-// CHECK:STDOUT:   %Main.import_ref.99b: type = import_ref Main//generic_impl, loc15_39, loaded [symbolic = @MyInt.as.Add.impl.%MyInt (constants.%MyInt.819)]
+// CHECK:STDOUT:   %Main.import_ref.99b8a4.2: type = import_ref Main//generic_impl, loc15_39, loaded [symbolic = @MyInt.as.Add.impl.%MyInt (constants.%MyInt.819)]
 // CHECK:STDOUT:   %Main.import_ref.bf0: type = import_ref Main//generic_impl, loc15_44, loaded [concrete = constants.%Add.type]
 // CHECK:STDOUT:   %Main.import_ref.6b552a.4: Core.IntLiteral = import_ref Main//generic_impl, loc15_14, loaded [symbolic = @MyInt.as.Add.impl.%N (constants.%N)]
 // CHECK:STDOUT: }
@@ -533,7 +533,7 @@ var n: Int(64) = MakeFromClass(FromLiteral(64) as OtherInt);
 // CHECK:STDOUT:   %MyInt.as.Add.impl.Op: @MyInt.as.Add.impl.%MyInt.as.Add.impl.Op.type (%MyInt.as.Add.impl.Op.type.72f) = struct_value () [symbolic = %MyInt.as.Add.impl.Op (constants.%MyInt.as.Add.impl.Op.cfb)]
 // CHECK:STDOUT:   %require_complete: <witness> = require_complete_type %MyInt [symbolic = %require_complete (constants.%require_complete.855)]
 // CHECK:STDOUT:
-// CHECK:STDOUT:   impl: imports.%Main.import_ref.99b as imports.%Main.import_ref.bf0 {
+// CHECK:STDOUT:   impl: imports.%Main.import_ref.99b8a4.2 as imports.%Main.import_ref.bf0 {
 // CHECK:STDOUT:   !members:
 // CHECK:STDOUT:     witness = imports.%Main.import_ref.42e
 // CHECK:STDOUT:   }
