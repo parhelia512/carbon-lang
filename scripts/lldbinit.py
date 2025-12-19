@@ -93,6 +93,8 @@ Example usage:
         "name": "SemIR::MakeNameId",
         "name_scope": "SemIR::MakeNameScopeId",
         "identified_facet_type": "SemIR::MakeIdentifiedFacetTypeId",
+        "require_block": "SemIR::MakeRequireImplsBlockId",
+        "require": "SemIR::MakeRequireImplsId",
         "specific": "SemIR::MakeSpecificId",
         "specific_interface": "SemIR::MakeSpecificInterfaceId",
         "struct_type_fields": "SemIR::MakeStructTypeFieldsId",
