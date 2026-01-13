@@ -213,7 +213,7 @@ struct Function : public EntityWithParamsBase,
   }
 };
 
-using FunctionStore = ValueStore<FunctionId, Function>;
+using FunctionStore = ValueStore<FunctionId, Function, Tag<CheckIRId>>;
 
 class File;
 
