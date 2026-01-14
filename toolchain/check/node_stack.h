@@ -462,6 +462,7 @@ class NodeStack {
       case Parse::NodeKind::ImplicitParamListStart:
       case Parse::NodeKind::ImplIntroducer:
       case Parse::NodeKind::InterfaceIntroducer:
+      case Parse::NodeKind::LambdaIntroducer:
       case Parse::NodeKind::LetInitializer:
       case Parse::NodeKind::LetIntroducer:
       case Parse::NodeKind::NamedConstraintIntroducer:
@@ -534,6 +535,7 @@ class NodeStack {
       case Parse::NodeKind::StructLiteralComma:
       case Parse::NodeKind::StructFieldDesignator:
       case Parse::NodeKind::StructTypeLiteralComma:
+      case Parse::NodeKind::TerseBodyArrow:
       case Parse::NodeKind::TupleLiteralComma:
       case Parse::NodeKind::WhileCondition:
         return Id::Kind::Invalid;
