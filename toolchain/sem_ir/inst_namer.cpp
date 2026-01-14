@@ -48,6 +48,11 @@ class InstNamer::NamingContext {
   // Adds the instruction's name.
   auto AddInstName(std::string name) -> void;
 
+  // Adds the instruction's name for a StructType, which contains the names of
+  // its fields.
+  auto AddStructTypeInstName(StructType struct_ty, llvm::StringRef type_suffix,
+                             llvm::StringRef name_suffix) -> void;
+
   // Adds the instruction's name by `NameId`.
   auto AddInstNameId(NameId name_id, llvm::StringRef suffix = "") -> void {
     AddInstName((sem_ir().names().GetIRBaseName(name_id) + suffix).str());
@@ -750,6 +755,26 @@ auto InstNamer::NamingContext::AddInstName(std::string name) -> void {
   }
 }
 
+auto InstNamer::NamingContext::AddStructTypeInstName(
+    StructType struct_ty, llvm::StringRef type_suffix,
+    llvm::StringRef name_suffix) -> void {
+  RawStringOstream out;
+  const auto& fields = sem_ir().struct_type_fields().Get(struct_ty.fields_id);
+  if (fields.empty()) {
+    out << "empty_struct" << type_suffix;
+  } else {
+    RawStringOstream name;
+    name << "struct" << type_suffix;
+    for (auto field : fields) {
+      name << ".";
+      name << sem_ir().names().GetIRBaseName(field.name_id);
+    }
+    out << name.TakeStr();
+  }
+  out << name_suffix;
+  AddInstName(out.TakeStr());
+}
+
 auto InstNamer::NamingContext::AddIntOrFloatTypeName(char type_literal_prefix,
                                                      InstId bit_width_id,
                                                      llvm::StringRef suffix)
@@ -987,6 +1012,27 @@ auto InstNamer::NamingContext::NameInst() -> void {
             }
           }
           return;
+        }
+        if (facet_type_info.HasNoConstraints()) {
+          if (auto class_ty =
+                  sem_ir().insts().TryGetAs<ClassType>(inst.type_inst_id)) {
+            AddEntityNameAndMaybePush(class_ty->class_id, ".type.facet");
+            return;
+          }
+          if (auto tuple_ty = sem_ir().insts().TryGetAs<SemIR::TupleType>(
+                  inst.type_inst_id)) {
+            if (tuple_ty->type_elements_id == InstBlockId::Empty) {
+              AddInstName("empty_tuple.type.facet");
+            } else {
+              AddInstName("tuple.type.facet");
+            }
+            return;
+          }
+          if (auto struct_ty = sem_ir().insts().TryGetAs<SemIR::StructType>(
+                  inst.type_inst_id)) {
+            AddStructTypeInstName(*struct_ty, "", ".type.facet");
+            return;
+          }
         }
       }
       AddInstName("facet_value");
@@ -1237,17 +1283,7 @@ auto InstNamer::NamingContext::NameInst() -> void {
       return;
     }
     case CARBON_KIND(StructType inst): {
-      const auto& fields = sem_ir().struct_type_fields().Get(inst.fields_id);
-      if (fields.empty()) {
-        AddInstName("empty_struct_type");
-        return;
-      }
-      std::string name = "struct_type";
-      for (auto field : fields) {
-        name += ".";
-        name += sem_ir().names().GetIRBaseName(field.name_id).str();
-      }
-      AddInstName(std::move(name));
+      AddStructTypeInstName(inst, "_type", "");
       return;
     }
     case CARBON_KIND(StructValue inst): {
