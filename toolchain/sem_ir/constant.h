@@ -85,8 +85,7 @@ struct SymbolicConstant : Printable<SymbolicConstant> {
   ConstantDependence dependence;
 
   auto Print(llvm::raw_ostream& out) const -> void {
-    out << "{inst: " << inst_id << ", generic: " << generic_id
-        << ", index: " << index << ", kind: ";
+    out << "{inst: " << inst_id << ", kind: ";
     switch (dependence) {
       case ConstantDependence::None:
         out << "<error: concrete>";
@@ -100,6 +99,12 @@ struct SymbolicConstant : Printable<SymbolicConstant> {
       case ConstantDependence::Template:
         out << "template";
         break;
+    }
+    out << ", attached: ";
+    if (generic_id.has_value()) {
+      out << "{generic: " << generic_id << ", index: " << index << "}";
+    } else {
+      out << "null";
     }
     out << "}";
   }
@@ -140,6 +145,10 @@ class ConstantValueStore {
     CARBON_CHECK(insts_,
                  "Used ConstantValueStores must have an associated InstStore.");
     return values_.GetWithDefault(inst_id, default_);
+  }
+
+  auto IsAttached(ConstantId const_id) const -> bool {
+    return const_id != GetUnattachedConstant(const_id);
   }
 
   // Sets the constant value of the given instruction, or sets that it is known

@@ -30,6 +30,8 @@ fn B() {
 // CHECK:STDOUT: ---
 // CHECK:STDOUT: filename:        a.carbon
 // CHECK:STDOUT: sem_ir:
+// CHECK:STDOUT:   names:
+// CHECK:STDOUT:     name0:           A
 // CHECK:STDOUT:   import_irs:
 // CHECK:STDOUT:     'import_ir(ApiForImpl)': {decl_id: inst<none>, is_export: false}
 // CHECK:STDOUT:     'import_ir(Cpp)':  {decl_id: inst<none>, is_export: false}
@@ -42,8 +44,12 @@ fn B() {
 // CHECK:STDOUT:   functions:
 // CHECK:STDOUT:     function60000000: {name: name0, parent_scope: name_scope0, call_param_patterns_id: inst_block_empty, call_params_id: inst_block_empty, body: [inst_block60000005]}
 // CHECK:STDOUT:   classes:         {}
+// CHECK:STDOUT:   interfaces:      {}
+// CHECK:STDOUT:   associated_constants: {}
+// CHECK:STDOUT:   impls:           {}
 // CHECK:STDOUT:   generics:        {}
 // CHECK:STDOUT:   specifics:       {}
+// CHECK:STDOUT:   specific_interfaces: {}
 // CHECK:STDOUT:   struct_type_fields:
 // CHECK:STDOUT:     struct_type_fields_empty: {}
 // CHECK:STDOUT:   types:
@@ -59,6 +65,7 @@ fn B() {
 // CHECK:STDOUT:       value_repr:      {kind: none, type: type(inst60000012)}
 // CHECK:STDOUT:     'type(inst60000012)':
 // CHECK:STDOUT:       value_repr:      {kind: none, type: type(inst60000012)}
+// CHECK:STDOUT:   facet_types:     {}
 // CHECK:STDOUT:   insts:
 // CHECK:STDOUT:     instF:           {kind: Namespace, arg0: name_scope0, arg1: inst<none>, type: type(inst(NamespaceType))}
 // CHECK:STDOUT:     inst60000010:    {kind: FunctionDecl, arg0: function60000000, arg1: inst_block_empty, type: type(inst60000011)}
@@ -86,6 +93,14 @@ fn B() {
 // CHECK:STDOUT:     inst_block60000006:
 // CHECK:STDOUT:       0:               instF
 // CHECK:STDOUT:       1:               inst60000010
+// CHECK:STDOUT:   value_stores:
+// CHECK:STDOUT:     shared_values:
+// CHECK:STDOUT:       ints:            {}
+// CHECK:STDOUT:       reals:           {}
+// CHECK:STDOUT:       floats:          {}
+// CHECK:STDOUT:       identifiers:
+// CHECK:STDOUT:         identifier0:     A
+// CHECK:STDOUT:       strings:         {}
 // CHECK:STDOUT: ...
 // CHECK:STDOUT: --- a.carbon
 // CHECK:STDOUT:
@@ -109,6 +124,9 @@ fn B() {
 // CHECK:STDOUT: ---
 // CHECK:STDOUT: filename:        b.carbon
 // CHECK:STDOUT: sem_ir:
+// CHECK:STDOUT:   names:
+// CHECK:STDOUT:     name0:           B
+// CHECK:STDOUT:     name1:           A
 // CHECK:STDOUT:   import_irs:
 // CHECK:STDOUT:     'import_ir(ApiForImpl)': {decl_id: inst<none>, is_export: false}
 // CHECK:STDOUT:     'import_ir(Cpp)':  {decl_id: inst<none>, is_export: false}
@@ -127,8 +145,12 @@ fn B() {
 // CHECK:STDOUT:     function50000000: {name: name0, parent_scope: name_scope0, call_param_patterns_id: inst_block_empty, call_params_id: inst_block_empty, body: [inst_block50000005]}
 // CHECK:STDOUT:     function50000001: {name: name1, parent_scope: name_scope50000001, call_param_patterns_id: inst_block_empty}
 // CHECK:STDOUT:   classes:         {}
+// CHECK:STDOUT:   interfaces:      {}
+// CHECK:STDOUT:   associated_constants: {}
+// CHECK:STDOUT:   impls:           {}
 // CHECK:STDOUT:   generics:        {}
 // CHECK:STDOUT:   specifics:       {}
+// CHECK:STDOUT:   specific_interfaces: {}
 // CHECK:STDOUT:   struct_type_fields:
 // CHECK:STDOUT:     struct_type_fields_empty: {}
 // CHECK:STDOUT:   types:
@@ -146,6 +168,7 @@ fn B() {
 // CHECK:STDOUT:       value_repr:      {kind: none, type: type(inst50000014)}
 // CHECK:STDOUT:     'type(inst(InstType))':
 // CHECK:STDOUT:       value_repr:      {kind: none, type: type(inst50000014)}
+// CHECK:STDOUT:   facet_types:     {}
 // CHECK:STDOUT:   insts:
 // CHECK:STDOUT:     instF:           {kind: Namespace, arg0: name_scope0, arg1: inst<none>, type: type(inst(NamespaceType))}
 // CHECK:STDOUT:     inst50000010:    {kind: ImportDecl, arg0: name1}
@@ -196,6 +219,15 @@ fn B() {
 // CHECK:STDOUT:       0:               instF
 // CHECK:STDOUT:       1:               inst50000010
 // CHECK:STDOUT:       2:               inst50000012
+// CHECK:STDOUT:   value_stores:
+// CHECK:STDOUT:     shared_values:
+// CHECK:STDOUT:       ints:            {}
+// CHECK:STDOUT:       reals:           {}
+// CHECK:STDOUT:       floats:          {}
+// CHECK:STDOUT:       identifiers:
+// CHECK:STDOUT:         identifier0:     B
+// CHECK:STDOUT:         identifier1:     A
+// CHECK:STDOUT:       strings:         {}
 // CHECK:STDOUT: ...
 // CHECK:STDOUT: --- b.carbon
 // CHECK:STDOUT:

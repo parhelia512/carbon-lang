@@ -20,6 +20,14 @@ fn Foo[T:! type](p: T*) -> (T*, ()) {
 // CHECK:STDOUT: ---
 // CHECK:STDOUT: filename:        one_file.carbon
 // CHECK:STDOUT: sem_ir:
+// CHECK:STDOUT:   names:
+// CHECK:STDOUT:     name0:           Foo
+// CHECK:STDOUT:     name1:           T
+// CHECK:STDOUT:     name2:           p
+// CHECK:STDOUT:     name3:           Copy
+// CHECK:STDOUT:     name4:           Op
+// CHECK:STDOUT:     name5:           U
+// CHECK:STDOUT:     name6:           V
 // CHECK:STDOUT:   import_irs:
 // CHECK:STDOUT:     'import_ir(ApiForImpl)': {decl_id: inst<none>, is_export: false}
 // CHECK:STDOUT:     'import_ir(Cpp)':  {decl_id: inst<none>, is_export: false}
@@ -321,44 +329,60 @@ fn Foo[T:! type](p: T*) -> (T*, ()) {
 // CHECK:STDOUT:     function60000004: {name: name4, parent_scope: name_scope6000000B, call_param_patterns_id: inst_block60000049, return_type_inst_id: inst600000E4, return_form_inst_id: inst600000E5, return_patterns_id: inst_block6000004B}
 // CHECK:STDOUT:     function60000005: {name: name4, parent_scope: name_scope6000000C, call_param_patterns_id: inst_block60000063, return_type_inst_id: inst60000124, return_form_inst_id: inst60000125, return_patterns_id: inst_block60000065}
 // CHECK:STDOUT:   classes:         {}
+// CHECK:STDOUT:   interfaces:
+// CHECK:STDOUT:     interface60000000: {name: name3, parent_scope: name_scope60000001, require_impls_block_id: require_block_empty}
+// CHECK:STDOUT:   associated_constants: {}
+// CHECK:STDOUT:   impls:
+// CHECK:STDOUT:     impl60000000:    {self: inst60000092, constraint: inst60000093, witness: inst60000069}
+// CHECK:STDOUT:     impl60000001:    {self: inst6000009D, constraint: inst6000009E, witness: inst6000009B}
+// CHECK:STDOUT:     impl60000002:    {self: inst600000A1, constraint: inst600000A2, witness: inst6000009F}
+// CHECK:STDOUT:     impl60000003:    {self: inst600000A5, constraint: inst600000A6, witness: inst600000A3}
+// CHECK:STDOUT:     impl60000004:    {self: inst600000A9, constraint: inst600000AA, witness: inst600000A7}
+// CHECK:STDOUT:     impl60000005:    {self: inst600000B1, constraint: inst600000B2, witness: inst600000AB}
+// CHECK:STDOUT:     impl60000006:    {self: inst600000CB, constraint: inst600000CC, witness: inst600000C9}
+// CHECK:STDOUT:     impl60000007:    {self: inst600000CF, constraint: inst600000D0, witness: inst600000CD}
+// CHECK:STDOUT:     impl60000008:    {self: inst60000104, constraint: inst60000105, witness: inst600000D1}
+// CHECK:STDOUT:     impl60000009:    {self: inst6000014D, constraint: inst6000014E, witness: inst60000111}
 // CHECK:STDOUT:   generics:
-// CHECK:STDOUT:     generic60000000: {decl: inst6000003C, bindings: inst_block60000014}
-// CHECK:STDOUT:     generic60000001: {decl: inst60000057, bindings: inst_block6000001E}
-// CHECK:STDOUT:     generic60000002: {decl: inst6000006A, bindings: inst_block60000030}
-// CHECK:STDOUT:     generic60000003: {decl: inst60000071, bindings: inst_block60000029}
-// CHECK:STDOUT:     generic60000004: {decl: inst600000AC, bindings: inst_block60000038}
-// CHECK:STDOUT:     generic60000005: {decl: inst600000B7, bindings: inst_block6000003E}
-// CHECK:STDOUT:     generic60000006: {decl: inst600000D2, bindings: inst_block60000056}
-// CHECK:STDOUT:     generic60000007: {decl: inst600000D9, bindings: inst_block6000004C}
-// CHECK:STDOUT:     generic60000008: {decl: inst60000112, bindings: inst_block60000071}
-// CHECK:STDOUT:     generic60000009: {decl: inst60000119, bindings: inst_block60000066}
+// CHECK:STDOUT:     generic60000000: {decl: inst6000003C, bindings: inst_block60000014, self_specific_id: specific60000000, decl_block_id: inst_block60000016, definition_block_id: inst_block60000081}
+// CHECK:STDOUT:     generic60000001: {decl: inst60000057, bindings: inst_block6000001E, self_specific_id: specific60000001, decl_block_id: inst_block6000001F, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     generic60000002: {decl: inst6000006A, bindings: inst_block60000030, self_specific_id: specific60000002, decl_block_id: inst_block60000032, definition_block_id: inst_block60000034}
+// CHECK:STDOUT:     generic60000003: {decl: inst60000071, bindings: inst_block60000029, self_specific_id: specific60000004, decl_block_id: inst_block6000002A, definition_block_id: inst_block6000002D}
+// CHECK:STDOUT:     generic60000004: {decl: inst600000AC, bindings: inst_block60000038, self_specific_id: specific60000007, decl_block_id: inst_block6000003A, definition_block_id: inst_block60000042}
+// CHECK:STDOUT:     generic60000005: {decl: inst600000B7, bindings: inst_block6000003E, self_specific_id: specific60000009, decl_block_id: inst_block6000003F, definition_block_id: inst_block_empty}
+// CHECK:STDOUT:     generic60000006: {decl: inst600000D2, bindings: inst_block60000056, self_specific_id: specific6000000A, decl_block_id: inst_block6000005A, definition_block_id: inst_block6000005C}
+// CHECK:STDOUT:     generic60000007: {decl: inst600000D9, bindings: inst_block6000004C, self_specific_id: specific6000000C, decl_block_id: inst_block6000004E, definition_block_id: inst_block60000053}
+// CHECK:STDOUT:     generic60000008: {decl: inst60000112, bindings: inst_block60000071, self_specific_id: specific60000010, decl_block_id: inst_block60000075, definition_block_id: inst_block60000077}
+// CHECK:STDOUT:     generic60000009: {decl: inst60000119, bindings: inst_block60000066, self_specific_id: specific60000012, decl_block_id: inst_block60000068, definition_block_id: inst_block6000006E}
 // CHECK:STDOUT:   specifics:
-// CHECK:STDOUT:     specific60000000: {generic: generic60000000, args: inst_block60000015}
-// CHECK:STDOUT:     specific60000001: {generic: generic60000001, args: inst_block60000020}
-// CHECK:STDOUT:     specific60000002: {generic: generic60000002, args: inst_block60000023}
-// CHECK:STDOUT:     specific60000003: {generic: generic60000001, args: inst_block60000023}
-// CHECK:STDOUT:     specific60000004: {generic: generic60000003, args: inst_block60000023}
-// CHECK:STDOUT:     specific60000005: {generic: generic60000001, args: inst_block6000002C}
-// CHECK:STDOUT:     specific60000006: {generic: generic60000002, args: inst_block60000031}
-// CHECK:STDOUT:     specific60000007: {generic: generic60000004, args: inst_block60000015}
-// CHECK:STDOUT:     specific60000008: {generic: generic60000004, args: inst_block60000039}
-// CHECK:STDOUT:     specific60000009: {generic: generic60000005, args: inst_block60000015}
-// CHECK:STDOUT:     specific6000000A: {generic: generic60000006, args: inst_block60000045}
-// CHECK:STDOUT:     specific6000000B: {generic: generic60000001, args: inst_block6000004F}
-// CHECK:STDOUT:     specific6000000C: {generic: generic60000007, args: inst_block60000045}
-// CHECK:STDOUT:     specific6000000D: {generic: generic60000001, args: inst_block60000051}
-// CHECK:STDOUT:     specific6000000E: {generic: generic60000001, args: inst_block60000052}
-// CHECK:STDOUT:     specific6000000F: {generic: generic60000006, args: inst_block60000057}
-// CHECK:STDOUT:     specific60000010: {generic: generic60000008, args: inst_block6000005F}
-// CHECK:STDOUT:     specific60000011: {generic: generic60000001, args: inst_block60000069}
-// CHECK:STDOUT:     specific60000012: {generic: generic60000009, args: inst_block6000005F}
-// CHECK:STDOUT:     specific60000013: {generic: generic60000001, args: inst_block6000006B}
-// CHECK:STDOUT:     specific60000014: {generic: generic60000001, args: inst_block6000006C}
-// CHECK:STDOUT:     specific60000015: {generic: generic60000001, args: inst_block6000006D}
-// CHECK:STDOUT:     specific60000016: {generic: generic60000008, args: inst_block60000072}
-// CHECK:STDOUT:     specific60000017: {generic: generic60000004, args: inst_block60000079}
-// CHECK:STDOUT:     specific60000018: {generic: generic60000001, args: inst_block6000007C}
-// CHECK:STDOUT:     specific60000019: {generic: generic60000001, args: inst_block6000007E}
+// CHECK:STDOUT:     specific60000000: {generic: generic60000000, args: inst_block60000015, decl_block_id: inst_block60000017, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     specific60000001: {generic: generic60000001, args: inst_block60000020, decl_block_id: inst_block60000021, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     specific60000002: {generic: generic60000002, args: inst_block60000023, decl_block_id: inst_block60000024, definition_block_id: inst_block60000025}
+// CHECK:STDOUT:     specific60000003: {generic: generic60000001, args: inst_block60000023, decl_block_id: inst_block6000002B, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     specific60000004: {generic: generic60000003, args: inst_block60000023, decl_block_id: inst_block6000002E, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     specific60000005: {generic: generic60000001, args: inst_block6000002C, decl_block_id: inst_block<none>, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     specific60000006: {generic: generic60000002, args: inst_block60000031, decl_block_id: inst_block<none>, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     specific60000007: {generic: generic60000004, args: inst_block60000015, decl_block_id: inst_block60000036, definition_block_id: inst_block60000078}
+// CHECK:STDOUT:     specific60000008: {generic: generic60000004, args: inst_block60000039, decl_block_id: inst_block<none>, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     specific60000009: {generic: generic60000005, args: inst_block60000015, decl_block_id: inst_block60000040, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     specific6000000A: {generic: generic60000006, args: inst_block60000045, decl_block_id: inst_block60000047, definition_block_id: inst_block60000048}
+// CHECK:STDOUT:     specific6000000B: {generic: generic60000001, args: inst_block6000004F, decl_block_id: inst_block60000050, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     specific6000000C: {generic: generic60000007, args: inst_block60000045, decl_block_id: inst_block60000054, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     specific6000000D: {generic: generic60000001, args: inst_block60000051, decl_block_id: inst_block<none>, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     specific6000000E: {generic: generic60000001, args: inst_block60000052, decl_block_id: inst_block<none>, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     specific6000000F: {generic: generic60000006, args: inst_block60000057, decl_block_id: inst_block<none>, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     specific60000010: {generic: generic60000008, args: inst_block6000005F, decl_block_id: inst_block60000061, definition_block_id: inst_block60000062}
+// CHECK:STDOUT:     specific60000011: {generic: generic60000001, args: inst_block60000069, decl_block_id: inst_block6000006A, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     specific60000012: {generic: generic60000009, args: inst_block6000005F, decl_block_id: inst_block6000006F, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     specific60000013: {generic: generic60000001, args: inst_block6000006B, decl_block_id: inst_block<none>, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     specific60000014: {generic: generic60000001, args: inst_block6000006C, decl_block_id: inst_block<none>, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     specific60000015: {generic: generic60000001, args: inst_block6000006D, decl_block_id: inst_block<none>, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     specific60000016: {generic: generic60000008, args: inst_block60000072, decl_block_id: inst_block<none>, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     specific60000017: {generic: generic60000004, args: inst_block60000079, decl_block_id: inst_block<none>, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     specific60000018: {generic: generic60000001, args: inst_block6000007C, decl_block_id: inst_block6000007D, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:     specific60000019: {generic: generic60000001, args: inst_block6000007E, decl_block_id: inst_block<none>, definition_block_id: inst_block<none>}
+// CHECK:STDOUT:   specific_interfaces:
+// CHECK:STDOUT:     specific_interface60000000: {interface_id: interface60000000, specific_id: specific<none>}
 // CHECK:STDOUT:   struct_type_fields:
 // CHECK:STDOUT:     struct_type_fields_empty: {}
 // CHECK:STDOUT:   types:
@@ -404,6 +428,9 @@ fn Foo[T:! type](p: T*) -> (T*, ()) {
 // CHECK:STDOUT:       value_repr:      {kind: none, type: type(inst60000025)}
 // CHECK:STDOUT:     'type(inst(BoundMethodType))':
 // CHECK:STDOUT:       value_repr:      {kind: copy, type: type(inst(BoundMethodType))}
+// CHECK:STDOUT:   facet_types:
+// CHECK:STDOUT:     facet_type60000000: {}
+// CHECK:STDOUT:     facet_type60000001: {extends interface: interface60000000}
 // CHECK:STDOUT:   insts:
 // CHECK:STDOUT:     instF:           {kind: Namespace, arg0: name_scope0, arg1: inst<none>, type: type(inst(NamespaceType))}
 // CHECK:STDOUT:     inst60000010:    {kind: ImportDecl, arg0: name(Core)}
@@ -1112,310 +1139,310 @@ fn Foo[T:! type](p: T*) -> (T*, ()) {
 // CHECK:STDOUT:       inst60000172:    concrete_constant(inst60000027)
 // CHECK:STDOUT:       inst60000173:    concrete_constant(inst60000027)
 // CHECK:STDOUT:     symbolic_constants:
-// CHECK:STDOUT:       symbolic_constant60000000: {inst: inst60000014, generic: generic<none>, index: generic_inst<none>, kind: self}
-// CHECK:STDOUT:       symbolic_constant60000001: {inst: inst60000016, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000002: {inst: inst60000016, generic: generic60000000, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000003: {inst: inst6000001C, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000004: {inst: inst6000001C, generic: generic60000000, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000005: {inst: inst6000001F, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000006: {inst: inst6000001F, generic: generic60000000, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000007: {inst: inst6000002A, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000008: {inst: inst6000002A, generic: generic60000000, index: generic_inst_in_decl3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000009: {inst: inst6000002E, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000000A: {inst: inst6000002E, generic: generic60000000, index: generic_inst_in_decl4, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000000B: {inst: inst60000032, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000000C: {inst: inst60000032, generic: generic60000000, index: generic_inst_in_decl5, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000000D: {inst: inst60000034, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000000E: {inst: inst60000034, generic: generic60000000, index: generic_inst_in_decl6, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000000F: {inst: inst6000003F, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000010: {inst: inst60000041, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000011: {inst: inst60000041, generic: generic60000000, index: generic_inst_in_def0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000012: {inst: inst60000044, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000013: {inst: inst60000044, generic: generic60000000, index: generic_inst_in_def1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000014: {inst: inst60000050, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000015: {inst: inst6000005A, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000016: {inst: inst6000005B, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000017: {inst: inst6000005B, generic: generic60000001, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000018: {inst: inst60000060, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000019: {inst: inst60000060, generic: generic60000001, index: generic_inst_in_decl3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000001A: {inst: inst6000005A, generic: generic60000001, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000001B: {inst: inst60000050, generic: generic60000001, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000001C: {inst: inst60000060, generic: generic60000001, index: generic_inst_in_decl3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000001D: {inst: inst6000005A, generic: generic60000001, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000001E: {inst: inst60000050, generic: generic60000001, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000001F: {inst: inst6000005A, generic: generic60000001, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000020: {inst: inst6000005B, generic: generic60000001, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000021: {inst: inst60000060, generic: generic60000001, index: generic_inst_in_decl3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000022: {inst: inst6000006B, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000023: {inst: inst6000006C, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000024: {inst: inst6000006D, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000025: {inst: inst6000006D, generic: generic60000002, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000026: {inst: inst60000070, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000027: {inst: inst60000070, generic: generic60000002, index: generic_inst_in_decl3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000028: {inst: inst60000072, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000029: {inst: inst60000073, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000002A: {inst: inst60000073, generic: generic60000002, index: generic_inst_in_def1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000002B: {inst: inst60000072, generic: generic60000002, index: generic_inst_in_def0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000002C: {inst: inst60000074, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000002D: {inst: inst60000074, generic: generic60000003, index: generic_inst_in_decl3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000002E: {inst: inst60000079, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000002F: {inst: inst60000079, generic: generic60000003, index: generic_inst_in_decl4, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000030: {inst: inst6000006D, generic: generic60000003, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000031: {inst: inst6000006C, generic: generic60000003, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000032: {inst: inst6000006B, generic: generic60000003, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000033: {inst: inst6000006B, generic: generic60000002, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000034: {inst: inst60000079, generic: generic60000003, index: generic_inst_in_decl4, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000035: {inst: inst6000006D, generic: generic60000003, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000036: {inst: inst6000006B, generic: generic60000003, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000037: {inst: inst6000006C, generic: generic60000003, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000038: {inst: inst6000006D, generic: generic60000003, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000039: {inst: inst60000074, generic: generic60000003, index: generic_inst_in_decl3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000003A: {inst: inst60000079, generic: generic60000003, index: generic_inst_in_decl4, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000003B: {inst: inst60000082, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000003C: {inst: inst60000083, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000003D: {inst: inst60000084, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000003E: {inst: inst60000085, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000003F: {inst: inst60000085, generic: generic60000003, index: generic_inst_in_def5, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000040: {inst: inst60000086, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000041: {inst: inst60000087, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000042: {inst: inst60000084, generic: generic60000003, index: generic_inst_in_def4, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000043: {inst: inst60000083, generic: generic60000003, index: generic_inst_in_def3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000044: {inst: inst60000082, generic: generic60000003, index: generic_inst_in_def2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000045: {inst: inst60000088, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000046: {inst: inst60000088, generic: generic60000003, index: generic_inst_in_def1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000047: {inst: inst60000089, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000048: {inst: inst60000089, generic: generic60000003, index: generic_inst_in_def0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000049: {inst: inst60000089, generic: generic60000003, index: generic_inst_in_def0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000004A: {inst: inst60000088, generic: generic60000003, index: generic_inst_in_def1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000004B: {inst: inst60000082, generic: generic60000003, index: generic_inst_in_def2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000004C: {inst: inst60000083, generic: generic60000003, index: generic_inst_in_def3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000004D: {inst: inst60000084, generic: generic60000003, index: generic_inst_in_def4, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000004E: {inst: inst60000085, generic: generic60000003, index: generic_inst_in_def5, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000004F: {inst: inst6000006D, generic: generic60000002, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000050: {inst: inst6000006C, generic: generic60000002, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000051: {inst: inst6000006B, generic: generic60000002, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000052: {inst: inst6000006B, generic: generic60000002, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000053: {inst: inst6000006C, generic: generic60000002, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000054: {inst: inst6000006D, generic: generic60000002, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000055: {inst: inst60000070, generic: generic60000002, index: generic_inst_in_decl3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000056: {inst: inst60000073, generic: generic60000002, index: generic_inst_in_def1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000057: {inst: inst60000072, generic: generic60000002, index: generic_inst_in_def0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000058: {inst: inst60000073, generic: generic60000002, index: generic_inst_in_def1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000059: {inst: inst6000001C, generic: generic60000004, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000005A: {inst: inst600000AF, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000005B: {inst: inst600000AF, generic: generic60000004, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000005C: {inst: inst6000001C, generic: generic60000004, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000005D: {inst: inst60000016, generic: generic60000004, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000005E: {inst: inst60000016, generic: generic60000004, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000005F: {inst: inst60000016, generic: generic60000004, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000060: {inst: inst6000001C, generic: generic60000004, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000061: {inst: inst600000AF, generic: generic60000004, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000062: {inst: inst60000044, generic: generic60000004, index: generic_inst_in_def2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000063: {inst: inst600000B8, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000064: {inst: inst600000B9, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000065: {inst: inst600000B9, generic: generic60000004, index: generic_inst_in_def1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000066: {inst: inst600000B8, generic: generic60000004, index: generic_inst_in_def0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000067: {inst: inst6000001F, generic: generic60000005, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000068: {inst: inst600000BE, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000069: {inst: inst600000BE, generic: generic60000005, index: generic_inst_in_decl3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000006A: {inst: inst6000001C, generic: generic60000005, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000006B: {inst: inst60000016, generic: generic60000005, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000006C: {inst: inst600000BE, generic: generic60000005, index: generic_inst_in_decl3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000006D: {inst: inst6000001C, generic: generic60000005, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000006E: {inst: inst60000016, generic: generic60000005, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000006F: {inst: inst6000001C, generic: generic60000005, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000070: {inst: inst6000001F, generic: generic60000005, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000071: {inst: inst600000BE, generic: generic60000005, index: generic_inst_in_decl3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000072: {inst: inst600000B9, generic: generic60000004, index: generic_inst_in_def1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000073: {inst: inst600000B8, generic: generic60000004, index: generic_inst_in_def0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000074: {inst: inst600000B9, generic: generic60000004, index: generic_inst_in_def1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000075: {inst: inst60000044, generic: generic60000004, index: generic_inst_in_def2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000076: {inst: inst600000D3, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000077: {inst: inst600000D4, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000078: {inst: inst600000D5, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000079: {inst: inst600000D5, generic: generic60000006, index: generic_inst_in_decl5, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000007A: {inst: inst600000D8, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000007B: {inst: inst600000D8, generic: generic60000006, index: generic_inst_in_decl6, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000007C: {inst: inst600000DA, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000007D: {inst: inst600000DB, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000007E: {inst: inst600000DB, generic: generic60000006, index: generic_inst_in_def1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000007F: {inst: inst600000DA, generic: generic60000006, index: generic_inst_in_def0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000080: {inst: inst600000DD, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000081: {inst: inst600000DE, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000082: {inst: inst600000DE, generic: generic60000007, index: generic_inst_in_decl5, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000083: {inst: inst600000E3, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000084: {inst: inst600000E3, generic: generic60000007, index: generic_inst_in_decl6, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000085: {inst: inst600000D5, generic: generic60000007, index: generic_inst_in_decl4, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000086: {inst: inst600000D4, generic: generic60000007, index: generic_inst_in_decl3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000087: {inst: inst600000D3, generic: generic60000007, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000088: {inst: inst6000006C, generic: generic60000007, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000089: {inst: inst6000006B, generic: generic60000007, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000008A: {inst: inst600000D3, generic: generic60000006, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000008B: {inst: inst6000006B, generic: generic60000006, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000008C: {inst: inst600000E3, generic: generic60000007, index: generic_inst_in_decl6, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000008D: {inst: inst600000D5, generic: generic60000007, index: generic_inst_in_decl4, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000008E: {inst: inst6000006B, generic: generic60000007, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000008F: {inst: inst6000006C, generic: generic60000007, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000090: {inst: inst600000D3, generic: generic60000007, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000091: {inst: inst600000D4, generic: generic60000007, index: generic_inst_in_decl3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000092: {inst: inst600000D5, generic: generic60000007, index: generic_inst_in_decl4, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000093: {inst: inst600000DE, generic: generic60000007, index: generic_inst_in_decl5, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000094: {inst: inst600000E3, generic: generic60000007, index: generic_inst_in_decl6, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000095: {inst: inst600000EF, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000096: {inst: inst600000F0, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000097: {inst: inst600000F1, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000098: {inst: inst600000F2, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000099: {inst: inst600000F2, generic: generic60000007, index: generic_inst_in_def10, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000009A: {inst: inst600000F3, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000009B: {inst: inst600000F4, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000009C: {inst: inst600000F1, generic: generic60000007, index: generic_inst_in_def9, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000009D: {inst: inst600000F0, generic: generic60000007, index: generic_inst_in_def8, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000009E: {inst: inst600000EF, generic: generic60000007, index: generic_inst_in_def7, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000009F: {inst: inst600000F5, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000A0: {inst: inst600000F5, generic: generic60000007, index: generic_inst_in_def6, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000A1: {inst: inst60000085, generic: generic60000007, index: generic_inst_in_def5, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000A2: {inst: inst60000084, generic: generic60000007, index: generic_inst_in_def4, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000A3: {inst: inst60000083, generic: generic60000007, index: generic_inst_in_def3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000A4: {inst: inst60000082, generic: generic60000007, index: generic_inst_in_def2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000A5: {inst: inst60000088, generic: generic60000007, index: generic_inst_in_def1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000A6: {inst: inst600000F6, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000A7: {inst: inst600000F6, generic: generic60000007, index: generic_inst_in_def0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000A8: {inst: inst600000F6, generic: generic60000007, index: generic_inst_in_def0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000A9: {inst: inst60000088, generic: generic60000007, index: generic_inst_in_def1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000AA: {inst: inst60000082, generic: generic60000007, index: generic_inst_in_def2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000AB: {inst: inst60000083, generic: generic60000007, index: generic_inst_in_def3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000AC: {inst: inst60000084, generic: generic60000007, index: generic_inst_in_def4, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000AD: {inst: inst60000085, generic: generic60000007, index: generic_inst_in_def5, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000AE: {inst: inst600000F5, generic: generic60000007, index: generic_inst_in_def6, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000AF: {inst: inst600000EF, generic: generic60000007, index: generic_inst_in_def7, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000B0: {inst: inst600000F0, generic: generic60000007, index: generic_inst_in_def8, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000B1: {inst: inst600000F1, generic: generic60000007, index: generic_inst_in_def9, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000B2: {inst: inst600000F2, generic: generic60000007, index: generic_inst_in_def10, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000B3: {inst: inst600000D5, generic: generic60000006, index: generic_inst_in_decl5, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000B4: {inst: inst600000D4, generic: generic60000006, index: generic_inst_in_decl4, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000B5: {inst: inst6000006C, generic: generic60000006, index: generic_inst_in_decl3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000B6: {inst: inst600000DD, generic: generic60000006, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000B7: {inst: inst600000D3, generic: generic60000006, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000B8: {inst: inst6000006B, generic: generic60000006, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000B9: {inst: inst6000006B, generic: generic60000006, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000BA: {inst: inst600000D3, generic: generic60000006, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000BB: {inst: inst600000DD, generic: generic60000006, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000BC: {inst: inst6000006C, generic: generic60000006, index: generic_inst_in_decl3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000BD: {inst: inst600000D4, generic: generic60000006, index: generic_inst_in_decl4, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000BE: {inst: inst600000D5, generic: generic60000006, index: generic_inst_in_decl5, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000BF: {inst: inst600000D8, generic: generic60000006, index: generic_inst_in_decl6, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000C0: {inst: inst600000DB, generic: generic60000006, index: generic_inst_in_def1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000C1: {inst: inst600000DA, generic: generic60000006, index: generic_inst_in_def0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000C2: {inst: inst600000DB, generic: generic60000006, index: generic_inst_in_def1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000C3: {inst: inst60000113, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000C4: {inst: inst60000114, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000C5: {inst: inst60000115, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000C6: {inst: inst60000115, generic: generic60000008, index: generic_inst_in_decl7, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000C7: {inst: inst60000118, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000C8: {inst: inst60000118, generic: generic60000008, index: generic_inst_in_decl8, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000C9: {inst: inst6000011A, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000CA: {inst: inst6000011B, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000CB: {inst: inst6000011B, generic: generic60000008, index: generic_inst_in_def1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000CC: {inst: inst6000011A, generic: generic60000008, index: generic_inst_in_def0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000CD: {inst: inst6000011D, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000CE: {inst: inst6000011E, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000CF: {inst: inst6000011E, generic: generic60000009, index: generic_inst_in_decl7, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000D0: {inst: inst60000123, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000D1: {inst: inst60000123, generic: generic60000009, index: generic_inst_in_decl8, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000D2: {inst: inst60000115, generic: generic60000009, index: generic_inst_in_decl6, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000D3: {inst: inst60000114, generic: generic60000009, index: generic_inst_in_decl5, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000D4: {inst: inst60000113, generic: generic60000009, index: generic_inst_in_decl4, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000D5: {inst: inst600000D4, generic: generic60000009, index: generic_inst_in_decl3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000D6: {inst: inst600000D3, generic: generic60000009, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000D7: {inst: inst6000006C, generic: generic60000009, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000D8: {inst: inst6000006B, generic: generic60000009, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000D9: {inst: inst60000113, generic: generic60000008, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000DA: {inst: inst600000D3, generic: generic60000008, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000DB: {inst: inst6000006B, generic: generic60000008, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000DC: {inst: inst60000123, generic: generic60000009, index: generic_inst_in_decl8, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000DD: {inst: inst60000115, generic: generic60000009, index: generic_inst_in_decl6, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000DE: {inst: inst6000006B, generic: generic60000009, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000DF: {inst: inst6000006C, generic: generic60000009, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000E0: {inst: inst600000D3, generic: generic60000009, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000E1: {inst: inst600000D4, generic: generic60000009, index: generic_inst_in_decl3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000E2: {inst: inst60000113, generic: generic60000009, index: generic_inst_in_decl4, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000E3: {inst: inst60000114, generic: generic60000009, index: generic_inst_in_decl5, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000E4: {inst: inst60000115, generic: generic60000009, index: generic_inst_in_decl6, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000E5: {inst: inst6000011E, generic: generic60000009, index: generic_inst_in_decl7, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000E6: {inst: inst60000123, generic: generic60000009, index: generic_inst_in_decl8, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000E7: {inst: inst60000132, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000E8: {inst: inst60000133, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000E9: {inst: inst60000134, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000EA: {inst: inst60000135, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000EB: {inst: inst60000135, generic: generic60000009, index: generic_inst_in_def15, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000EC: {inst: inst60000136, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000ED: {inst: inst60000137, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000EE: {inst: inst60000134, generic: generic60000009, index: generic_inst_in_def14, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000EF: {inst: inst60000133, generic: generic60000009, index: generic_inst_in_def13, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000F0: {inst: inst60000132, generic: generic60000009, index: generic_inst_in_def12, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000F1: {inst: inst60000138, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000F2: {inst: inst60000138, generic: generic60000009, index: generic_inst_in_def11, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000F3: {inst: inst600000F2, generic: generic60000009, index: generic_inst_in_def10, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000F4: {inst: inst600000F1, generic: generic60000009, index: generic_inst_in_def9, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000F5: {inst: inst600000F0, generic: generic60000009, index: generic_inst_in_def8, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000F6: {inst: inst600000EF, generic: generic60000009, index: generic_inst_in_def7, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000F7: {inst: inst600000F5, generic: generic60000009, index: generic_inst_in_def6, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000F8: {inst: inst60000085, generic: generic60000009, index: generic_inst_in_def5, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000F9: {inst: inst60000084, generic: generic60000009, index: generic_inst_in_def4, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000FA: {inst: inst60000083, generic: generic60000009, index: generic_inst_in_def3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000FB: {inst: inst60000082, generic: generic60000009, index: generic_inst_in_def2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000FC: {inst: inst60000088, generic: generic60000009, index: generic_inst_in_def1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000FD: {inst: inst60000139, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000FE: {inst: inst60000139, generic: generic60000009, index: generic_inst_in_def0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant600000FF: {inst: inst60000139, generic: generic60000009, index: generic_inst_in_def0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000100: {inst: inst60000088, generic: generic60000009, index: generic_inst_in_def1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000101: {inst: inst60000082, generic: generic60000009, index: generic_inst_in_def2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000102: {inst: inst60000083, generic: generic60000009, index: generic_inst_in_def3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000103: {inst: inst60000084, generic: generic60000009, index: generic_inst_in_def4, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000104: {inst: inst60000085, generic: generic60000009, index: generic_inst_in_def5, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000105: {inst: inst600000F5, generic: generic60000009, index: generic_inst_in_def6, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000106: {inst: inst600000EF, generic: generic60000009, index: generic_inst_in_def7, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000107: {inst: inst600000F0, generic: generic60000009, index: generic_inst_in_def8, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000108: {inst: inst600000F1, generic: generic60000009, index: generic_inst_in_def9, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000109: {inst: inst600000F2, generic: generic60000009, index: generic_inst_in_def10, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000010A: {inst: inst60000138, generic: generic60000009, index: generic_inst_in_def11, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000010B: {inst: inst60000132, generic: generic60000009, index: generic_inst_in_def12, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000010C: {inst: inst60000133, generic: generic60000009, index: generic_inst_in_def13, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000010D: {inst: inst60000134, generic: generic60000009, index: generic_inst_in_def14, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000010E: {inst: inst60000135, generic: generic60000009, index: generic_inst_in_def15, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000010F: {inst: inst60000115, generic: generic60000008, index: generic_inst_in_decl7, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000110: {inst: inst60000114, generic: generic60000008, index: generic_inst_in_decl6, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000111: {inst: inst600000D4, generic: generic60000008, index: generic_inst_in_decl5, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000112: {inst: inst6000006C, generic: generic60000008, index: generic_inst_in_decl4, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000113: {inst: inst6000011D, generic: generic60000008, index: generic_inst_in_decl3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000114: {inst: inst60000113, generic: generic60000008, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000115: {inst: inst600000D3, generic: generic60000008, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000116: {inst: inst6000006B, generic: generic60000008, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000117: {inst: inst6000006B, generic: generic60000008, index: generic_inst_in_decl0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000118: {inst: inst600000D3, generic: generic60000008, index: generic_inst_in_decl1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000119: {inst: inst60000113, generic: generic60000008, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000011A: {inst: inst6000011D, generic: generic60000008, index: generic_inst_in_decl3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000011B: {inst: inst6000006C, generic: generic60000008, index: generic_inst_in_decl4, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000011C: {inst: inst600000D4, generic: generic60000008, index: generic_inst_in_decl5, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000011D: {inst: inst60000114, generic: generic60000008, index: generic_inst_in_decl6, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000011E: {inst: inst60000115, generic: generic60000008, index: generic_inst_in_decl7, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000011F: {inst: inst60000118, generic: generic60000008, index: generic_inst_in_decl8, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000120: {inst: inst6000011B, generic: generic60000008, index: generic_inst_in_def1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000121: {inst: inst6000011A, generic: generic60000008, index: generic_inst_in_def0, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000122: {inst: inst6000011B, generic: generic60000008, index: generic_inst_in_def1, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000123: {inst: inst600000AF, generic: generic60000004, index: generic_inst_in_decl2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000124: {inst: inst6000015E, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000125: {inst: inst6000015E, generic: generic60000000, index: generic_inst_in_def2, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000126: {inst: inst60000160, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000127: {inst: inst60000160, generic: generic60000000, index: generic_inst_in_def3, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000128: {inst: inst60000162, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant60000129: {inst: inst60000163, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000012A: {inst: inst60000165, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000012B: {inst: inst60000162, generic: generic60000000, index: generic_inst_in_def4, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000012C: {inst: inst60000163, generic: generic60000000, index: generic_inst_in_def5, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000012D: {inst: inst60000165, generic: generic60000000, index: generic_inst_in_def6, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000012E: {inst: inst6000016B, generic: generic<none>, index: generic_inst<none>, kind: checked}
-// CHECK:STDOUT:       symbolic_constant6000012F: {inst: inst6000016B, generic: generic60000000, index: generic_inst_in_def7, kind: checked}
+// CHECK:STDOUT:       symbolic_constant60000000: {inst: inst60000014, kind: self, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000001: {inst: inst60000016, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000002: {inst: inst60000016, kind: checked, attached: {generic: generic60000000, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant60000003: {inst: inst6000001C, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000004: {inst: inst6000001C, kind: checked, attached: {generic: generic60000000, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant60000005: {inst: inst6000001F, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000006: {inst: inst6000001F, kind: checked, attached: {generic: generic60000000, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant60000007: {inst: inst6000002A, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000008: {inst: inst6000002A, kind: checked, attached: {generic: generic60000000, index: generic_inst_in_decl3}}
+// CHECK:STDOUT:       symbolic_constant60000009: {inst: inst6000002E, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant6000000A: {inst: inst6000002E, kind: checked, attached: {generic: generic60000000, index: generic_inst_in_decl4}}
+// CHECK:STDOUT:       symbolic_constant6000000B: {inst: inst60000032, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant6000000C: {inst: inst60000032, kind: checked, attached: {generic: generic60000000, index: generic_inst_in_decl5}}
+// CHECK:STDOUT:       symbolic_constant6000000D: {inst: inst60000034, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant6000000E: {inst: inst60000034, kind: checked, attached: {generic: generic60000000, index: generic_inst_in_decl6}}
+// CHECK:STDOUT:       symbolic_constant6000000F: {inst: inst6000003F, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000010: {inst: inst60000041, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000011: {inst: inst60000041, kind: checked, attached: {generic: generic60000000, index: generic_inst_in_def0}}
+// CHECK:STDOUT:       symbolic_constant60000012: {inst: inst60000044, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000013: {inst: inst60000044, kind: checked, attached: {generic: generic60000000, index: generic_inst_in_def1}}
+// CHECK:STDOUT:       symbolic_constant60000014: {inst: inst60000050, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000015: {inst: inst6000005A, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000016: {inst: inst6000005B, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000017: {inst: inst6000005B, kind: checked, attached: {generic: generic60000001, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant60000018: {inst: inst60000060, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000019: {inst: inst60000060, kind: checked, attached: {generic: generic60000001, index: generic_inst_in_decl3}}
+// CHECK:STDOUT:       symbolic_constant6000001A: {inst: inst6000005A, kind: checked, attached: {generic: generic60000001, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant6000001B: {inst: inst60000050, kind: checked, attached: {generic: generic60000001, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant6000001C: {inst: inst60000060, kind: checked, attached: {generic: generic60000001, index: generic_inst_in_decl3}}
+// CHECK:STDOUT:       symbolic_constant6000001D: {inst: inst6000005A, kind: checked, attached: {generic: generic60000001, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant6000001E: {inst: inst60000050, kind: checked, attached: {generic: generic60000001, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant6000001F: {inst: inst6000005A, kind: checked, attached: {generic: generic60000001, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant60000020: {inst: inst6000005B, kind: checked, attached: {generic: generic60000001, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant60000021: {inst: inst60000060, kind: checked, attached: {generic: generic60000001, index: generic_inst_in_decl3}}
+// CHECK:STDOUT:       symbolic_constant60000022: {inst: inst6000006B, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000023: {inst: inst6000006C, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000024: {inst: inst6000006D, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000025: {inst: inst6000006D, kind: checked, attached: {generic: generic60000002, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant60000026: {inst: inst60000070, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000027: {inst: inst60000070, kind: checked, attached: {generic: generic60000002, index: generic_inst_in_decl3}}
+// CHECK:STDOUT:       symbolic_constant60000028: {inst: inst60000072, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000029: {inst: inst60000073, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant6000002A: {inst: inst60000073, kind: checked, attached: {generic: generic60000002, index: generic_inst_in_def1}}
+// CHECK:STDOUT:       symbolic_constant6000002B: {inst: inst60000072, kind: checked, attached: {generic: generic60000002, index: generic_inst_in_def0}}
+// CHECK:STDOUT:       symbolic_constant6000002C: {inst: inst60000074, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant6000002D: {inst: inst60000074, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_decl3}}
+// CHECK:STDOUT:       symbolic_constant6000002E: {inst: inst60000079, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant6000002F: {inst: inst60000079, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_decl4}}
+// CHECK:STDOUT:       symbolic_constant60000030: {inst: inst6000006D, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant60000031: {inst: inst6000006C, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant60000032: {inst: inst6000006B, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant60000033: {inst: inst6000006B, kind: checked, attached: {generic: generic60000002, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant60000034: {inst: inst60000079, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_decl4}}
+// CHECK:STDOUT:       symbolic_constant60000035: {inst: inst6000006D, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant60000036: {inst: inst6000006B, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant60000037: {inst: inst6000006C, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant60000038: {inst: inst6000006D, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant60000039: {inst: inst60000074, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_decl3}}
+// CHECK:STDOUT:       symbolic_constant6000003A: {inst: inst60000079, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_decl4}}
+// CHECK:STDOUT:       symbolic_constant6000003B: {inst: inst60000082, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant6000003C: {inst: inst60000083, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant6000003D: {inst: inst60000084, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant6000003E: {inst: inst60000085, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant6000003F: {inst: inst60000085, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_def5}}
+// CHECK:STDOUT:       symbolic_constant60000040: {inst: inst60000086, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000041: {inst: inst60000087, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000042: {inst: inst60000084, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_def4}}
+// CHECK:STDOUT:       symbolic_constant60000043: {inst: inst60000083, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_def3}}
+// CHECK:STDOUT:       symbolic_constant60000044: {inst: inst60000082, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_def2}}
+// CHECK:STDOUT:       symbolic_constant60000045: {inst: inst60000088, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000046: {inst: inst60000088, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_def1}}
+// CHECK:STDOUT:       symbolic_constant60000047: {inst: inst60000089, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000048: {inst: inst60000089, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_def0}}
+// CHECK:STDOUT:       symbolic_constant60000049: {inst: inst60000089, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_def0}}
+// CHECK:STDOUT:       symbolic_constant6000004A: {inst: inst60000088, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_def1}}
+// CHECK:STDOUT:       symbolic_constant6000004B: {inst: inst60000082, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_def2}}
+// CHECK:STDOUT:       symbolic_constant6000004C: {inst: inst60000083, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_def3}}
+// CHECK:STDOUT:       symbolic_constant6000004D: {inst: inst60000084, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_def4}}
+// CHECK:STDOUT:       symbolic_constant6000004E: {inst: inst60000085, kind: checked, attached: {generic: generic60000003, index: generic_inst_in_def5}}
+// CHECK:STDOUT:       symbolic_constant6000004F: {inst: inst6000006D, kind: checked, attached: {generic: generic60000002, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant60000050: {inst: inst6000006C, kind: checked, attached: {generic: generic60000002, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant60000051: {inst: inst6000006B, kind: checked, attached: {generic: generic60000002, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant60000052: {inst: inst6000006B, kind: checked, attached: {generic: generic60000002, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant60000053: {inst: inst6000006C, kind: checked, attached: {generic: generic60000002, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant60000054: {inst: inst6000006D, kind: checked, attached: {generic: generic60000002, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant60000055: {inst: inst60000070, kind: checked, attached: {generic: generic60000002, index: generic_inst_in_decl3}}
+// CHECK:STDOUT:       symbolic_constant60000056: {inst: inst60000073, kind: checked, attached: {generic: generic60000002, index: generic_inst_in_def1}}
+// CHECK:STDOUT:       symbolic_constant60000057: {inst: inst60000072, kind: checked, attached: {generic: generic60000002, index: generic_inst_in_def0}}
+// CHECK:STDOUT:       symbolic_constant60000058: {inst: inst60000073, kind: checked, attached: {generic: generic60000002, index: generic_inst_in_def1}}
+// CHECK:STDOUT:       symbolic_constant60000059: {inst: inst6000001C, kind: checked, attached: {generic: generic60000004, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant6000005A: {inst: inst600000AF, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant6000005B: {inst: inst600000AF, kind: checked, attached: {generic: generic60000004, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant6000005C: {inst: inst6000001C, kind: checked, attached: {generic: generic60000004, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant6000005D: {inst: inst60000016, kind: checked, attached: {generic: generic60000004, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant6000005E: {inst: inst60000016, kind: checked, attached: {generic: generic60000004, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant6000005F: {inst: inst60000016, kind: checked, attached: {generic: generic60000004, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant60000060: {inst: inst6000001C, kind: checked, attached: {generic: generic60000004, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant60000061: {inst: inst600000AF, kind: checked, attached: {generic: generic60000004, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant60000062: {inst: inst60000044, kind: checked, attached: {generic: generic60000004, index: generic_inst_in_def2}}
+// CHECK:STDOUT:       symbolic_constant60000063: {inst: inst600000B8, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000064: {inst: inst600000B9, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000065: {inst: inst600000B9, kind: checked, attached: {generic: generic60000004, index: generic_inst_in_def1}}
+// CHECK:STDOUT:       symbolic_constant60000066: {inst: inst600000B8, kind: checked, attached: {generic: generic60000004, index: generic_inst_in_def0}}
+// CHECK:STDOUT:       symbolic_constant60000067: {inst: inst6000001F, kind: checked, attached: {generic: generic60000005, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant60000068: {inst: inst600000BE, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000069: {inst: inst600000BE, kind: checked, attached: {generic: generic60000005, index: generic_inst_in_decl3}}
+// CHECK:STDOUT:       symbolic_constant6000006A: {inst: inst6000001C, kind: checked, attached: {generic: generic60000005, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant6000006B: {inst: inst60000016, kind: checked, attached: {generic: generic60000005, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant6000006C: {inst: inst600000BE, kind: checked, attached: {generic: generic60000005, index: generic_inst_in_decl3}}
+// CHECK:STDOUT:       symbolic_constant6000006D: {inst: inst6000001C, kind: checked, attached: {generic: generic60000005, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant6000006E: {inst: inst60000016, kind: checked, attached: {generic: generic60000005, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant6000006F: {inst: inst6000001C, kind: checked, attached: {generic: generic60000005, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant60000070: {inst: inst6000001F, kind: checked, attached: {generic: generic60000005, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant60000071: {inst: inst600000BE, kind: checked, attached: {generic: generic60000005, index: generic_inst_in_decl3}}
+// CHECK:STDOUT:       symbolic_constant60000072: {inst: inst600000B9, kind: checked, attached: {generic: generic60000004, index: generic_inst_in_def1}}
+// CHECK:STDOUT:       symbolic_constant60000073: {inst: inst600000B8, kind: checked, attached: {generic: generic60000004, index: generic_inst_in_def0}}
+// CHECK:STDOUT:       symbolic_constant60000074: {inst: inst600000B9, kind: checked, attached: {generic: generic60000004, index: generic_inst_in_def1}}
+// CHECK:STDOUT:       symbolic_constant60000075: {inst: inst60000044, kind: checked, attached: {generic: generic60000004, index: generic_inst_in_def2}}
+// CHECK:STDOUT:       symbolic_constant60000076: {inst: inst600000D3, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000077: {inst: inst600000D4, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000078: {inst: inst600000D5, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000079: {inst: inst600000D5, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_decl5}}
+// CHECK:STDOUT:       symbolic_constant6000007A: {inst: inst600000D8, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant6000007B: {inst: inst600000D8, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_decl6}}
+// CHECK:STDOUT:       symbolic_constant6000007C: {inst: inst600000DA, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant6000007D: {inst: inst600000DB, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant6000007E: {inst: inst600000DB, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_def1}}
+// CHECK:STDOUT:       symbolic_constant6000007F: {inst: inst600000DA, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_def0}}
+// CHECK:STDOUT:       symbolic_constant60000080: {inst: inst600000DD, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000081: {inst: inst600000DE, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000082: {inst: inst600000DE, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_decl5}}
+// CHECK:STDOUT:       symbolic_constant60000083: {inst: inst600000E3, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000084: {inst: inst600000E3, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_decl6}}
+// CHECK:STDOUT:       symbolic_constant60000085: {inst: inst600000D5, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_decl4}}
+// CHECK:STDOUT:       symbolic_constant60000086: {inst: inst600000D4, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_decl3}}
+// CHECK:STDOUT:       symbolic_constant60000087: {inst: inst600000D3, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant60000088: {inst: inst6000006C, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant60000089: {inst: inst6000006B, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant6000008A: {inst: inst600000D3, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant6000008B: {inst: inst6000006B, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant6000008C: {inst: inst600000E3, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_decl6}}
+// CHECK:STDOUT:       symbolic_constant6000008D: {inst: inst600000D5, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_decl4}}
+// CHECK:STDOUT:       symbolic_constant6000008E: {inst: inst6000006B, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant6000008F: {inst: inst6000006C, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant60000090: {inst: inst600000D3, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant60000091: {inst: inst600000D4, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_decl3}}
+// CHECK:STDOUT:       symbolic_constant60000092: {inst: inst600000D5, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_decl4}}
+// CHECK:STDOUT:       symbolic_constant60000093: {inst: inst600000DE, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_decl5}}
+// CHECK:STDOUT:       symbolic_constant60000094: {inst: inst600000E3, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_decl6}}
+// CHECK:STDOUT:       symbolic_constant60000095: {inst: inst600000EF, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000096: {inst: inst600000F0, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000097: {inst: inst600000F1, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000098: {inst: inst600000F2, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000099: {inst: inst600000F2, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def10}}
+// CHECK:STDOUT:       symbolic_constant6000009A: {inst: inst600000F3, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant6000009B: {inst: inst600000F4, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant6000009C: {inst: inst600000F1, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def9}}
+// CHECK:STDOUT:       symbolic_constant6000009D: {inst: inst600000F0, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def8}}
+// CHECK:STDOUT:       symbolic_constant6000009E: {inst: inst600000EF, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def7}}
+// CHECK:STDOUT:       symbolic_constant6000009F: {inst: inst600000F5, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant600000A0: {inst: inst600000F5, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def6}}
+// CHECK:STDOUT:       symbolic_constant600000A1: {inst: inst60000085, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def5}}
+// CHECK:STDOUT:       symbolic_constant600000A2: {inst: inst60000084, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def4}}
+// CHECK:STDOUT:       symbolic_constant600000A3: {inst: inst60000083, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def3}}
+// CHECK:STDOUT:       symbolic_constant600000A4: {inst: inst60000082, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def2}}
+// CHECK:STDOUT:       symbolic_constant600000A5: {inst: inst60000088, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def1}}
+// CHECK:STDOUT:       symbolic_constant600000A6: {inst: inst600000F6, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant600000A7: {inst: inst600000F6, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def0}}
+// CHECK:STDOUT:       symbolic_constant600000A8: {inst: inst600000F6, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def0}}
+// CHECK:STDOUT:       symbolic_constant600000A9: {inst: inst60000088, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def1}}
+// CHECK:STDOUT:       symbolic_constant600000AA: {inst: inst60000082, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def2}}
+// CHECK:STDOUT:       symbolic_constant600000AB: {inst: inst60000083, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def3}}
+// CHECK:STDOUT:       symbolic_constant600000AC: {inst: inst60000084, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def4}}
+// CHECK:STDOUT:       symbolic_constant600000AD: {inst: inst60000085, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def5}}
+// CHECK:STDOUT:       symbolic_constant600000AE: {inst: inst600000F5, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def6}}
+// CHECK:STDOUT:       symbolic_constant600000AF: {inst: inst600000EF, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def7}}
+// CHECK:STDOUT:       symbolic_constant600000B0: {inst: inst600000F0, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def8}}
+// CHECK:STDOUT:       symbolic_constant600000B1: {inst: inst600000F1, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def9}}
+// CHECK:STDOUT:       symbolic_constant600000B2: {inst: inst600000F2, kind: checked, attached: {generic: generic60000007, index: generic_inst_in_def10}}
+// CHECK:STDOUT:       symbolic_constant600000B3: {inst: inst600000D5, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_decl5}}
+// CHECK:STDOUT:       symbolic_constant600000B4: {inst: inst600000D4, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_decl4}}
+// CHECK:STDOUT:       symbolic_constant600000B5: {inst: inst6000006C, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_decl3}}
+// CHECK:STDOUT:       symbolic_constant600000B6: {inst: inst600000DD, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant600000B7: {inst: inst600000D3, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant600000B8: {inst: inst6000006B, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant600000B9: {inst: inst6000006B, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant600000BA: {inst: inst600000D3, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant600000BB: {inst: inst600000DD, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant600000BC: {inst: inst6000006C, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_decl3}}
+// CHECK:STDOUT:       symbolic_constant600000BD: {inst: inst600000D4, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_decl4}}
+// CHECK:STDOUT:       symbolic_constant600000BE: {inst: inst600000D5, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_decl5}}
+// CHECK:STDOUT:       symbolic_constant600000BF: {inst: inst600000D8, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_decl6}}
+// CHECK:STDOUT:       symbolic_constant600000C0: {inst: inst600000DB, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_def1}}
+// CHECK:STDOUT:       symbolic_constant600000C1: {inst: inst600000DA, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_def0}}
+// CHECK:STDOUT:       symbolic_constant600000C2: {inst: inst600000DB, kind: checked, attached: {generic: generic60000006, index: generic_inst_in_def1}}
+// CHECK:STDOUT:       symbolic_constant600000C3: {inst: inst60000113, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant600000C4: {inst: inst60000114, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant600000C5: {inst: inst60000115, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant600000C6: {inst: inst60000115, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl7}}
+// CHECK:STDOUT:       symbolic_constant600000C7: {inst: inst60000118, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant600000C8: {inst: inst60000118, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl8}}
+// CHECK:STDOUT:       symbolic_constant600000C9: {inst: inst6000011A, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant600000CA: {inst: inst6000011B, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant600000CB: {inst: inst6000011B, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_def1}}
+// CHECK:STDOUT:       symbolic_constant600000CC: {inst: inst6000011A, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_def0}}
+// CHECK:STDOUT:       symbolic_constant600000CD: {inst: inst6000011D, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant600000CE: {inst: inst6000011E, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant600000CF: {inst: inst6000011E, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_decl7}}
+// CHECK:STDOUT:       symbolic_constant600000D0: {inst: inst60000123, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant600000D1: {inst: inst60000123, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_decl8}}
+// CHECK:STDOUT:       symbolic_constant600000D2: {inst: inst60000115, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_decl6}}
+// CHECK:STDOUT:       symbolic_constant600000D3: {inst: inst60000114, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_decl5}}
+// CHECK:STDOUT:       symbolic_constant600000D4: {inst: inst60000113, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_decl4}}
+// CHECK:STDOUT:       symbolic_constant600000D5: {inst: inst600000D4, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_decl3}}
+// CHECK:STDOUT:       symbolic_constant600000D6: {inst: inst600000D3, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant600000D7: {inst: inst6000006C, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant600000D8: {inst: inst6000006B, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant600000D9: {inst: inst60000113, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant600000DA: {inst: inst600000D3, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant600000DB: {inst: inst6000006B, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant600000DC: {inst: inst60000123, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_decl8}}
+// CHECK:STDOUT:       symbolic_constant600000DD: {inst: inst60000115, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_decl6}}
+// CHECK:STDOUT:       symbolic_constant600000DE: {inst: inst6000006B, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant600000DF: {inst: inst6000006C, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant600000E0: {inst: inst600000D3, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant600000E1: {inst: inst600000D4, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_decl3}}
+// CHECK:STDOUT:       symbolic_constant600000E2: {inst: inst60000113, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_decl4}}
+// CHECK:STDOUT:       symbolic_constant600000E3: {inst: inst60000114, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_decl5}}
+// CHECK:STDOUT:       symbolic_constant600000E4: {inst: inst60000115, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_decl6}}
+// CHECK:STDOUT:       symbolic_constant600000E5: {inst: inst6000011E, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_decl7}}
+// CHECK:STDOUT:       symbolic_constant600000E6: {inst: inst60000123, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_decl8}}
+// CHECK:STDOUT:       symbolic_constant600000E7: {inst: inst60000132, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant600000E8: {inst: inst60000133, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant600000E9: {inst: inst60000134, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant600000EA: {inst: inst60000135, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant600000EB: {inst: inst60000135, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def15}}
+// CHECK:STDOUT:       symbolic_constant600000EC: {inst: inst60000136, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant600000ED: {inst: inst60000137, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant600000EE: {inst: inst60000134, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def14}}
+// CHECK:STDOUT:       symbolic_constant600000EF: {inst: inst60000133, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def13}}
+// CHECK:STDOUT:       symbolic_constant600000F0: {inst: inst60000132, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def12}}
+// CHECK:STDOUT:       symbolic_constant600000F1: {inst: inst60000138, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant600000F2: {inst: inst60000138, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def11}}
+// CHECK:STDOUT:       symbolic_constant600000F3: {inst: inst600000F2, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def10}}
+// CHECK:STDOUT:       symbolic_constant600000F4: {inst: inst600000F1, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def9}}
+// CHECK:STDOUT:       symbolic_constant600000F5: {inst: inst600000F0, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def8}}
+// CHECK:STDOUT:       symbolic_constant600000F6: {inst: inst600000EF, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def7}}
+// CHECK:STDOUT:       symbolic_constant600000F7: {inst: inst600000F5, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def6}}
+// CHECK:STDOUT:       symbolic_constant600000F8: {inst: inst60000085, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def5}}
+// CHECK:STDOUT:       symbolic_constant600000F9: {inst: inst60000084, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def4}}
+// CHECK:STDOUT:       symbolic_constant600000FA: {inst: inst60000083, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def3}}
+// CHECK:STDOUT:       symbolic_constant600000FB: {inst: inst60000082, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def2}}
+// CHECK:STDOUT:       symbolic_constant600000FC: {inst: inst60000088, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def1}}
+// CHECK:STDOUT:       symbolic_constant600000FD: {inst: inst60000139, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant600000FE: {inst: inst60000139, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def0}}
+// CHECK:STDOUT:       symbolic_constant600000FF: {inst: inst60000139, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def0}}
+// CHECK:STDOUT:       symbolic_constant60000100: {inst: inst60000088, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def1}}
+// CHECK:STDOUT:       symbolic_constant60000101: {inst: inst60000082, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def2}}
+// CHECK:STDOUT:       symbolic_constant60000102: {inst: inst60000083, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def3}}
+// CHECK:STDOUT:       symbolic_constant60000103: {inst: inst60000084, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def4}}
+// CHECK:STDOUT:       symbolic_constant60000104: {inst: inst60000085, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def5}}
+// CHECK:STDOUT:       symbolic_constant60000105: {inst: inst600000F5, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def6}}
+// CHECK:STDOUT:       symbolic_constant60000106: {inst: inst600000EF, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def7}}
+// CHECK:STDOUT:       symbolic_constant60000107: {inst: inst600000F0, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def8}}
+// CHECK:STDOUT:       symbolic_constant60000108: {inst: inst600000F1, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def9}}
+// CHECK:STDOUT:       symbolic_constant60000109: {inst: inst600000F2, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def10}}
+// CHECK:STDOUT:       symbolic_constant6000010A: {inst: inst60000138, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def11}}
+// CHECK:STDOUT:       symbolic_constant6000010B: {inst: inst60000132, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def12}}
+// CHECK:STDOUT:       symbolic_constant6000010C: {inst: inst60000133, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def13}}
+// CHECK:STDOUT:       symbolic_constant6000010D: {inst: inst60000134, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def14}}
+// CHECK:STDOUT:       symbolic_constant6000010E: {inst: inst60000135, kind: checked, attached: {generic: generic60000009, index: generic_inst_in_def15}}
+// CHECK:STDOUT:       symbolic_constant6000010F: {inst: inst60000115, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl7}}
+// CHECK:STDOUT:       symbolic_constant60000110: {inst: inst60000114, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl6}}
+// CHECK:STDOUT:       symbolic_constant60000111: {inst: inst600000D4, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl5}}
+// CHECK:STDOUT:       symbolic_constant60000112: {inst: inst6000006C, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl4}}
+// CHECK:STDOUT:       symbolic_constant60000113: {inst: inst6000011D, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl3}}
+// CHECK:STDOUT:       symbolic_constant60000114: {inst: inst60000113, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant60000115: {inst: inst600000D3, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant60000116: {inst: inst6000006B, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant60000117: {inst: inst6000006B, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl0}}
+// CHECK:STDOUT:       symbolic_constant60000118: {inst: inst600000D3, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl1}}
+// CHECK:STDOUT:       symbolic_constant60000119: {inst: inst60000113, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant6000011A: {inst: inst6000011D, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl3}}
+// CHECK:STDOUT:       symbolic_constant6000011B: {inst: inst6000006C, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl4}}
+// CHECK:STDOUT:       symbolic_constant6000011C: {inst: inst600000D4, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl5}}
+// CHECK:STDOUT:       symbolic_constant6000011D: {inst: inst60000114, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl6}}
+// CHECK:STDOUT:       symbolic_constant6000011E: {inst: inst60000115, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl7}}
+// CHECK:STDOUT:       symbolic_constant6000011F: {inst: inst60000118, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_decl8}}
+// CHECK:STDOUT:       symbolic_constant60000120: {inst: inst6000011B, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_def1}}
+// CHECK:STDOUT:       symbolic_constant60000121: {inst: inst6000011A, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_def0}}
+// CHECK:STDOUT:       symbolic_constant60000122: {inst: inst6000011B, kind: checked, attached: {generic: generic60000008, index: generic_inst_in_def1}}
+// CHECK:STDOUT:       symbolic_constant60000123: {inst: inst600000AF, kind: checked, attached: {generic: generic60000004, index: generic_inst_in_decl2}}
+// CHECK:STDOUT:       symbolic_constant60000124: {inst: inst6000015E, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000125: {inst: inst6000015E, kind: checked, attached: {generic: generic60000000, index: generic_inst_in_def2}}
+// CHECK:STDOUT:       symbolic_constant60000126: {inst: inst60000160, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000127: {inst: inst60000160, kind: checked, attached: {generic: generic60000000, index: generic_inst_in_def3}}
+// CHECK:STDOUT:       symbolic_constant60000128: {inst: inst60000162, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant60000129: {inst: inst60000163, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant6000012A: {inst: inst60000165, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant6000012B: {inst: inst60000162, kind: checked, attached: {generic: generic60000000, index: generic_inst_in_def4}}
+// CHECK:STDOUT:       symbolic_constant6000012C: {inst: inst60000163, kind: checked, attached: {generic: generic60000000, index: generic_inst_in_def5}}
+// CHECK:STDOUT:       symbolic_constant6000012D: {inst: inst60000165, kind: checked, attached: {generic: generic60000000, index: generic_inst_in_def6}}
+// CHECK:STDOUT:       symbolic_constant6000012E: {inst: inst6000016B, kind: checked, attached: null}
+// CHECK:STDOUT:       symbolic_constant6000012F: {inst: inst6000016B, kind: checked, attached: {generic: generic60000000, index: generic_inst_in_def7}}
 // CHECK:STDOUT:   inst_blocks:
 // CHECK:STDOUT:     inst_block_empty: {}
 // CHECK:STDOUT:     exports:
@@ -2029,4 +2056,19 @@ fn Foo[T:! type](p: T*) -> (T*, ()) {
 // CHECK:STDOUT:       0:               instF
 // CHECK:STDOUT:       1:               inst60000010
 // CHECK:STDOUT:       2:               inst6000003C
+// CHECK:STDOUT:   value_stores:
+// CHECK:STDOUT:     shared_values:
+// CHECK:STDOUT:       ints:            {}
+// CHECK:STDOUT:       reals:           {}
+// CHECK:STDOUT:       floats:          {}
+// CHECK:STDOUT:       identifiers:
+// CHECK:STDOUT:         identifier0:     Foo
+// CHECK:STDOUT:         identifier1:     T
+// CHECK:STDOUT:         identifier2:     p
+// CHECK:STDOUT:         identifier3:     Copy
+// CHECK:STDOUT:         identifier4:     Op
+// CHECK:STDOUT:         identifier5:     U
+// CHECK:STDOUT:         identifier6:     V
+// CHECK:STDOUT:       strings:
+// CHECK:STDOUT:         string0:         prelude
 // CHECK:STDOUT: ...
