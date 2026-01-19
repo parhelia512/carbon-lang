@@ -250,3 +250,18 @@ impl CppCompat.Long32 as RightShiftAssignWith(CppCompat.Long32) {
 
 // TODO: ULong32, LongLong64, ULongLong64: compound assignments.
 // TODO: Long32: heterogeneous compound assignments.
+
+// Increment and decrement.
+impl CppCompat.Long32 as Dec {
+  fn Op[ref self: Self]() {
+    self -= (1 as CppCompat.Long32);
+  }
+}
+
+impl CppCompat.Long32 as Inc {
+  fn Op[ref self: Self]() {
+    self += (1 as CppCompat.Long32);
+  }
+}
+
+// TODO: Increment/decrement operations for ULong32, LongLong64, ULongLong64.
