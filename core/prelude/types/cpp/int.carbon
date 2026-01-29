@@ -491,6 +491,38 @@ final impl CppCompat.LongLong64 as RightShiftWith(Self) where .Result = Self {
 
 // - Heterogeneous.
 
+// - CppCompat.Long32 on left-hand side.
+
+impl forall [T:! ImplicitAs(CppCompat.Long32)]
+    CppCompat.Long32 as BitAndWith(T) where .Result = CppCompat.Long32 {
+  fn Op[self: CppCompat.Long32](
+    other:CppCompat.Long32) -> CppCompat.Long32 = "int.and";
+}
+
+impl forall [T:! ImplicitAs(CppCompat.Long32)]
+    CppCompat.Long32 as BitOrWith(T) where .Result = CppCompat.Long32 {
+  fn Op[self: CppCompat.Long32](
+    other: CppCompat.Long32) -> CppCompat.Long32 = "int.or";
+}
+
+impl forall [T:! ImplicitAs(CppCompat.Long32)]
+    CppCompat.Long32 as BitXorWith(T) where .Result = CppCompat.Long32 {
+  fn Op[self: CppCompat.Long32](
+    other: CppCompat.Long32) -> CppCompat.Long32 = "int.xor";
+}
+
+impl forall [T:! ImplicitAs(CppCompat.Long32)]
+    CppCompat.Long32 as LeftShiftWith(T) where .Result = CppCompat.Long32 {
+  fn Op[self: CppCompat.Long32](
+    other: CppCompat.Long32) -> CppCompat.Long32 = "int.left_shift";
+}
+
+impl forall [T:! ImplicitAs(CppCompat.Long32)]
+    CppCompat.Long32 as RightShiftWith(T) where .Result = CppCompat.Long32 {
+  fn Op[self: CppCompat.Long32](
+    other: CppCompat.Long32) -> CppCompat.Long32 = "int.right_shift";
+}
+
 // - CppCompat.LongLong64 on left-hand side.
 
 impl forall [T:! ImplicitAs(CppCompat.LongLong64)]
@@ -521,6 +553,38 @@ impl forall [T:! ImplicitAs(CppCompat.LongLong64)]
     CppCompat.LongLong64 as RightShiftWith(T) where .Result = CppCompat.LongLong64 {
   fn Op[self: CppCompat.LongLong64](
     other: CppCompat.LongLong64) -> CppCompat.LongLong64 = "int.right_shift";
+}
+
+// - CppCompat.Long32 on right-hand side.
+
+impl forall [T:! ImplicitAs(CppCompat.Long32)]
+    T as BitAndWith(CppCompat.Long32) where .Result = CppCompat.Long32 {
+  fn Op[self: CppCompat.Long32](
+    other: CppCompat.Long32) -> CppCompat.Long32 = "int.and";
+}
+
+impl forall [T:! ImplicitAs(CppCompat.Long32)]
+    T as BitOrWith(CppCompat.Long32) where .Result = CppCompat.Long32 {
+  fn Op[self: CppCompat.Long32](
+    other: CppCompat.Long32) -> CppCompat.Long32 = "int.or";
+}
+
+impl forall [T:! ImplicitAs(CppCompat.Long32)]
+    T as BitXorWith(CppCompat.Long32) where .Result = CppCompat.Long32 {
+  fn Op[self: CppCompat.Long32](
+    other: CppCompat.Long32) -> CppCompat.Long32 = "int.xor";
+}
+
+impl forall [T:! ImplicitAs(CppCompat.Long32)]
+    T as LeftShiftWith(CppCompat.Long32) where .Result = CppCompat.Long32 {
+  fn Op[self: CppCompat.Long32](
+    other: CppCompat.Long32) -> CppCompat.Long32 = "int.left_shift";
+}
+
+impl forall [T:! ImplicitAs(CppCompat.Long32)]
+    T as RightShiftWith(CppCompat.Long32) where .Result = CppCompat.Long32 {
+  fn Op[self: CppCompat.Long32](
+    other: CppCompat.Long32) -> CppCompat.Long32 = "int.right_shift";
 }
 
 // - CppCompat.LongLong64 on right-hand side.
