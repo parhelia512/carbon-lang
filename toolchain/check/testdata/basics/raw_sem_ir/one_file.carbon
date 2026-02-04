@@ -784,9 +784,9 @@ fn Foo[T:! type](p: T*) -> (T*, ()) {
 // CHECK:STDOUT:     inst6000016C:    {kind: BoundMethod, arg0: inst60000046, arg1: inst60000169, type: type(inst(BoundMethodType))}
 // CHECK:STDOUT:     inst6000016D:    {kind: RequireCompleteType, arg0: inst6000001C, type: type(inst(WitnessType))}
 // CHECK:STDOUT:     inst6000016E:    {kind: Call, arg0: inst6000016C, arg1: inst_block6000007F, type: type(symbolic_constant60000004)}
-// CHECK:STDOUT:     inst6000016F:    {kind: InitializeFrom, arg0: inst6000016E, arg1: inst6000004A, type: type(symbolic_constant60000004)}
+// CHECK:STDOUT:     inst6000016F:    {kind: InPlaceInit, arg0: inst6000016E, arg1: inst6000004A, type: type(symbolic_constant60000004)}
 // CHECK:STDOUT:     inst60000170:    {kind: TupleAccess, arg0: inst6000003A, arg1: element1, type: type(inst60000025)}
-// CHECK:STDOUT:     inst60000171:    {kind: TupleInit, arg0: inst_block_empty, arg1: inst60000170, type: type(inst60000025)}
+// CHECK:STDOUT:     inst60000171:    {kind: TupleInit, arg0: inst_block_empty, arg1: inst<none>, type: type(inst60000025)}
 // CHECK:STDOUT:     inst60000172:    {kind: Converted, arg0: inst60000047, arg1: inst60000171, type: type(inst60000025)}
 // CHECK:STDOUT:     inst60000173:    {kind: TupleInit, arg0: inst_block60000080, arg1: inst6000003A, type: type(symbolic_constant6000000A)}
 // CHECK:STDOUT:     inst60000174:    {kind: Converted, arg0: inst60000048, arg1: inst60000173, type: type(symbolic_constant6000000A)}

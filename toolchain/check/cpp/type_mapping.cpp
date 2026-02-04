@@ -514,7 +514,8 @@ static auto InventPrimitiveClangArg(Context& context, FormInfo form)
       break;
 
     case SemIR::ExprCategory::Value:
-    case SemIR::ExprCategory::Initializing:
+    case SemIR::ExprCategory::ReprInitializing:
+    case SemIR::ExprCategory::InPlaceInitializing:
       value_kind = clang::ExprValueKind::VK_PRValue;
       break;
 

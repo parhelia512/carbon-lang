@@ -40,6 +40,9 @@ static auto GetElementIndex(FunctionContext::TypeInFile type,
   return idx.index;
 }
 
+// Extracts an element of an aggregate, such as a struct, tuple, or class, by
+// index. Depending on the expression category and value representation of the
+// aggregate input, this will either produce a value or a reference.
 auto GetAggregateElement(FunctionContext& context, SemIR::InstId aggr_inst_id,
                          SemIR::ElementIndex idx, SemIR::InstId result_inst_id,
                          llvm::Twine name) -> llvm::Value* {
@@ -50,7 +53,8 @@ auto GetAggregateElement(FunctionContext& context, SemIR::InstId aggr_inst_id,
     case SemIR::ExprCategory::Error:
     case SemIR::ExprCategory::NotExpr:
     case SemIR::ExprCategory::Pattern:
-    case SemIR::ExprCategory::Initializing:
+    case SemIR::ExprCategory::ReprInitializing:
+    case SemIR::ExprCategory::InPlaceInitializing:
     case SemIR::ExprCategory::Mixed:
       CARBON_FATAL(
           "Unexpected expression category for aggregate access into {0}",
@@ -194,10 +198,10 @@ auto EmitAggregateInitializer(FunctionContext& context,
       for (auto [i, ref_id] : llvm::enumerate(refs)) {
         if (context.sem_ir().constant_values().Get(ref_id).is_constant()) {
           auto dest_id =
-              SemIR::FindReturnSlotArgForInitializer(context.sem_ir(), ref_id);
+              SemIR::FindStorageArgForInitializer(context.sem_ir(), ref_id);
           auto src_id = ref_id;
           auto storage_type = context.GetTypeIdOfInst(dest_id);
-          context.FinishInit(storage_type, dest_id, src_id);
+          context.InitializeStorage(storage_type, dest_id, src_id);
         }
       }
       // TODO: Add a helper to poison a value slot.

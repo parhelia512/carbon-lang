@@ -166,7 +166,8 @@ struct ArrayIndex {
 // `dest_id` is the destination array object for the initialization.
 struct ArrayInit {
   static constexpr auto Kind = InstKind::ArrayInit.Define<Parse::NodeId>(
-      {.ir_name = "array_init", .expr_category = ExprCategory::Initializing});
+      {.ir_name = "array_init",
+       .expr_category = ExprCategory::ReprInitializing});
 
   TypeId type_id;
   InstBlockId inits_id;
@@ -197,9 +198,9 @@ struct AsCompatible {
   InstId source_id;
 };
 
-// Performs a source-level initialization or assignment of `lhs_id` from
-// `rhs_id`. This finishes initialization of `lhs_id` in the same way as
-// `InitializeFrom`.
+// Consumes the initializer `rhs_id`, and uses it to performs a source-level
+// initialization or assignment of `lhs_id`. If `rhs_id` has a storage argument,
+// it is required to already be `lhs_id`.
 struct Assign {
   // TODO: Make Parse::NodeId more specific.
   static constexpr auto Kind = InstKind::Assign.Define<Parse::NodeId>(
@@ -435,7 +436,8 @@ struct ClassElementAccess {
 // Initializes a class object at dest_id with the contents of elements_id.
 struct ClassInit {
   static constexpr auto Kind = InstKind::ClassInit.Define<Parse::NodeId>(
-      {.ir_name = "class_init", .expr_category = ExprCategory::Initializing});
+      {.ir_name = "class_init",
+       .expr_category = ExprCategory::ReprInitializing});
 
   TypeId type_id;
   InstBlockId elements_id;
@@ -1023,19 +1025,21 @@ struct ImportRefLoaded {
   EntityNameId entity_name_id;
 };
 
-// Tracks that an object has been initialized in-place to form the result of
-// this expression, even if its type's initializing representation is not
-// normally in-place. If the type does not use in-place initialization,
-// initialization from this expression will copy the value out of the
-// destination.
+// DO NOT SUBMIT until this file and inst_kind.def are re-alphabetized.
+
+// Records that evaluation of the expression `src_id` will initialize the
+// storage identified by `dest_id` (even if its type's initializing
+// representation is not normally in-place), and forms an in-place initializing
+// expression to represent it. Note that `src_id` must find its target storage
+// using the exact ID `dest_id`, not another ID that aliases it.
 //
 // This is used to model the initialization performed by C++ thunks, where
 // in-place initialization is used even for types that would normally have a
 // copy initializing representation.
-struct InPlaceInit {
-  static constexpr auto Kind = InstKind::InPlaceInit.Define<Parse::NodeId>(
-      {.ir_name = "in_place_init",
-       .expr_category = ExprCategory::Initializing,
+struct MarkInPlaceInit {
+  static constexpr auto Kind = InstKind::MarkInPlaceInit.Define<Parse::NodeId>(
+      {.ir_name = "mark_in_place_init",
+       .expr_category = ExprCategory::InPlaceInitializing,
        .constant_kind = InstConstantKind::Never});
 
   TypeId type_id;
@@ -1061,16 +1065,17 @@ struct InitForm {
   CallParamIndex index;
 };
 
-// Finalizes the initialization of `dest_id` from the initializer expression
-// `src_id`, by performing a final copy from source to destination, for types
-// whose initialization is not in-place.
-struct InitializeFrom {
-  // Note this Parse::NodeId is unused. InitializeFrom is only constructed by
+// Consumes the repr-initializing expression `src_id` and forms an in-place
+// initializing expression that initializes the storage at `dest_id`, by
+// performing a final copy from source to destination for types whose
+// initialization is not in-place.
+struct InPlaceInit {
+  // Note this Parse::NodeId is unused. InPlaceInit is only constructed by
   // reusing locations.
   // TODO: Figure out if there's a better way to handle this case.
-  static constexpr auto Kind = InstKind::InitializeFrom.Define<Parse::NodeId>(
-      {.ir_name = "initialize_from",
-       .expr_category = ExprCategory::Initializing});
+  static constexpr auto Kind = InstKind::InPlaceInit.Define<Parse::NodeId>(
+      {.ir_name = "in_place_init",
+       .expr_category = ExprCategory::InPlaceInitializing});
 
   TypeId type_id;
   InstId src_id;
@@ -1546,6 +1551,9 @@ struct Return {
 };
 
 // A `return expr;` statement.
+//
+// If `expr_id` is an initializer, this consumes it. If `dest_id` is not `None`
+// and `expr_id` has a storage argument, the storage argument must be `dest_id`.
 struct ReturnExpr {
   static constexpr auto Kind = InstKind::ReturnExpr.Define<Parse::NodeId>(
       {.ir_name = "return",
@@ -1729,7 +1737,8 @@ struct StructAccess {
 // Initializes a dest struct with the provided elements.
 struct StructInit {
   static constexpr auto Kind = InstKind::StructInit.Define<Parse::NodeId>(
-      {.ir_name = "struct_init", .expr_category = ExprCategory::Initializing});
+      {.ir_name = "struct_init",
+       .expr_category = ExprCategory::ReprInitializing});
 
   TypeId type_id;
   InstBlockId elements_id;
@@ -1817,7 +1826,9 @@ struct SymbolicBindingType {
   InstId facet_value_inst_id;
 };
 
-// A temporary value.
+// Consumes the initializer `init_id`, uses it to initialize a temporary
+// object, and forms an ephemeral reference to it. If `init_id` has a
+// storage arg, it must be a `TemporaryStorage` inst.
 struct Temporary {
   static constexpr auto Kind = InstKind::Temporary.Define<Parse::NodeId>(
       {.ir_name = "temporary",
@@ -1858,7 +1869,8 @@ struct TupleAccess {
 // Initializes the destination tuple with the given elements.
 struct TupleInit {
   static constexpr auto Kind = InstKind::TupleInit.Define<Parse::NodeId>(
-      {.ir_name = "tuple_init", .expr_category = ExprCategory::Initializing});
+      {.ir_name = "tuple_init",
+       .expr_category = ExprCategory::ReprInitializing});
 
   TypeId type_id;
   InstBlockId elements_id;
