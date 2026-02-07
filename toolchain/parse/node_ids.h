@@ -177,6 +177,8 @@ using AnyPointerDeferenceExprId =
 using AnyRuntimeBindingPatternName =
     NodeIdOneOf<IdentifierNameNotBeforeParamsId, SelfValueNameId,
                 UnderscoreNameId>;
+using AnyPrimitiveFormIdId =
+    NodeIdOneOf<RefPrimitiveFormId, VarPrimitiveFormId, ValPrimitiveFormId>;
 
 // NodeId with kind that is anything but T::Kind.
 template <typename T>
