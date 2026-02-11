@@ -15,6 +15,7 @@
 #include "toolchain/check/scope_stack.h"
 #include "toolchain/check/type.h"
 #include "toolchain/check/type_completion.h"
+#include "toolchain/diagnostics/format_providers.h"
 #include "toolchain/sem_ir/builtin_function_kind.h"
 #include "toolchain/sem_ir/ids.h"
 #include "toolchain/sem_ir/pattern.h"
@@ -248,6 +249,49 @@ auto CheckFunctionReturnTypeMatches(Context& context,
   return true;
 }
 
+// Checks that a function declaration's evaluation mode matches the previous
+// declaration's evaluation mode. Returns `false` and optionally produces a
+// diagnostic on mismatch.
+static auto CheckFunctionEvaluationModeMatches(
+    Context& context, const SemIR::Function& new_function,
+    const SemIR::Function& prev_function, bool diagnose) -> bool {
+  if (prev_function.evaluation_mode == new_function.evaluation_mode) {
+    return true;
+  }
+  if (!diagnose) {
+    return false;
+  }
+  auto eval_mode_index = [](SemIR::Function::EvaluationMode mode) {
+    switch (mode) {
+      case SemIR::Function::EvaluationMode::None:
+        return 0;
+      case SemIR::Function::EvaluationMode::Eval:
+        return 1;
+      case SemIR::Function::EvaluationMode::MustEval:
+        return 2;
+    }
+  };
+  auto prev_eval_mode_index = eval_mode_index(prev_function.evaluation_mode);
+  auto new_eval_mode_index = eval_mode_index(new_function.evaluation_mode);
+  CARBON_DIAGNOSTIC(
+      FunctionRedeclEvaluationModeDiffers, Error,
+      "function redeclaration differs because new function is "
+      "{0:=-1:not `eval`|=-2:not `musteval`|=1:`eval`|=2:`musteval`}",
+      Diagnostics::IntAsSelect);
+  CARBON_DIAGNOSTIC(FunctionRedeclEvaluationModePrevious, Note,
+                    "previously {0:<0:not |:}declared as "
+                    "{0:=-1:`eval`|=-2:`musteval`|=1:`eval`|=2:`musteval`}",
+                    Diagnostics::IntAsSelect);
+  context.emitter()
+      .Build(new_function.latest_decl_id(), FunctionRedeclEvaluationModeDiffers,
+             new_eval_mode_index ? new_eval_mode_index : -prev_eval_mode_index)
+      .Note(prev_function.latest_decl_id(),
+            FunctionRedeclEvaluationModePrevious,
+            prev_eval_mode_index ? prev_eval_mode_index : -new_eval_mode_index)
+      .Emit();
+  return false;
+}
+
 auto CheckFunctionTypeMatches(Context& context,
                               const SemIR::Function& new_function,
                               const SemIR::Function& prev_function,
@@ -259,8 +303,15 @@ auto CheckFunctionTypeMatches(Context& context,
                               diagnose, check_syntax, check_self)) {
     return false;
   }
-  return CheckFunctionReturnTypeMatches(context, new_function, prev_function,
-                                        prev_specific_id, diagnose);
+  if (!CheckFunctionReturnTypeMatches(context, new_function, prev_function,
+                                      prev_specific_id, diagnose)) {
+    return false;
+  }
+  if (!CheckFunctionEvaluationModeMatches(context, new_function, prev_function,
+                                          diagnose)) {
+    return false;
+  }
+  return true;
 }
 
 auto CheckFunctionReturnPatternType(Context& context, SemIR::LocId loc_id,
