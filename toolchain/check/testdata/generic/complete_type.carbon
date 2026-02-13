@@ -316,7 +316,7 @@ fn G() { F(B); }
 // CHECK:STDOUT:   return
 // CHECK:STDOUT: }
 // CHECK:STDOUT:
-// CHECK:STDOUT: fn @DestroyOp(%self.param: %ptr.27c) = "no_op";
+// CHECK:STDOUT: fn @DestroyOp(%self.param: ref %ptr.27c) = "no_op";
 // CHECK:STDOUT:
 // CHECK:STDOUT: specific @F(constants.%T) {
 // CHECK:STDOUT:   %T.loc6_6.1 => constants.%T
@@ -448,7 +448,7 @@ fn G() { F(B); }
 // CHECK:STDOUT:   return
 // CHECK:STDOUT: }
 // CHECK:STDOUT:
-// CHECK:STDOUT: fn @DestroyOp(%self.param: %ptr.27c) = "no_op";
+// CHECK:STDOUT: fn @DestroyOp(%self.param: ref %ptr.27c) = "no_op";
 // CHECK:STDOUT:
 // CHECK:STDOUT: specific @F(constants.%T) {
 // CHECK:STDOUT:   %T.loc6_6.1 => constants.%T

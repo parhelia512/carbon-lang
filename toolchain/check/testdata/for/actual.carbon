@@ -1051,7 +1051,7 @@ fn Read(y:! Core.IntLiteral()) {
 // CHECK:STDOUT:
 // CHECK:STDOUT: fn @Range [from "lib.carbon"];
 // CHECK:STDOUT:
-// CHECK:STDOUT: fn @DestroyOp(%self.param: %IntRange.a89) = "no_op";
+// CHECK:STDOUT: fn @DestroyOp(%self.param: ref %IntRange.a89) = "no_op";
 // CHECK:STDOUT:
 // CHECK:STDOUT: specific @Read(constants.%y) {
 // CHECK:STDOUT:   %y.loc4_9.1 => constants.%y

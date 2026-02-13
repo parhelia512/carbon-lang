@@ -468,9 +468,9 @@ fn CallIndirect() {
 // CHECK:STDOUT:   return
 // CHECK:STDOUT: }
 // CHECK:STDOUT:
-// CHECK:STDOUT: fn @DestroyOp.loc23(%self.param: %tuple.type.847) = "no_op";
+// CHECK:STDOUT: fn @DestroyOp.loc23(%self.param: ref %tuple.type.847) = "no_op";
 // CHECK:STDOUT:
-// CHECK:STDOUT: fn @DestroyOp.loc22(%self.param: %Z) = "no_op";
+// CHECK:STDOUT: fn @DestroyOp.loc22(%self.param: ref %Z) = "no_op";
 // CHECK:STDOUT:
 // CHECK:STDOUT: generic fn @CallGeneric(%T.loc26_16.2: %A.type.ab6) {
 // CHECK:STDOUT:   %T.loc26_16.1: %A.type.ab6 = symbolic_binding T, 0 [symbolic = %T.loc26_16.1 (constants.%T.2bc)]
@@ -1062,9 +1062,9 @@ fn CallIndirect() {
 // CHECK:STDOUT:   return
 // CHECK:STDOUT: }
 // CHECK:STDOUT:
-// CHECK:STDOUT: fn @DestroyOp.loc24_39(%self.param: %tuple.type.65a) = "no_op";
+// CHECK:STDOUT: fn @DestroyOp.loc24_39(%self.param: ref %tuple.type.65a) = "no_op";
 // CHECK:STDOUT:
-// CHECK:STDOUT: fn @DestroyOp.loc24_38(%self.param: %Z) = "no_op";
+// CHECK:STDOUT: fn @DestroyOp.loc24_38(%self.param: ref %Z) = "no_op";
 // CHECK:STDOUT:
 // CHECK:STDOUT: generic fn @CallGeneric(%T.loc27_16.2: %A.type.ab6) {
 // CHECK:STDOUT:   %T.loc27_16.1: %A.type.ab6 = symbolic_binding T, 0 [symbolic = %T.loc27_16.1 (constants.%T.2bc)]

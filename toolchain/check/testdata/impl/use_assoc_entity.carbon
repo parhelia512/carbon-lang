@@ -3505,7 +3505,7 @@ fn F() {
 // CHECK:STDOUT:   return <error>
 // CHECK:STDOUT: }
 // CHECK:STDOUT:
-// CHECK:STDOUT: fn @DestroyOp(%self.param: %struct_type.x) = "no_op";
+// CHECK:STDOUT: fn @DestroyOp(%self.param: ref %struct_type.x) = "no_op";
 // CHECK:STDOUT:
 // CHECK:STDOUT: specific @V(constants.%Self.44d) {}
 // CHECK:STDOUT:
@@ -4417,7 +4417,7 @@ fn F() {
 // CHECK:STDOUT:   return
 // CHECK:STDOUT: }
 // CHECK:STDOUT:
-// CHECK:STDOUT: fn @DestroyOp(%self.param: %C.302) = "no_op";
+// CHECK:STDOUT: fn @DestroyOp(%self.param: ref %C.302) = "no_op";
 // CHECK:STDOUT:
 // CHECK:STDOUT: specific @X(constants.%Self.c59) {}
 // CHECK:STDOUT:
