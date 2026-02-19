@@ -15,14 +15,14 @@
 fn SameScope() -> i32 {
   if (true) {
     returned var v: i32 = 0;
-    // CHECK:STDERR: fail_returned_var_shadow.carbon:[[@LINE+7]]:18: error: cannot declare a `returned var` in the scope of another `returned var` [ReturnedVarShadowed]
-    // CHECK:STDERR:     returned var w: i32 = 1;
-    // CHECK:STDERR:                  ^
+    // CHECK:STDERR: fail_returned_var_shadow.carbon:[[@LINE+7]]:25: error: cannot declare a `returned var` in the scope of another `returned var` [ReturnedVarShadowed]
+    // CHECK:STDERR:     returned var unused w: i32 = 1;
+    // CHECK:STDERR:                         ^
     // CHECK:STDERR: fail_returned_var_shadow.carbon:[[@LINE-4]]:18: note: `returned var` was declared here [ReturnedVarHere]
     // CHECK:STDERR:     returned var v: i32 = 0;
     // CHECK:STDERR:                  ^
     // CHECK:STDERR:
-    returned var w: i32 = 1;
+    returned var unused w: i32 = 1;
   }
   return 0;
 }
@@ -31,14 +31,14 @@ fn DifferentScopes() -> i32 {
   if (true) {
     returned var v: i32 = 0;
     if (true) {
-      // CHECK:STDERR: fail_returned_var_shadow.carbon:[[@LINE+7]]:20: error: cannot declare a `returned var` in the scope of another `returned var` [ReturnedVarShadowed]
-      // CHECK:STDERR:       returned var w: i32 = 1;
-      // CHECK:STDERR:                    ^
+      // CHECK:STDERR: fail_returned_var_shadow.carbon:[[@LINE+7]]:27: error: cannot declare a `returned var` in the scope of another `returned var` [ReturnedVarShadowed]
+      // CHECK:STDERR:       returned var unused w: i32 = 1;
+      // CHECK:STDERR:                           ^
       // CHECK:STDERR: fail_returned_var_shadow.carbon:[[@LINE-5]]:18: note: `returned var` was declared here [ReturnedVarHere]
       // CHECK:STDERR:     returned var v: i32 = 0;
       // CHECK:STDERR:                  ^
       // CHECK:STDERR:
-      returned var w: i32 = 1;
+      returned var unused w: i32 = 1;
     }
   }
   return 0;
@@ -166,7 +166,7 @@ fn DifferentScopes() -> i32 {
 // CHECK:STDOUT:   %Core.IntLiteral.as.ImplicitAs.impl.Convert.call.loc25: init %i32 = call %bound_method.loc25_14.2(%int_1) [concrete = constants.%int_1.5d2]
 // CHECK:STDOUT:   %.loc25_14: init %i32 = converted %int_1, %Core.IntLiteral.as.ImplicitAs.impl.Convert.call.loc25 [concrete = constants.%int_1.5d2]
 // CHECK:STDOUT:   assign %w.var, %.loc25_14
-// CHECK:STDOUT:   %.loc25_21: type = splice_block %i32.loc25 [concrete = constants.%i32] {
+// CHECK:STDOUT:   %.loc25_28: type = splice_block %i32.loc25 [concrete = constants.%i32] {
 // CHECK:STDOUT:     %int_32.loc25: Core.IntLiteral = int_value 32 [concrete = constants.%int_32]
 // CHECK:STDOUT:     %i32.loc25: type = class_type @Int, @Int(constants.%int_32) [concrete = constants.%i32]
 // CHECK:STDOUT:   }
@@ -231,7 +231,7 @@ fn DifferentScopes() -> i32 {
 // CHECK:STDOUT:   %Core.IntLiteral.as.ImplicitAs.impl.Convert.call.loc41: init %i32 = call %bound_method.loc41_16.2(%int_1) [concrete = constants.%int_1.5d2]
 // CHECK:STDOUT:   %.loc41_16: init %i32 = converted %int_1, %Core.IntLiteral.as.ImplicitAs.impl.Convert.call.loc41 [concrete = constants.%int_1.5d2]
 // CHECK:STDOUT:   assign %w.var, %.loc41_16
-// CHECK:STDOUT:   %.loc41_23: type = splice_block %i32.loc41 [concrete = constants.%i32] {
+// CHECK:STDOUT:   %.loc41_30: type = splice_block %i32.loc41 [concrete = constants.%i32] {
 // CHECK:STDOUT:     %int_32.loc41: Core.IntLiteral = int_value 32 [concrete = constants.%int_32]
 // CHECK:STDOUT:     %i32.loc41: type = class_type @Int, @Int(constants.%int_32) [concrete = constants.%i32]
 // CHECK:STDOUT:   }

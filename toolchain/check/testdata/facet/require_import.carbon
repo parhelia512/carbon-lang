@@ -29,7 +29,7 @@ constraint X {
 //@include-in-dumps
 impl library "[[@TEST_NAME]]";
 
-fn F(A:! X, B:! Y) {
+fn F(A:! X, unused B:! Y) {
   A.F();
 }
 
@@ -141,11 +141,11 @@ fn F(B:! Y) {
 // CHECK:STDOUT:       %X.ref: type = name_ref X, imports.%Main.X [concrete = constants.%X.type]
 // CHECK:STDOUT:     }
 // CHECK:STDOUT:     %A.loc4_6.2: %X.type = symbolic_binding A, 0 [symbolic = %A.loc4_6.1 (constants.%A)]
-// CHECK:STDOUT:     %.loc4_17: type = splice_block %Y.ref [concrete = constants.%Y.type] {
+// CHECK:STDOUT:     %.loc4_24: type = splice_block %Y.ref [concrete = constants.%Y.type] {
 // CHECK:STDOUT:       %.Self.1: %type = symbolic_binding .Self [symbolic_self = constants.%.Self]
 // CHECK:STDOUT:       %Y.ref: type = name_ref Y, imports.%Main.Y [concrete = constants.%Y.type]
 // CHECK:STDOUT:     }
-// CHECK:STDOUT:     %B.loc4_13.2: %Y.type = symbolic_binding B, 1 [symbolic = %B.loc4_13.1 (constants.%B)]
+// CHECK:STDOUT:     %B.loc4_20.2: %Y.type = symbolic_binding B, 1 [symbolic = %B.loc4_20.1 (constants.%B)]
 // CHECK:STDOUT:   }
 // CHECK:STDOUT: }
 // CHECK:STDOUT:
@@ -206,9 +206,9 @@ fn F(B:! Y) {
 // CHECK:STDOUT:   fn;
 // CHECK:STDOUT: }
 // CHECK:STDOUT:
-// CHECK:STDOUT: generic fn @F(%A.loc4_6.2: %X.type, %B.loc4_13.2: %Y.type) {
+// CHECK:STDOUT: generic fn @F(%A.loc4_6.2: %X.type, %B.loc4_20.2: %Y.type) {
 // CHECK:STDOUT:   %A.loc4_6.1: %X.type = symbolic_binding A, 0 [symbolic = %A.loc4_6.1 (constants.%A)]
-// CHECK:STDOUT:   %B.loc4_13.1: %Y.type = symbolic_binding B, 1 [symbolic = %B.loc4_13.1 (constants.%B)]
+// CHECK:STDOUT:   %B.loc4_20.1: %Y.type = symbolic_binding B, 1 [symbolic = %B.loc4_20.1 (constants.%B)]
 // CHECK:STDOUT:
 // CHECK:STDOUT: !definition:
 // CHECK:STDOUT:   %A.binding.as_type: type = symbolic_binding_type A, 0, %A.loc4_6.1 [symbolic = %A.binding.as_type (constants.%A.binding.as_type)]
@@ -285,7 +285,7 @@ fn F(B:! Y) {
 // CHECK:STDOUT:
 // CHECK:STDOUT: specific @F(constants.%A, constants.%B) {
 // CHECK:STDOUT:   %A.loc4_6.1 => constants.%A
-// CHECK:STDOUT:   %B.loc4_13.1 => constants.%B
+// CHECK:STDOUT:   %B.loc4_20.1 => constants.%B
 // CHECK:STDOUT: }
 // CHECK:STDOUT:
 // CHECK:STDOUT: specific @X(constants.%A) {

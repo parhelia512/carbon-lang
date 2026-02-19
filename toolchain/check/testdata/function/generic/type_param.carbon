@@ -14,7 +14,7 @@
 
 fn F(T:! type) {
   var p: T*;
-  let n: T = *p;
+  let unused n: T = *p;
 }
 
 // CHECK:STDOUT: --- type_param.carbon
@@ -96,11 +96,11 @@ fn F(T:! type) {
 // CHECK:STDOUT:       %n.patt: @F.%pattern_type.loc17 (%pattern_type.51d) = value_binding_pattern n [concrete]
 // CHECK:STDOUT:     }
 // CHECK:STDOUT:     %p.ref: ref @F.%ptr.loc16_11.2 (%ptr) = name_ref p, %p
-// CHECK:STDOUT:     %.loc17_15: @F.%ptr.loc16_11.2 (%ptr) = acquire_value %p.ref
-// CHECK:STDOUT:     %.loc17_14.1: ref @F.%T.loc15_6.1 (%T) = deref %.loc17_15
+// CHECK:STDOUT:     %.loc17_22: @F.%ptr.loc16_11.2 (%ptr) = acquire_value %p.ref
+// CHECK:STDOUT:     %.loc17_21.1: ref @F.%T.loc15_6.1 (%T) = deref %.loc17_22
 // CHECK:STDOUT:     %T.ref.loc17: type = name_ref T, %T.loc15_6.2 [symbolic = %T.loc15_6.1 (constants.%T)]
-// CHECK:STDOUT:     %.loc17_14.2: @F.%T.loc15_6.1 (%T) = acquire_value %.loc17_14.1
-// CHECK:STDOUT:     %n: @F.%T.loc15_6.1 (%T) = value_binding n, %.loc17_14.2
+// CHECK:STDOUT:     %.loc17_21.2: @F.%T.loc15_6.1 (%T) = acquire_value %.loc17_21.1
+// CHECK:STDOUT:     %n: @F.%T.loc15_6.1 (%T) = value_binding n, %.loc17_21.2
 // CHECK:STDOUT:     %impl.elem0.loc16_3.1: @F.%.loc16_3 (%.c3f) = impl_witness_access constants.%Destroy.lookup_impl_witness, element0 [symbolic = %impl.elem0.loc16_3.2 (constants.%impl.elem0)]
 // CHECK:STDOUT:     %bound_method.loc16_3.1: <bound method> = bound_method %p.var, %impl.elem0.loc16_3.1
 // CHECK:STDOUT:     %specific_impl_fn.loc16_3.1: <specific function> = specific_impl_function %impl.elem0.loc16_3.1, @Destroy.WithSelf.Op(constants.%Destroy.facet) [symbolic = %specific_impl_fn.loc16_3.2 (constants.%specific_impl_fn)]
