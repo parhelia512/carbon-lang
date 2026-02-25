@@ -82,12 +82,12 @@ var test_i1: i1;
 // CHECK:STDERR:               ^~~
 // CHECK:STDERR:
 var test_i15: i15;
-// CHECK:STDERR: min_prelude/parts/int.carbon:11:9: error: integer type width of 1000000000 is greater than the maximum supported width of 8388608 [IntWidthTooLarge]
-// CHECK:STDERR:   adapt MakeInt(N);
-// CHECK:STDERR:         ^~~~~~~~~~
-// CHECK:STDERR: fail_iN_bad_width.carbon:[[@LINE+4]]:23: note: in `i1000000000` used here [ResolvingSpecificHere]
+// CHECK:STDERR: fail_iN_bad_width.carbon:[[@LINE+7]]:23: error: binding pattern has incomplete type `i1000000000` in name binding declaration [IncompleteTypeInBindingDecl]
 // CHECK:STDERR: var test_i1000000000: i1000000000;
 // CHECK:STDERR:                       ^~~~~~~~~~~
+// CHECK:STDERR: min_prelude/parts/int.carbon:11:9: note: integer type width of 1000000000 is greater than the maximum supported width of 8388608 [IntWidthTooLarge]
+// CHECK:STDERR:   adapt MakeInt(N);
+// CHECK:STDERR:         ^~~~~~~~~~
 // CHECK:STDERR:
 var test_i1000000000: i1000000000;
 // TODO: This diagnostic is not very good.
@@ -119,12 +119,12 @@ var test_u1: u1;
 // CHECK:STDERR:               ^~~
 // CHECK:STDERR:
 var test_u15: u15;
-// CHECK:STDERR: min_prelude/parts/uint.carbon:11:9: error: integer type width of 1000000000 is greater than the maximum supported width of 8388608 [IntWidthTooLarge]
-// CHECK:STDERR:   adapt MakeUInt(N);
-// CHECK:STDERR:         ^~~~~~~~~~~
-// CHECK:STDERR: fail_uN_bad_width.carbon:[[@LINE+4]]:23: note: in `u1000000000` used here [ResolvingSpecificHere]
+// CHECK:STDERR: fail_uN_bad_width.carbon:[[@LINE+7]]:23: error: binding pattern has incomplete type `u1000000000` in name binding declaration [IncompleteTypeInBindingDecl]
 // CHECK:STDERR: var test_u1000000000: u1000000000;
 // CHECK:STDERR:                       ^~~~~~~~~~~
+// CHECK:STDERR: min_prelude/parts/uint.carbon:11:9: note: integer type width of 1000000000 is greater than the maximum supported width of 8388608 [IntWidthTooLarge]
+// CHECK:STDERR:   adapt MakeUInt(N);
+// CHECK:STDERR:         ^~~~~~~~~~~
 // CHECK:STDERR:
 var test_u1000000000: u1000000000;
 // TODO: This diagnostic is not very good.
@@ -146,53 +146,53 @@ library "[[@TEST_NAME]]";
 // CHECK:STDERR:              ^~
 // CHECK:STDERR:
 var test_f0: f0;
-// CHECK:STDERR: min_prelude/parts/float.carbon:12:9: error: unsupported floating-point bit width 1 [CompileTimeFloatBitWidth]
-// CHECK:STDERR:   adapt MakeFloat(N);
-// CHECK:STDERR:         ^~~~~~~~~~~~
-// CHECK:STDERR: fail_fN_bad_width.carbon:[[@LINE+4]]:14: note: in `f1` used here [ResolvingSpecificHere]
+// CHECK:STDERR: fail_fN_bad_width.carbon:[[@LINE+7]]:14: error: binding pattern has incomplete type `f1` in name binding declaration [IncompleteTypeInBindingDecl]
 // CHECK:STDERR: var test_f1: f1;
 // CHECK:STDERR:              ^~
-// CHECK:STDERR:
-var test_f1: f1;
-// CHECK:STDERR: min_prelude/parts/float.carbon:12:9: error: unsupported floating-point bit width 15 [CompileTimeFloatBitWidth]
+// CHECK:STDERR: min_prelude/parts/float.carbon:12:9: note: unsupported floating-point bit width 1 [CompileTimeFloatBitWidth]
 // CHECK:STDERR:   adapt MakeFloat(N);
 // CHECK:STDERR:         ^~~~~~~~~~~~
-// CHECK:STDERR: fail_fN_bad_width.carbon:[[@LINE+4]]:15: note: in `f15` used here [ResolvingSpecificHere]
+// CHECK:STDERR:
+var test_f1: f1;
+// CHECK:STDERR: fail_fN_bad_width.carbon:[[@LINE+7]]:15: error: binding pattern has incomplete type `f15` in name binding declaration [IncompleteTypeInBindingDecl]
 // CHECK:STDERR: var test_f15: f15;
 // CHECK:STDERR:               ^~~
+// CHECK:STDERR: min_prelude/parts/float.carbon:12:9: note: unsupported floating-point bit width 15 [CompileTimeFloatBitWidth]
+// CHECK:STDERR:   adapt MakeFloat(N);
+// CHECK:STDERR:         ^~~~~~~~~~~~
 // CHECK:STDERR:
 var test_f15: f15;
 // TODO: Decide if we want to expose the x87 80-bit floating point type this way.
-// CHECK:STDERR: min_prelude/parts/float.carbon:12:9: error: unsupported floating-point bit width 80 [CompileTimeFloatBitWidth]
-// CHECK:STDERR:   adapt MakeFloat(N);
-// CHECK:STDERR:         ^~~~~~~~~~~~
-// CHECK:STDERR: fail_fN_bad_width.carbon:[[@LINE+4]]:15: note: in `f80` used here [ResolvingSpecificHere]
+// CHECK:STDERR: fail_fN_bad_width.carbon:[[@LINE+7]]:15: error: binding pattern has incomplete type `f80` in name binding declaration [IncompleteTypeInBindingDecl]
 // CHECK:STDERR: var test_f80: f80;
 // CHECK:STDERR:               ^~~
+// CHECK:STDERR: min_prelude/parts/float.carbon:12:9: note: unsupported floating-point bit width 80 [CompileTimeFloatBitWidth]
+// CHECK:STDERR:   adapt MakeFloat(N);
+// CHECK:STDERR:         ^~~~~~~~~~~~
 // CHECK:STDERR:
 var test_f80: f80;
-// CHECK:STDERR: min_prelude/parts/float.carbon:12:9: error: unsupported floating-point bit width 100 [CompileTimeFloatBitWidth]
-// CHECK:STDERR:   adapt MakeFloat(N);
-// CHECK:STDERR:         ^~~~~~~~~~~~
-// CHECK:STDERR: fail_fN_bad_width.carbon:[[@LINE+4]]:16: note: in `f100` used here [ResolvingSpecificHere]
+// CHECK:STDERR: fail_fN_bad_width.carbon:[[@LINE+7]]:16: error: binding pattern has incomplete type `f100` in name binding declaration [IncompleteTypeInBindingDecl]
 // CHECK:STDERR: var test_f100: f100;
 // CHECK:STDERR:                ^~~~
+// CHECK:STDERR: min_prelude/parts/float.carbon:12:9: note: unsupported floating-point bit width 100 [CompileTimeFloatBitWidth]
+// CHECK:STDERR:   adapt MakeFloat(N);
+// CHECK:STDERR:         ^~~~~~~~~~~~
 // CHECK:STDERR:
 var test_f100: f100;
-// CHECK:STDERR: min_prelude/parts/float.carbon:12:9: error: unsupported floating-point bit width 1000000000 [CompileTimeFloatBitWidth]
-// CHECK:STDERR:   adapt MakeFloat(N);
-// CHECK:STDERR:         ^~~~~~~~~~~~
-// CHECK:STDERR: fail_fN_bad_width.carbon:[[@LINE+4]]:23: note: in `f1000000000` used here [ResolvingSpecificHere]
+// CHECK:STDERR: fail_fN_bad_width.carbon:[[@LINE+7]]:23: error: binding pattern has incomplete type `f1000000000` in name binding declaration [IncompleteTypeInBindingDecl]
 // CHECK:STDERR: var test_f1000000000: f1000000000;
 // CHECK:STDERR:                       ^~~~~~~~~~~
-// CHECK:STDERR:
-var test_f1000000000: f1000000000;
-// CHECK:STDERR: min_prelude/parts/float.carbon:12:9: error: unsupported floating-point bit width 1000000000000 [CompileTimeFloatBitWidth]
+// CHECK:STDERR: min_prelude/parts/float.carbon:12:9: note: unsupported floating-point bit width 1000000000 [CompileTimeFloatBitWidth]
 // CHECK:STDERR:   adapt MakeFloat(N);
 // CHECK:STDERR:         ^~~~~~~~~~~~
-// CHECK:STDERR: fail_fN_bad_width.carbon:[[@LINE+4]]:26: note: in `f1000000000000` used here [ResolvingSpecificHere]
+// CHECK:STDERR:
+var test_f1000000000: f1000000000;
+// CHECK:STDERR: fail_fN_bad_width.carbon:[[@LINE+7]]:26: error: binding pattern has incomplete type `f1000000000000` in name binding declaration [IncompleteTypeInBindingDecl]
 // CHECK:STDERR: var test_f1000000000000: f1000000000000;
 // CHECK:STDERR:                          ^~~~~~~~~~~~~~
+// CHECK:STDERR: min_prelude/parts/float.carbon:12:9: note: unsupported floating-point bit width 1000000000000 [CompileTimeFloatBitWidth]
+// CHECK:STDERR:   adapt MakeFloat(N);
+// CHECK:STDERR:         ^~~~~~~~~~~~
 // CHECK:STDERR:
 var test_f1000000000000: f1000000000000;
 
@@ -203,7 +203,7 @@ library "[[@TEST_NAME]]";
 // CHECK:STDERR: fail_non_type_as_type.carbon:[[@LINE+7]]:1: error: cannot implicitly convert non-type value of type `Core.IntLiteral` to `type` [ConversionFailureNonTypeToFacet]
 // CHECK:STDERR: var x: type = 42;
 // CHECK:STDERR: ^~~~~~~~~~~
-// CHECK:STDERR: fail_non_type_as_type.carbon:[[@LINE+4]]:1: note: type `Core.IntLiteral` does not implement interface `Core.ImplicitAs(type)` [MissingImplInMemberAccessNote]
+// CHECK:STDERR: fail_non_type_as_type.carbon:[[@LINE+4]]:1: note: type `Core.IntLiteral` does not implement interface `Core.ImplicitAs(type)` [MissingImplInMemberAccessInContext]
 // CHECK:STDERR: var x: type = 42;
 // CHECK:STDERR: ^~~~~~~~~~~
 // CHECK:STDERR:
@@ -218,7 +218,7 @@ library "[[@TEST_NAME]]";
 // CHECK:STDERR: fail_stringify_type_literals.carbon:[[@LINE+7]]:1: error: cannot implicitly convert expression of type `()` to `i32` [ConversionFailure]
 // CHECK:STDERR: var test_i32: i32 = ();
 // CHECK:STDERR: ^~~~~~~~~~~~~~~~~
-// CHECK:STDERR: fail_stringify_type_literals.carbon:[[@LINE+4]]:1: note: type `()` does not implement interface `Core.ImplicitAs(i32)` [MissingImplInMemberAccessNote]
+// CHECK:STDERR: fail_stringify_type_literals.carbon:[[@LINE+4]]:1: note: type `()` does not implement interface `Core.ImplicitAs(i32)` [MissingImplInMemberAccessInContext]
 // CHECK:STDERR: var test_i32: i32 = ();
 // CHECK:STDERR: ^~~~~~~~~~~~~~~~~
 // CHECK:STDERR:
@@ -227,7 +227,7 @@ var test_i32: i32 = ();
 // CHECK:STDERR: fail_stringify_type_literals.carbon:[[@LINE+7]]:1: error: cannot implicitly convert expression of type `()` to `f32` [ConversionFailure]
 // CHECK:STDERR: var test_f32: f32 = ();
 // CHECK:STDERR: ^~~~~~~~~~~~~~~~~
-// CHECK:STDERR: fail_stringify_type_literals.carbon:[[@LINE+4]]:1: note: type `()` does not implement interface `Core.ImplicitAs(f32)` [MissingImplInMemberAccessNote]
+// CHECK:STDERR: fail_stringify_type_literals.carbon:[[@LINE+4]]:1: note: type `()` does not implement interface `Core.ImplicitAs(f32)` [MissingImplInMemberAccessInContext]
 // CHECK:STDERR: var test_f32: f32 = ();
 // CHECK:STDERR: ^~~~~~~~~~~~~~~~~
 // CHECK:STDERR:
@@ -236,7 +236,7 @@ var test_f32: f32 = ();
 // CHECK:STDERR: fail_stringify_type_literals.carbon:[[@LINE+7]]:1: error: cannot implicitly convert expression of type `()` to `u32` [ConversionFailure]
 // CHECK:STDERR: var test_u32: u32 = ();
 // CHECK:STDERR: ^~~~~~~~~~~~~~~~~
-// CHECK:STDERR: fail_stringify_type_literals.carbon:[[@LINE+4]]:1: note: type `()` does not implement interface `Core.ImplicitAs(u32)` [MissingImplInMemberAccessNote]
+// CHECK:STDERR: fail_stringify_type_literals.carbon:[[@LINE+4]]:1: note: type `()` does not implement interface `Core.ImplicitAs(u32)` [MissingImplInMemberAccessInContext]
 // CHECK:STDERR: var test_u32: u32 = ();
 // CHECK:STDERR: ^~~~~~~~~~~~~~~~~
 // CHECK:STDERR:
@@ -245,7 +245,7 @@ var test_u32: u32 = ();
 // CHECK:STDERR: fail_stringify_type_literals.carbon:[[@LINE+7]]:1: error: cannot implicitly convert expression of type `()` to `bool` [ConversionFailure]
 // CHECK:STDERR: var test_bool: bool = ();
 // CHECK:STDERR: ^~~~~~~~~~~~~~~~~~~
-// CHECK:STDERR: fail_stringify_type_literals.carbon:[[@LINE+4]]:1: note: type `()` does not implement interface `Core.ImplicitAs(bool)` [MissingImplInMemberAccessNote]
+// CHECK:STDERR: fail_stringify_type_literals.carbon:[[@LINE+4]]:1: note: type `()` does not implement interface `Core.ImplicitAs(bool)` [MissingImplInMemberAccessInContext]
 // CHECK:STDERR: var test_bool: bool = ();
 // CHECK:STDERR: ^~~~~~~~~~~~~~~~~~~
 // CHECK:STDERR:
@@ -254,7 +254,7 @@ var test_bool: bool = ();
 // CHECK:STDERR: fail_stringify_type_literals.carbon:[[@LINE+7]]:1: error: cannot implicitly convert expression of type `()` to `char` [ConversionFailure]
 // CHECK:STDERR: var test_char: char = ();
 // CHECK:STDERR: ^~~~~~~~~~~~~~~~~~~
-// CHECK:STDERR: fail_stringify_type_literals.carbon:[[@LINE+4]]:1: note: type `()` does not implement interface `Core.ImplicitAs(char)` [MissingImplInMemberAccessNote]
+// CHECK:STDERR: fail_stringify_type_literals.carbon:[[@LINE+4]]:1: note: type `()` does not implement interface `Core.ImplicitAs(char)` [MissingImplInMemberAccessInContext]
 // CHECK:STDERR: var test_char: char = ();
 // CHECK:STDERR: ^~~~~~~~~~~~~~~~~~~
 // CHECK:STDERR:
@@ -263,7 +263,7 @@ var test_char: char = ();
 // CHECK:STDERR: fail_stringify_type_literals.carbon:[[@LINE+7]]:1: error: cannot implicitly convert expression of type `()` to `str` [ConversionFailure]
 // CHECK:STDERR: var test_str: str = ();
 // CHECK:STDERR: ^~~~~~~~~~~~~~~~~
-// CHECK:STDERR: fail_stringify_type_literals.carbon:[[@LINE+4]]:1: note: type `()` does not implement interface `Core.ImplicitAs(str)` [MissingImplInMemberAccessNote]
+// CHECK:STDERR: fail_stringify_type_literals.carbon:[[@LINE+4]]:1: note: type `()` does not implement interface `Core.ImplicitAs(str)` [MissingImplInMemberAccessInContext]
 // CHECK:STDERR: var test_str: str = ();
 // CHECK:STDERR: ^~~~~~~~~~~~~~~~~
 // CHECK:STDERR:
