@@ -61,30 +61,38 @@ Formatter::Formatter(
       get_tree_and_subtrees_(get_tree_and_subtrees),
       include_ir_in_dumps_(include_ir_in_dumps),
       use_dump_sem_ir_ranges_(use_dump_sem_ir_ranges),
-      // Create a placeholder visible chunk and assign it to all instructions
-      // that don't have a chunk of their own.
-      tentative_inst_chunks_(
-          sem_ir_->insts(),
-          chunks_.AddChunkNoFlush(/*include_in_output=*/true)) {
+      tentative_inst_chunks_(sem_ir_->insts(), FormatterChunks::None) {
   if (use_dump_sem_ir_ranges_) {
     ComputeNodeParents();
   }
 
+  // Reserve space for parents. There will be more content, but we don't try to
+  // guess how much.
+  size_t reserve_chunks = scope_label_chunks_.size();
+  for (auto [_, insts] : GetTentativeScopes(*sem_ir_)) {
+    reserve_chunks += insts.size();
+  }
+  chunks_.Reserve(reserve_chunks);
+
+  // Create parent chunks for scopes.
   for (auto& chunk : scope_label_chunks_) {
-    chunk = chunks_.AddChunkNoFlush(/*include_in_output=*/false);
+    chunk = chunks_.AddParent();
   }
 
-  // Create empty placeholder chunks for instructions that we output lazily.
+  // Create parent chunks for the tentative instructions.
   for (auto [scope_id, insts] : GetTentativeScopes(*sem_ir_)) {
     auto scope_chunk = scope_label_chunks_[static_cast<size_t>(scope_id)];
     for (auto inst_id : insts) {
-      tentative_inst_chunks_.Set(
-          inst_id, chunks_.AddTentativeChunkWithChild(scope_chunk));
+      // Instructions are "parents" of their scopes because if any instruction
+      // is printed, the label is also printed.
+      tentative_inst_chunks_.Set(inst_id, chunks_.AddParent(scope_chunk));
     }
   }
 
-  // Create a real chunk for the start of the output.
-  chunks_.AddChunkNoFlush(/*include_in_output=*/true);
+  CARBON_CHECK(chunks_.size() == reserve_chunks);
+
+  // Prepare to add content.
+  chunks_.StartContent();
 }
 
 auto Formatter::Format() -> void {
@@ -282,7 +290,7 @@ auto Formatter::FormatTopLevelScope(InstNamer::ScopeId scope_id,
   llvm::SaveAndRestore scope(scope_, scope_id);
   auto scope_chunk = scope_label_chunks_[static_cast<size_t>(scope_id)];
 
-  chunks_.FormatTentativeChunkWithParent(scope_chunk, [&] {
+  chunks_.FormatChildContent(scope_chunk, [&] {
     // Note, we don't use OpenBrace() / CloseBrace() here because we always want
     // a newline to avoid misformatting if the first instruction is omitted.
     out() << "\n" << inst_namer_.GetScopeName(scope_id) << " {\n";
@@ -301,17 +309,17 @@ auto Formatter::FormatTopLevelScope(InstNamer::ScopeId scope_id,
 
       FormatInst(inst_id);
       // Include the `file` scope label directly here.
-      chunks_.IncludeChunkInOutput(scope_chunk);
+      chunks_.AppendChildToCurrentParent(scope_chunk);
     } else {
       // Other scopes format each instruction in its own chunk, to support
       // tentative formatting.
-      chunks_.FormatTentativeChunkWithParent(
-          tentative_inst_chunks_.Get(inst_id), [&] { FormatInst(inst_id); });
+      chunks_.FormatChildContent(tentative_inst_chunks_.Get(inst_id),
+                                 [&] { FormatInst(inst_id); });
     }
   }
   indent_ -= 2;
 
-  chunks_.FormatTentativeChunkWithParent(scope_chunk, [&] { out() << "}\n"; });
+  chunks_.FormatChildContent(scope_chunk, [&] { out() << "}\n"; });
 }
 
 auto Formatter::FormatClass(ClassId id, const Class& class_info) -> void {
@@ -1562,7 +1570,10 @@ auto Formatter::FormatName(NameId id) -> void {
 
 auto Formatter::FormatName(InstId id) -> void {
   if (id.has_value()) {
-    chunks_.IncludeChunkInOutput(tentative_inst_chunks_.Get(id));
+    if (auto chunk = tentative_inst_chunks_.Get(id);
+        chunk != FormatterChunks::None) {
+      chunks_.AppendChildToCurrentParent(chunk);
+    }
   }
   out() << inst_namer_.GetNameFor(scope_, id);
 }
