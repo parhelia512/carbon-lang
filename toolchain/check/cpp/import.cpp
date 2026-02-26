@@ -1252,9 +1252,7 @@ static auto GetReturnTypeExpr(Context& context, SemIR::LocId loc_id,
     if (!orig_type_inst_id.has_value()) {
       context.TODO(loc_id, llvm::formatv("Unsupported: return type: {0}",
                                          orig_ret_type.getAsString()));
-      return {.form_inst_id = SemIR::ErrorInst::InstId,
-              .type_component_inst_id = SemIR::ErrorInst::TypeInstId,
-              .type_component_id = SemIR::ErrorInst::TypeId};
+      return Context::FormExpr::Error;
     }
     Context::FormExpr result = {
         .form_inst_id = is_reference ? make_ref_form(orig_type_inst_id)
@@ -1708,10 +1706,10 @@ static auto ImportVarDecl(Context& context, SemIR::LocId loc_id,
   SemIR::NameId var_name_id = AddIdentifierName(context, var_decl->getName());
 
   // Create an entity name to identify this variable.
-  SemIR::EntityNameId entity_name_id =
-      context.entity_names().AddSymbolicBindingName(
-          var_name_id, GetParentNameScopeId(context, var_decl),
-          SemIR::CompileTimeBindIndex::None, false, /*is_unused=*/false);
+  SemIR::EntityNameId entity_name_id = context.entity_names().Add(
+      {.name_id = var_name_id,
+       .parent_scope_id = GetParentNameScopeId(context, var_decl),
+       .is_unused = false});
 
   // Create `RefBindingPattern` and `VarPattern`. Mirror the behavior of
   // import_ref and don't create a `NameBindingDecl` here; we'd never use it for
