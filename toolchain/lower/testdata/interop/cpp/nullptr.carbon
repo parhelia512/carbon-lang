@@ -96,7 +96,7 @@ fn ConvertNullptrConstant() -> Core.Optional(i32*) {
 // CHECK:STDOUT:   ret void, !dbg !24
 // CHECK:STDOUT: }
 // CHECK:STDOUT:
-// CHECK:STDOUT: declare void @"_COp.7c9703d73655494a:core.Destroy.Core"(ptr)
+// CHECK:STDOUT: declare void @"_COp.6f07019e2bbdfcc4:core.Destroy.Core"(ptr)
 // CHECK:STDOUT:
 // CHECK:STDOUT: declare void @_Z7TakePtrPi(ptr noundef) #1
 // CHECK:STDOUT:
