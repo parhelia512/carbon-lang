@@ -282,10 +282,13 @@ auto GetCoreInterface(Context& context, SemIR::InterfaceId interface_id)
     return CoreInterface::Unknown;
   }
 
-  for (auto [core_identifier, core_interface] :
-       {std::pair{CoreIdentifier::Copy, CoreInterface::Copy},
-        std::pair{CoreIdentifier::Destroy, CoreInterface::Destroy},
-        std::pair{CoreIdentifier::IntFitsIn, CoreInterface::IntFitsIn}}) {
+  constexpr auto CoreIdentifiersToInterfaces = std::array{
+      std::pair{CoreIdentifier::Copy, CoreInterface::Copy},
+      std::pair{CoreIdentifier::Destroy, CoreInterface::Destroy},
+      std::pair{CoreIdentifier::IntFitsIn, CoreInterface::IntFitsIn},
+      std::pair{CoreIdentifier::CppUnsafeDeref, CoreInterface::CppUnsafeDeref}};
+
+  for (auto [core_identifier, core_interface] : CoreIdentifiersToInterfaces) {
     if (interface.name_id ==
         context.core_identifiers().AddNameId(core_identifier)) {
       return core_interface;
@@ -462,6 +465,7 @@ auto LookupCustomWitness(Context& context, SemIR::LocId loc_id,
     case CoreInterface::IntFitsIn:
       return MakeIntFitsInWitness(context, loc_id, query_self_const_id,
                                   query_specific_interface_id);
+    case CoreInterface::CppUnsafeDeref:
     case CoreInterface::Copy:
     case CoreInterface::Unknown:
       // TODO: Handle more interfaces, particularly copy, move, and conversion.
