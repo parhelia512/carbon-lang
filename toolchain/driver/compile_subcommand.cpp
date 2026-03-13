@@ -24,6 +24,7 @@
 #include "toolchain/check/check.h"
 #include "toolchain/codegen/codegen.h"
 #include "toolchain/diagnostics/emitter.h"
+#include "toolchain/diagnostics/format_providers.h"
 #include "toolchain/diagnostics/sorting_consumer.h"
 #include "toolchain/lex/lex.h"
 #include "toolchain/lower/lower.h"
@@ -358,6 +359,17 @@ Whether to emit DWARF debug information.
         arg_b.Default(true);
         arg_b.Set(&include_debug_info);
       });
+  b.AddFlag(
+      {
+          .name = "output-last-input-only",
+          .help = R"""(
+Only write output for the last input file, ignoring all others.
+
+TODO: This is a temporary workaround and should be removed once separate
+compilation is better implemented.
+)""",
+      },
+      [&](auto& arg_b) { arg_b.Set(&output_last_input_only); });
   b.AddFlag(
       {
           .name = "verify-llvm-ir",
@@ -1028,11 +1040,8 @@ auto CompilationUnit::RunCodeGenHelper() -> bool {
       llvm::sys::path::replace_extension(output_filename,
                                          options_->asm_output ? ".s" : ".o");
     } else {
-      // TODO: Handle the case where multiple input files were specified
-      // along with an output file name. That should either be an error or
-      // should produce a single LLVM IR module containing all inputs.
-      // Currently each unit overwrites the output from the previous one in
-      // this case.
+      CARBON_CHECK(total_ir_count_ == 1 || options_->output_last_input_only,
+                   "Handled by CompileMultipleInputsWithOutput diagnostic");
     }
     CARBON_VLOG("Writing output to: {0}\n", output_filename);
 
@@ -1156,9 +1165,21 @@ auto CompileSubcommand::Run(DriverEnv& driver_env) -> DriverResult {
     }
   }
 
+  int total_unit_count = prelude.size() + options_.input_filenames.size();
+  if (!options_.output_last_input_only && total_unit_count > 1 &&
+      !options_.output_filename.empty() && options_.output_filename != "-") {
+    CARBON_DIAGNOSTIC(
+        CompileMultipleInputsWithOutput, Error,
+        "writing {0} input file{0:s} to the same `--output` file would "
+        "overwrite the output file; for now, pass `--output-last-input-only` "
+        "if intended",
+        Diagnostics::IntAsSelect);
+    driver_env.emitter.Emit(CompileMultipleInputsWithOutput, total_unit_count);
+    return {.success = false};
+  }
+
   // Prepare CompilationUnits before building scope exit handlers.
   llvm::SmallVector<std::unique_ptr<CompilationUnit>> units;
-  int total_unit_count = prelude.size() + options_.input_filenames.size();
   int unit_index = -1;
   auto unit_builder = [&](llvm::StringRef filename) {
     ++unit_index;
@@ -1310,8 +1331,12 @@ auto CompileSubcommand::Run(DriverEnv& driver_env) -> DriverResult {
                "CodeGen should be the last stage");
 
   // Codegen.
-  for (auto& unit : units) {
-    unit->RunCodeGen();
+  if (options_.output_last_input_only) {
+    units.back()->RunCodeGen();
+  } else {
+    for (const auto& unit : units) {
+      unit->RunCodeGen();
+    }
   }
   return make_result();
 }
