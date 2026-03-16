@@ -868,7 +868,20 @@ fn F() {
   //@dump-sem-ir-end
 }
 
-// --- fail_todo_assign_through_pointer.carbon
+// --- assign_pointer.carbon
+library "[[@TEST_NAME]]";
+
+import Cpp inline '''
+int *p;
+#define q p
+''';
+
+var n: i32;
+fn F() {
+  Cpp.q = &n;
+}
+
+// --- assign_through_pointer.carbon
 library "[[@TEST_NAME]]";
 
 import Cpp inline '''
@@ -877,18 +890,7 @@ int v = 1;
 ''';
 
 fn F() {
-  // CHECK:STDERR: fail_todo_assign_through_pointer.carbon:[[@LINE+11]]:5: error: semantics TODO: `Unsupported: macro evaluated to a constant of type: int *` [SemanticsTodo]
-  // CHECK:STDERR:   (*Cpp.m) = 2;
-  // CHECK:STDERR:     ^~~~~
-  // CHECK:STDERR: fail_todo_assign_through_pointer.carbon:[[@LINE+8]]:5: note: in `Cpp` name lookup for `m` [InCppNameLookup]
-  // CHECK:STDERR:   (*Cpp.m) = 2;
-  // CHECK:STDERR:     ^~~~~
-  // CHECK:STDERR:
-  // CHECK:STDERR: fail_todo_assign_through_pointer.carbon:[[@LINE+4]]:5: error: member name `m` not found in `Cpp` [MemberNameNotFoundInInstScope]
-  // CHECK:STDERR:   (*Cpp.m) = 2;
-  // CHECK:STDERR:     ^~~~~
-  // CHECK:STDERR:
-  (*Cpp.m) = 2;
+  *Cpp.m.Get() = 2;
 }
 
 // --- assign_subobject.carbon
@@ -932,7 +934,7 @@ fn F() {
   // CHECK:STDERR:   Cpp.m = 2;
   // CHECK:STDERR:   ^~~~~
   // CHECK:STDERR:
-  // CHECK:STDERR: fail_todo_assign_array.carbon:[[@LINE+11]]:3: error: semantics TODO: `Unsupported field in macro expansion: &s.arr[1]` [SemanticsTodo]
+  // CHECK:STDERR: fail_todo_assign_array.carbon:[[@LINE+11]]:3: error: semantics TODO: `unsupported field in lvalue path: &s.arr[1]` [SemanticsTodo]
   // CHECK:STDERR:   Cpp.m = 2;
   // CHECK:STDERR:   ^~~~~
   // CHECK:STDERR: fail_todo_assign_array.carbon:[[@LINE+8]]:3: note: in `Cpp` name lookup for `m` [InCppNameLookup]
@@ -959,7 +961,7 @@ struct B : A {} b;
 ''';
 
 fn F() {
-  // CHECK:STDERR: fail_todo_assign_base_class_member.carbon:[[@LINE+11]]:3: error: semantics TODO: `Macro expanded to a base class subobject` [SemanticsTodo]
+  // CHECK:STDERR: fail_todo_assign_base_class_member.carbon:[[@LINE+11]]:3: error: semantics TODO: `lvalue path contains a base class subobject` [SemanticsTodo]
   // CHECK:STDERR:   Cpp.m = 2;
   // CHECK:STDERR:   ^~~~~
   // CHECK:STDERR: fail_todo_assign_base_class_member.carbon:[[@LINE+8]]:3: note: in `Cpp` name lookup for `m` [InCppNameLookup]
@@ -2073,12 +2075,12 @@ fn F() {
 // CHECK:STDOUT: --- assign_subobject.carbon
 // CHECK:STDOUT:
 // CHECK:STDOUT: constants {
+// CHECK:STDOUT:   %int_32: Core.IntLiteral = int_value 32 [concrete]
+// CHECK:STDOUT:   %i32: type = class_type @Int, @Int(%int_32) [concrete]
 // CHECK:STDOUT:   %A: type = class_type @A [concrete]
 // CHECK:STDOUT:   %pattern_type.9de: type = pattern_type %A [concrete]
 // CHECK:STDOUT:   %B: type = class_type @B [concrete]
 // CHECK:STDOUT:   %A.elem: type = unbound_element_type %A, %B [concrete]
-// CHECK:STDOUT:   %int_32: Core.IntLiteral = int_value 32 [concrete]
-// CHECK:STDOUT:   %i32: type = class_type @Int, @Int(%int_32) [concrete]
 // CHECK:STDOUT:   %B.elem: type = unbound_element_type %B, %i32 [concrete]
 // CHECK:STDOUT:   %.1b7: ref %B = class_element_access imports.%a.var, element0 [concrete]
 // CHECK:STDOUT:   %.59e: ref %i32 = class_element_access %.1b7, element0 [concrete]
@@ -2101,7 +2103,7 @@ fn F() {
 // CHECK:STDOUT:
 // CHECK:STDOUT: imports {
 // CHECK:STDOUT:   %Cpp: <namespace> = namespace file.%Cpp.import_cpp, [concrete] {
-// CHECK:STDOUT:     .m = @F.%.loc17_6.2
+// CHECK:STDOUT:     .m = constants.%.59e
 // CHECK:STDOUT:     import Cpp//...
 // CHECK:STDOUT:   }
 // CHECK:STDOUT:   %a.patt: %pattern_type.9de = ref_binding_pattern a [concrete]
@@ -2114,11 +2116,12 @@ fn F() {
 // CHECK:STDOUT: fn @F() {
 // CHECK:STDOUT: !entry:
 // CHECK:STDOUT:   %Cpp.ref: <namespace> = name_ref Cpp, imports.%Cpp [concrete = imports.%Cpp]
+// CHECK:STDOUT:   <elided>
 // CHECK:STDOUT:   %b.ref: %A.elem = name_ref b, @A.%.1 [concrete = @A.%.1]
 // CHECK:STDOUT:   %.loc17_6.1: ref %B = class_element_access imports.%a.var, element0 [concrete = constants.%.1b7]
 // CHECK:STDOUT:   %c.ref: %B.elem = name_ref c, @B.%.1 [concrete = @B.%.1]
 // CHECK:STDOUT:   %.loc17_6.2: ref %i32 = class_element_access %.loc17_6.1, element0 [concrete = constants.%.59e]
-// CHECK:STDOUT:   %m.ref: ref %i32 = name_ref m, %.loc17_6.2 [concrete = constants.%.59e]
+// CHECK:STDOUT:   %m.ref: ref %i32 = name_ref m, constants.%.59e [concrete = constants.%.59e]
 // CHECK:STDOUT:   %int_2: Core.IntLiteral = int_value 2 [concrete = constants.%int_2.ecc]
 // CHECK:STDOUT:   %impl.elem0: %.545 = impl_witness_access constants.%ImplicitAs.impl_witness.6bc, element0 [concrete = constants.%Core.IntLiteral.as.ImplicitAs.impl.Convert.0b5]
 // CHECK:STDOUT:   %bound_method.loc17_9.1: <bound method> = bound_method %int_2, %impl.elem0 [concrete = constants.%Core.IntLiteral.as.ImplicitAs.impl.Convert.bound]
