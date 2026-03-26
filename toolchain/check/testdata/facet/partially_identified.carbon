@@ -21,7 +21,7 @@ constraint W {
   // CHECK:STDERR:                        ^~~~~~~~~~~~
   // CHECK:STDERR: fail_self_doesnt_meet_constraint.carbon:[[@LINE-5]]:18: note: initializing generic parameter `T` declared here [InitializingGenericParam]
   // CHECK:STDERR: interface NeedsY(T:! Y) {}
-  // CHECK:STDERR:                  ^
+  // CHECK:STDERR:                  ^~~~~
   // CHECK:STDERR:
   extend require impls NeedsY(Self);
 }
@@ -105,7 +105,7 @@ constraint W {
   // CHECK:STDERR:                 ^~~~~~~~~~~~~~~
   // CHECK:STDERR: fail_todo_facet_access_type_of_self_meets_constraint.carbon:[[@LINE-6]]:18: note: initializing generic parameter `T` declared here [InitializingGenericParam]
   // CHECK:STDERR: interface NeedsY(T:! Y) {}
-  // CHECK:STDERR:                  ^
+  // CHECK:STDERR:                  ^~~~~
   // CHECK:STDERR:
   require impls NeedsY(C(Self));
 }
@@ -124,7 +124,7 @@ fn F(w:! W) {
   // CHECK:STDERR:           ^~~~~~~~~~~~
   // CHECK:STDERR: fail_todo_facet_access_type_of_self_meets_constraint.carbon:[[@LINE-25]]:18: note: initializing generic parameter `T` declared here [InitializingGenericParam]
   // CHECK:STDERR: interface NeedsY(T:! Y) {}
-  // CHECK:STDERR:                  ^
+  // CHECK:STDERR:                  ^~~~~
   // CHECK:STDERR:
   C(w) as NeedsY(C(w));
 }

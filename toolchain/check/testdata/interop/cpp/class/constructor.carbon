@@ -85,7 +85,7 @@ fn CallG() {
   // CHECK:STDERR:   ^~~~~~~~~~~~~~~~
   // CHECK:STDERR: fail_no_default.carbon:[[@LINE-8]]:6: note: initializing generic parameter `T` declared here [InitializingGenericParam]
   // CHECK:STDERR: fn G(T:! Core.Default & Core.Destroy) {
-  // CHECK:STDERR:      ^
+  // CHECK:STDERR:      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // CHECK:STDERR:
   G(Cpp.NoDefault);
 }

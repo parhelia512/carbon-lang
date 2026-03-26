@@ -99,7 +99,7 @@ fn G(U:! Different) -> U.(Interface.T);
 // CHECK:STDOUT:   %G.decl: %G.type = fn_decl @G [concrete = constants.%G] {
 // CHECK:STDOUT:     %U.patt: %pattern_type.cb4 = symbolic_binding_pattern U, 0 [concrete]
 // CHECK:STDOUT:   } {
-// CHECK:STDOUT:     %U.ref: %Different.type = name_ref U, %U.loc32_6.2 [symbolic = %U.loc32_6.1 (constants.%U)]
+// CHECK:STDOUT:     %U.ref: %Different.type = name_ref U, %U.loc32_7.2 [symbolic = %U.loc32_7.1 (constants.%U)]
 // CHECK:STDOUT:     %Interface.ref: type = name_ref Interface, file.%Interface.decl [concrete = constants.%Interface.type]
 // CHECK:STDOUT:     %T.ref: %Interface.assoc_type = name_ref T, @T.%assoc1 [concrete = constants.%assoc1]
 // CHECK:STDOUT:     %U.as_type: type = facet_access_type %U.ref [symbolic = %U.binding.as_type (constants.%U.binding.as_type)]
@@ -107,7 +107,7 @@ fn G(U:! Different) -> U.(Interface.T);
 // CHECK:STDOUT:       %.Self: %type = symbolic_binding .Self [symbolic_self = constants.%.Self]
 // CHECK:STDOUT:       %Different.ref: type = name_ref Different, file.%Different.decl [concrete = constants.%Different.type]
 // CHECK:STDOUT:     }
-// CHECK:STDOUT:     %U.loc32_6.2: %Different.type = symbolic_binding U, 0 [symbolic = %U.loc32_6.1 (constants.%U)]
+// CHECK:STDOUT:     %U.loc32_7.2: %Different.type = symbolic_binding U, 0 [symbolic = %U.loc32_7.1 (constants.%U)]
 // CHECK:STDOUT:   }
 // CHECK:STDOUT: }
 // CHECK:STDOUT:
@@ -165,10 +165,10 @@ fn G(U:! Different) -> U.(Interface.T);
 // CHECK:STDOUT:   return
 // CHECK:STDOUT: }
 // CHECK:STDOUT:
-// CHECK:STDOUT: generic fn @G(%U.loc32_6.2: %Different.type) {
-// CHECK:STDOUT:   %U.loc32_6.1: %Different.type = symbolic_binding U, 0 [symbolic = %U.loc32_6.1 (constants.%U)]
-// CHECK:STDOUT:   %U.binding.as_type: type = symbolic_binding_type U, 0, %U.loc32_6.1 [symbolic = %U.binding.as_type (constants.%U.binding.as_type)]
-// CHECK:STDOUT:   %Interface.lookup_impl_witness: <witness> = lookup_impl_witness %U.loc32_6.1, @Interface [symbolic = %Interface.lookup_impl_witness (constants.%Interface.lookup_impl_witness)]
+// CHECK:STDOUT: generic fn @G(%U.loc32_7.2: %Different.type) {
+// CHECK:STDOUT:   %U.loc32_7.1: %Different.type = symbolic_binding U, 0 [symbolic = %U.loc32_7.1 (constants.%U)]
+// CHECK:STDOUT:   %U.binding.as_type: type = symbolic_binding_type U, 0, %U.loc32_7.1 [symbolic = %U.binding.as_type (constants.%U.binding.as_type)]
+// CHECK:STDOUT:   %Interface.lookup_impl_witness: <witness> = lookup_impl_witness %U.loc32_7.1, @Interface [symbolic = %Interface.lookup_impl_witness (constants.%Interface.lookup_impl_witness)]
 // CHECK:STDOUT:
 // CHECK:STDOUT:   fn() -> <error>;
 // CHECK:STDOUT: }
@@ -187,7 +187,7 @@ fn G(U:! Different) -> U.(Interface.T);
 // CHECK:STDOUT: }
 // CHECK:STDOUT:
 // CHECK:STDOUT: specific @G(constants.%U) {
-// CHECK:STDOUT:   %U.loc32_6.1 => constants.%U
+// CHECK:STDOUT:   %U.loc32_7.1 => constants.%U
 // CHECK:STDOUT:   %U.binding.as_type => constants.%U.binding.as_type
 // CHECK:STDOUT:   %Interface.lookup_impl_witness => constants.%Interface.lookup_impl_witness
 // CHECK:STDOUT: }

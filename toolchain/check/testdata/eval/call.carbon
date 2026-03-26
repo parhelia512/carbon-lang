@@ -174,7 +174,7 @@ fn H() {
   // CHECK:STDERR:   ^~~~~~
   // CHECK:STDERR: fail_todo_return_in_place_class.carbon:[[@LINE-8]]:6: note: initializing generic parameter `_` declared here [InitializingGenericParam]
   // CHECK:STDERR: fn G(_:! C) {}
-  // CHECK:STDERR:      ^
+  // CHECK:STDERR:      ^~~~~
   // CHECK:STDERR:
   G(F());
   //@dump-sem-ir-end
