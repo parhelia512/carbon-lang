@@ -1633,11 +1633,9 @@ static auto TryResolveTypedInst(ImportRefResolver& resolver,
   } else {
     // In the third phase, compute the associated constant ID from the constant
     // value of the declaration.
-    assoc_const_id =
-        resolver.local_insts()
-            .GetAs<SemIR::AssociatedConstantDecl>(
-                resolver.local_constant_values().GetInstId(const_id))
-            .assoc_const_id;
+    assoc_const_id = resolver.local_constant_values()
+                         .GetInstAs<SemIR::AssociatedConstantDecl>(const_id)
+                         .assoc_const_id;
   }
 
   // Load the values to populate the entity with.
@@ -2634,8 +2632,9 @@ static auto TryResolveTypedInst(ImportRefResolver& resolver,
   } else {
     // On the third phase, compute the impl ID from the "constant value" of
     // the declaration, which is a reference to the created ImplDecl.
-    auto impl_const_inst = resolver.local_insts().GetAs<SemIR::ImplDecl>(
-        resolver.local_constant_values().GetInstId(impl_const_id));
+    auto impl_const_inst =
+        resolver.local_constant_values().GetInstAs<SemIR::ImplDecl>(
+            impl_const_id);
     impl_id = impl_const_inst.impl_id;
   }
 
@@ -2669,8 +2668,9 @@ static auto TryResolveTypedInst(ImportRefResolver& resolver,
       resolver, import_impl.interface, specific_interface_data);
   // Create a local IdentifiedFacetType for the imported facet type, since impl
   // declarations always identify the facet type.
-  if (auto facet_type = resolver.local_insts().TryGetAs<SemIR::FacetType>(
-          resolver.local_constant_values().GetInstId(constraint_const_id))) {
+  if (auto facet_type =
+          resolver.local_constant_values().TryGetInstAs<SemIR::FacetType>(
+              constraint_const_id)) {
     // Lookups later will be with the unattached constant, whereas
     // GetLocalConstantId gave us an attached constant.
     auto unattached_self_const_id =
@@ -2968,17 +2968,17 @@ static auto TryResolveTypedInst(ImportRefResolver& resolver,
     // Get the local interface ID from the constant value of the interface decl,
     // which is either a GenericInterfaceType (if generic) or a FacetType (if
     // not).
-    auto interface_const_inst_id =
-        resolver.local_constant_values().GetInstId(interface_const_id);
-    if (auto struct_value = resolver.local_insts().TryGetAs<SemIR::StructValue>(
-            interface_const_inst_id)) {
+    if (auto struct_value =
+            resolver.local_constant_values().TryGetInstAs<SemIR::StructValue>(
+                interface_const_id)) {
       auto generic_interface_type =
           resolver.local_types().GetAs<SemIR::GenericInterfaceType>(
               struct_value->type_id);
       local_interface_id = generic_interface_type.interface_id;
     } else {
-      auto local_facet_type = resolver.local_insts().GetAs<SemIR::FacetType>(
-          interface_const_inst_id);
+      auto local_facet_type =
+          resolver.local_constant_values().GetInstAs<SemIR::FacetType>(
+              interface_const_id);
       const auto& local_facet_type_info =
           resolver.local_facet_types().Get(local_facet_type.facet_type_id);
       auto single_interface = *local_facet_type_info.TryAsSingleExtend();
@@ -3014,8 +3014,8 @@ static auto TryResolveTypedInst(ImportRefResolver& resolver,
   } else {
     // On the third phase, get the interface, decl and generic IDs from the
     // constant value of the decl (which is itself) from the second phase.
-    auto decl = resolver.local_insts().GetAs<SemIR::InterfaceWithSelfDecl>(
-        resolver.local_constant_values().GetInstId(const_id));
+    auto decl = resolver.local_constant_values()
+                    .GetInstAs<SemIR::InterfaceWithSelfDecl>(const_id);
     local_interface_id = decl.interface_id;
     generic_with_self_id = resolver.local_interfaces()
                                .Get(local_interface_id)
@@ -3261,17 +3261,17 @@ static auto TryResolveTypedInst(ImportRefResolver& resolver,
     // Get the local named constraint ID from the constant value of the named
     // constraint decl, which is either a GenericNamedConstraintType (if
     // generic) or a FacetType (if not).
-    auto constraint_const_inst_id =
-        resolver.local_constant_values().GetInstId(constraint_const_id);
-    if (auto struct_value = resolver.local_insts().TryGetAs<SemIR::StructValue>(
-            constraint_const_inst_id)) {
+    if (auto struct_value =
+            resolver.local_constant_values().TryGetInstAs<SemIR::StructValue>(
+                constraint_const_id)) {
       auto generic_constraint_type =
           resolver.local_types().GetAs<SemIR::GenericNamedConstraintType>(
               struct_value->type_id);
       local_constraint_id = generic_constraint_type.named_constraint_id;
     } else {
-      auto local_facet_type = resolver.local_insts().GetAs<SemIR::FacetType>(
-          constraint_const_inst_id);
+      auto local_facet_type =
+          resolver.local_constant_values().GetInstAs<SemIR::FacetType>(
+              constraint_const_id);
       const auto& local_facet_type_info =
           resolver.local_facet_types().Get(local_facet_type.facet_type_id);
       auto single_interface = *local_facet_type_info.TryAsSingleExtend();
@@ -3308,9 +3308,8 @@ static auto TryResolveTypedInst(ImportRefResolver& resolver,
   } else {
     // On the third phase, get the interface, decl and generic IDs from the
     // constant value of the decl (which is itself) from the second phase.
-    auto decl =
-        resolver.local_insts().GetAs<SemIR::NamedConstraintWithSelfDecl>(
-            resolver.local_constant_values().GetInstId(const_id));
+    auto decl = resolver.local_constant_values()
+                    .GetInstAs<SemIR::NamedConstraintWithSelfDecl>(const_id);
     local_constraint_id = decl.named_constraint_id;
     generic_with_self_id = resolver.local_named_constraints()
                                .Get(local_constraint_id)
