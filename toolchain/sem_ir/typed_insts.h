@@ -1910,6 +1910,7 @@ struct Temporary {
   static constexpr auto Kind = InstKind::Temporary.Define<Parse::NodeId>(
       {.ir_name = "temporary",
        .expr_category = ExprCategory::EphemeralRef,
+       .constant_kind = InstConstantKind::Conditional,
        .has_cleanup = true});
 
   TypeId type_id;

@@ -145,12 +145,10 @@ fn G() {
 // CHECK:STDOUT:   %pattern_type.a646: type = pattern_type %HoldsType.a31 [concrete]
 // CHECK:STDOUT:   %pattern_type.7c7: type = pattern_type %C [concrete]
 // CHECK:STDOUT:   %F.specific_fn: <specific function> = specific_function %F, @F(%tuple.1f1) [concrete]
+// CHECK:STDOUT:   %.31a: ref %HoldsType.a31 = temporary invalid, %HoldsType.val [concrete]
 // CHECK:STDOUT:   %C.val: %C = struct_value () [concrete]
+// CHECK:STDOUT:   %.5ea: ref %C = temporary invalid, %C.val [concrete]
 // CHECK:STDOUT:   %Destroy.type: type = facet_type <@Destroy> [concrete]
-// CHECK:STDOUT:   %Destroy.Op.type.bae255.1: type = fn_type @Destroy.Op.loc13_30 [concrete]
-// CHECK:STDOUT:   %Destroy.Op.651ba6.1: %Destroy.Op.type.bae255.1 = struct_value () [concrete]
-// CHECK:STDOUT:   %Destroy.Op.type.bae255.2: type = fn_type @Destroy.Op.loc13_8 [concrete]
-// CHECK:STDOUT:   %Destroy.Op.651ba6.2: %Destroy.Op.type.bae255.2 = struct_value () [concrete]
 // CHECK:STDOUT: }
 // CHECK:STDOUT:
 // CHECK:STDOUT: imports {
@@ -269,18 +267,14 @@ fn G() {
 // CHECK:STDOUT:   %.loc13_8.1: init %HoldsType.a31 = converted %.loc13_6.1, %.loc13_6.3 [concrete = constants.%HoldsType.val]
 // CHECK:STDOUT:   %.loc13_30.1: %empty_struct_type = struct_literal () [concrete = constants.%empty_struct]
 // CHECK:STDOUT:   %F.specific_fn: <specific function> = specific_function %F.ref, @F(constants.%tuple.1f1) [concrete = constants.%F.specific_fn]
-// CHECK:STDOUT:   %.loc13_8.2: ref %HoldsType.a31 = temporary %.loc13_6.2, %.loc13_8.1
+// CHECK:STDOUT:   %.loc13_8.2: ref %HoldsType.a31 = temporary %.loc13_6.2, %.loc13_8.1 [concrete = constants.%.31a]
 // CHECK:STDOUT:   %.loc13_8.3: %HoldsType.a31 = acquire_value %.loc13_8.2
 // CHECK:STDOUT:   %.loc13_30.2: ref %C = temporary_storage
 // CHECK:STDOUT:   %.loc13_30.3: init %C to %.loc13_30.2 = class_init () [concrete = constants.%C.val]
 // CHECK:STDOUT:   %.loc13_30.4: init %C = converted %.loc13_30.1, %.loc13_30.3 [concrete = constants.%C.val]
-// CHECK:STDOUT:   %.loc13_30.5: ref %C = temporary %.loc13_30.2, %.loc13_30.4
+// CHECK:STDOUT:   %.loc13_30.5: ref %C = temporary %.loc13_30.2, %.loc13_30.4 [concrete = constants.%.5ea]
 // CHECK:STDOUT:   %.loc13_30.6: %C = acquire_value %.loc13_30.5
 // CHECK:STDOUT:   %F.call: init %empty_tuple.type = call %F.specific_fn(%.loc13_8.3, %.loc13_30.6)
-// CHECK:STDOUT:   %Destroy.Op.bound.loc13_30: <bound method> = bound_method %.loc13_30.5, constants.%Destroy.Op.651ba6.1
-// CHECK:STDOUT:   %Destroy.Op.call.loc13_30: init %empty_tuple.type = call %Destroy.Op.bound.loc13_30(%.loc13_30.5)
-// CHECK:STDOUT:   %Destroy.Op.bound.loc13_8: <bound method> = bound_method %.loc13_8.2, constants.%Destroy.Op.651ba6.2
-// CHECK:STDOUT:   %Destroy.Op.call.loc13_8: init %empty_tuple.type = call %Destroy.Op.bound.loc13_8(%.loc13_8.2)
 // CHECK:STDOUT:   return
 // CHECK:STDOUT: }
 // CHECK:STDOUT:
@@ -351,12 +345,10 @@ fn G() {
 // CHECK:STDOUT:   %pattern_type.4e6: type = pattern_type %HoldsType.673 [concrete]
 // CHECK:STDOUT:   %pattern_type.7c7: type = pattern_type %C [concrete]
 // CHECK:STDOUT:   %F.specific_fn: <specific function> = specific_function %F, @F(%struct) [concrete]
+// CHECK:STDOUT:   %.41d: ref %HoldsType.673 = temporary invalid, %HoldsType.val [concrete]
 // CHECK:STDOUT:   %C.val: %C = struct_value () [concrete]
+// CHECK:STDOUT:   %.5ea: ref %C = temporary invalid, %C.val [concrete]
 // CHECK:STDOUT:   %Destroy.type: type = facet_type <@Destroy> [concrete]
-// CHECK:STDOUT:   %Destroy.Op.type.bae255.1: type = fn_type @Destroy.Op.loc13_33 [concrete]
-// CHECK:STDOUT:   %Destroy.Op.651ba6.1: %Destroy.Op.type.bae255.1 = struct_value () [concrete]
-// CHECK:STDOUT:   %Destroy.Op.type.bae255.2: type = fn_type @Destroy.Op.loc13_8 [concrete]
-// CHECK:STDOUT:   %Destroy.Op.651ba6.2: %Destroy.Op.type.bae255.2 = struct_value () [concrete]
 // CHECK:STDOUT: }
 // CHECK:STDOUT:
 // CHECK:STDOUT: imports {
@@ -472,18 +464,14 @@ fn G() {
 // CHECK:STDOUT:   %.loc13_8.1: init %HoldsType.673 = converted %.loc13_6.1, %.loc13_6.3 [concrete = constants.%HoldsType.val]
 // CHECK:STDOUT:   %.loc13_33.1: %empty_struct_type = struct_literal () [concrete = constants.%empty_struct]
 // CHECK:STDOUT:   %F.specific_fn: <specific function> = specific_function %F.ref, @F(constants.%struct) [concrete = constants.%F.specific_fn]
-// CHECK:STDOUT:   %.loc13_8.2: ref %HoldsType.673 = temporary %.loc13_6.2, %.loc13_8.1
+// CHECK:STDOUT:   %.loc13_8.2: ref %HoldsType.673 = temporary %.loc13_6.2, %.loc13_8.1 [concrete = constants.%.41d]
 // CHECK:STDOUT:   %.loc13_8.3: %HoldsType.673 = acquire_value %.loc13_8.2
 // CHECK:STDOUT:   %.loc13_33.2: ref %C = temporary_storage
 // CHECK:STDOUT:   %.loc13_33.3: init %C to %.loc13_33.2 = class_init () [concrete = constants.%C.val]
 // CHECK:STDOUT:   %.loc13_33.4: init %C = converted %.loc13_33.1, %.loc13_33.3 [concrete = constants.%C.val]
-// CHECK:STDOUT:   %.loc13_33.5: ref %C = temporary %.loc13_33.2, %.loc13_33.4
+// CHECK:STDOUT:   %.loc13_33.5: ref %C = temporary %.loc13_33.2, %.loc13_33.4 [concrete = constants.%.5ea]
 // CHECK:STDOUT:   %.loc13_33.6: %C = acquire_value %.loc13_33.5
 // CHECK:STDOUT:   %F.call: init %empty_tuple.type = call %F.specific_fn(%.loc13_8.3, %.loc13_33.6)
-// CHECK:STDOUT:   %Destroy.Op.bound.loc13_33: <bound method> = bound_method %.loc13_33.5, constants.%Destroy.Op.651ba6.1
-// CHECK:STDOUT:   %Destroy.Op.call.loc13_33: init %empty_tuple.type = call %Destroy.Op.bound.loc13_33(%.loc13_33.5)
-// CHECK:STDOUT:   %Destroy.Op.bound.loc13_8: <bound method> = bound_method %.loc13_8.2, constants.%Destroy.Op.651ba6.2
-// CHECK:STDOUT:   %Destroy.Op.call.loc13_8: init %empty_tuple.type = call %Destroy.Op.bound.loc13_8(%.loc13_8.2)
 // CHECK:STDOUT:   return
 // CHECK:STDOUT: }
 // CHECK:STDOUT:
@@ -535,7 +523,6 @@ fn G() {
 // CHECK:STDOUT:   %pattern_type.904: type = pattern_type %Class [concrete]
 // CHECK:STDOUT:   %T.d7d: %Class = symbolic_binding T, 0 [symbolic]
 // CHECK:STDOUT:   %HoldsType.type: type = generic_class_type @HoldsType [concrete]
-// CHECK:STDOUT:   %empty_tuple.type: type = tuple_type () [concrete]
 // CHECK:STDOUT:   %HoldsType.generic: %HoldsType.type = struct_value () [concrete]
 // CHECK:STDOUT:   %HoldsType.47b504.1: type = class_type @HoldsType, @HoldsType(%T.d7d) [symbolic]
 // CHECK:STDOUT:   %empty_struct_type: type = struct_type {} [concrete]
@@ -565,9 +552,8 @@ fn G() {
 // CHECK:STDOUT:   %type.as.Copy.impl.Op: %type.as.Copy.impl.Op.type = struct_value () [concrete]
 // CHECK:STDOUT:   %type.as.Copy.impl.Op.bound: <bound method> = bound_method %C, %type.as.Copy.impl.Op [concrete]
 // CHECK:STDOUT:   %Class.val: %Class = struct_value (%C) [concrete]
+// CHECK:STDOUT:   %.2e2: ref %Class = temporary invalid, %Class.val [concrete]
 // CHECK:STDOUT:   %Destroy.type: type = facet_type <@Destroy> [concrete]
-// CHECK:STDOUT:   %Destroy.Op.type: type = fn_type @Destroy.Op [concrete]
-// CHECK:STDOUT:   %Destroy.Op: %Destroy.Op.type = struct_value () [concrete]
 // CHECK:STDOUT: }
 // CHECK:STDOUT:
 // CHECK:STDOUT: imports {
@@ -729,10 +715,8 @@ fn G() {
 // CHECK:STDOUT:   %.loc37_12.4: init type to %.loc37_12.3 = in_place_init %type.as.Copy.impl.Op.call [concrete = constants.%C]
 // CHECK:STDOUT:   %.loc37_12.5: init %Class to %.loc37_12.2 = class_init (%.loc37_12.4) [concrete = constants.%Class.val]
 // CHECK:STDOUT:   %.loc37_13.1: init %Class = converted %.loc37_12.1, %.loc37_12.5 [concrete = constants.%Class.val]
-// CHECK:STDOUT:   %.loc37_13.2: ref %Class = temporary %.loc37_12.2, %.loc37_13.1
+// CHECK:STDOUT:   %.loc37_13.2: ref %Class = temporary %.loc37_12.2, %.loc37_13.1 [concrete = constants.%.2e2]
 // CHECK:STDOUT:   %.loc37_13.3: %Class = acquire_value %.loc37_13.2
-// CHECK:STDOUT:   %Destroy.Op.bound: <bound method> = bound_method %.loc37_13.2, constants.%Destroy.Op
-// CHECK:STDOUT:   %Destroy.Op.call: init %empty_tuple.type = call %Destroy.Op.bound(%.loc37_13.2)
 // CHECK:STDOUT:   return
 // CHECK:STDOUT: }
 // CHECK:STDOUT:
@@ -771,7 +755,6 @@ fn G() {
 // CHECK:STDOUT:   %pattern_type.dcb: type = pattern_type %array_type [concrete]
 // CHECK:STDOUT:   %T.9b7: %array_type = symbolic_binding T, 0 [symbolic]
 // CHECK:STDOUT:   %HoldsType.type: type = generic_class_type @HoldsType [concrete]
-// CHECK:STDOUT:   %empty_tuple.type: type = tuple_type () [concrete]
 // CHECK:STDOUT:   %HoldsType.generic: %HoldsType.type = struct_value () [concrete]
 // CHECK:STDOUT:   %HoldsType: type = class_type @HoldsType, @HoldsType(%T.9b7) [symbolic]
 // CHECK:STDOUT:   %empty_struct_type: type = struct_type {} [concrete]
@@ -816,9 +799,8 @@ fn G() {
 // CHECK:STDOUT:   %type.as.Copy.impl.Op: %type.as.Copy.impl.Op.type = struct_value () [concrete]
 // CHECK:STDOUT:   %type.as.Copy.impl.Op.bound: <bound method> = bound_method %C, %type.as.Copy.impl.Op [concrete]
 // CHECK:STDOUT:   %array: %array_type = tuple_value (%C) [concrete]
+// CHECK:STDOUT:   %.296: ref %array_type = temporary invalid, %array [concrete]
 // CHECK:STDOUT:   %Destroy.type: type = facet_type <@Destroy> [concrete]
-// CHECK:STDOUT:   %Destroy.Op.type: type = fn_type @Destroy.Op [concrete]
-// CHECK:STDOUT:   %Destroy.Op: %Destroy.Op.type = struct_value () [concrete]
 // CHECK:STDOUT: }
 // CHECK:STDOUT:
 // CHECK:STDOUT: imports {
@@ -957,11 +939,9 @@ fn G() {
 // CHECK:STDOUT:   %.loc24_25.4: init type to %.loc24_25.3 = in_place_init %type.as.Copy.impl.Op.call [concrete = constants.%C]
 // CHECK:STDOUT:   %.loc24_25.5: init %array_type to %.loc24_25.2 = array_init (%.loc24_25.4) [concrete = constants.%array]
 // CHECK:STDOUT:   %.loc24_27.1: init %array_type = converted %.loc24_25.1, %.loc24_25.5 [concrete = constants.%array]
-// CHECK:STDOUT:   %.loc24_27.2: ref %array_type = temporary %.loc24_25.2, %.loc24_27.1
+// CHECK:STDOUT:   %.loc24_27.2: ref %array_type = temporary %.loc24_25.2, %.loc24_27.1 [concrete = constants.%.296]
 // CHECK:STDOUT:   %.loc24_27.3: %array_type = acquire_value %.loc24_27.2
 // CHECK:STDOUT:   %.loc24_48: %empty_struct_type = struct_literal () [concrete = constants.%empty_struct]
-// CHECK:STDOUT:   %Destroy.Op.bound: <bound method> = bound_method %.loc24_27.2, constants.%Destroy.Op
-// CHECK:STDOUT:   %Destroy.Op.call: init %empty_tuple.type = call %Destroy.Op.bound(%.loc24_27.2)
 // CHECK:STDOUT:   return
 // CHECK:STDOUT: }
 // CHECK:STDOUT:

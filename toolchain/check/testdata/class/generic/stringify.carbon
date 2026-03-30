@@ -541,6 +541,7 @@ var g: E({.a = 1, .b = 2}) = {} as E({.a = 3, .b = 4} as D);
 // CHECK:STDOUT:   %bound_method.646: <bound method> = bound_method %int_2.ecc, %Core.IntLiteral.as.ImplicitAs.impl.Convert.specific_fn [concrete]
 // CHECK:STDOUT:   %int_2.ef8: %i32 = int_value 2 [concrete]
 // CHECK:STDOUT:   %D.val.525: %D = struct_value (%int_1.5d2, %int_2.ef8) [concrete]
+// CHECK:STDOUT:   %.88a: ref %D = temporary invalid, %D.val.525 [concrete]
 // CHECK:STDOUT:   %empty_struct: %empty_struct_type = struct_value () [concrete]
 // CHECK:STDOUT:   %int_3.1ba: Core.IntLiteral = int_value 3 [concrete]
 // CHECK:STDOUT:   %int_4.0c1: Core.IntLiteral = int_value 4 [concrete]
@@ -552,6 +553,7 @@ var g: E({.a = 1, .b = 2}) = {} as E({.a = 3, .b = 4} as D);
 // CHECK:STDOUT:   %bound_method.6d7: <bound method> = bound_method %int_4.0c1, %Core.IntLiteral.as.ImplicitAs.impl.Convert.specific_fn [concrete]
 // CHECK:STDOUT:   %int_4.940: %i32 = int_value 4 [concrete]
 // CHECK:STDOUT:   %D.val.659: %D = struct_value (%int_3.822, %int_4.940) [concrete]
+// CHECK:STDOUT:   %.aec: ref %D = temporary invalid, %D.val.659 [concrete]
 // CHECK:STDOUT: }
 // CHECK:STDOUT:
 // CHECK:STDOUT: imports {
@@ -614,7 +616,7 @@ var g: E({.a = 1, .b = 2}) = {} as E({.a = 3, .b = 4} as D);
 // CHECK:STDOUT:     %.loc25_25.8: init %i32 to %.loc25_25.7 = in_place_init %.loc25_25.6 [concrete = constants.%int_2.ef8]
 // CHECK:STDOUT:     %.loc25_25.9: init %D to %.loc25_25.3 = class_init (%.loc25_25.5, %.loc25_25.8) [concrete = constants.%D.val.525]
 // CHECK:STDOUT:     %.loc25_26.1: init %D = converted %.loc25_25.1, %.loc25_25.9 [concrete = constants.%D.val.525]
-// CHECK:STDOUT:     %.loc25_26.2: ref %D = temporary %.loc25_25.3, %.loc25_26.1
+// CHECK:STDOUT:     %.loc25_26.2: ref %D = temporary %.loc25_25.3, %.loc25_26.1 [concrete = constants.%.88a]
 // CHECK:STDOUT:     %.loc25_26.3: %D = acquire_value %.loc25_26.2
 // CHECK:STDOUT:   }
 // CHECK:STDOUT:   %g: ref <error> = ref_binding g, <error> [concrete = <error>]
@@ -675,7 +677,7 @@ var g: E({.a = 1, .b = 2}) = {} as E({.a = 3, .b = 4} as D);
 // CHECK:STDOUT:   %.loc25_53.8: init %i32 to %.loc25_53.7 = in_place_init %.loc25_53.6 [concrete = constants.%int_4.940]
 // CHECK:STDOUT:   %.loc25_53.9: init %D to %.loc25_53.3 = class_init (%.loc25_53.5, %.loc25_53.8) [concrete = constants.%D.val.659]
 // CHECK:STDOUT:   %.loc25_55.1: init %D = converted %.loc25_53.1, %.loc25_53.9 [concrete = constants.%D.val.659]
-// CHECK:STDOUT:   %.loc25_55.2: ref %D = temporary %.loc25_53.3, %.loc25_55.1
+// CHECK:STDOUT:   %.loc25_55.2: ref %D = temporary %.loc25_53.3, %.loc25_55.1 [concrete = constants.%.aec]
 // CHECK:STDOUT:   %.loc25_55.3: %D = acquire_value %.loc25_55.2
 // CHECK:STDOUT:   assign file.%g.var, <error>
 // CHECK:STDOUT:   return
