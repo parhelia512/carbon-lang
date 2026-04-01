@@ -272,15 +272,35 @@ conflict-marker-style = "git"
 # Produce Git-compatible diff format.
 format = "git"
 
-[remotes.origin]
-# Automatically track all remote bookmarks.
-auto-track-bookmarks = "*"
-
 [templates]
 # Automatically add a trailer to commits to indicate that they were AI-assisted.
 commit_trailers = '''
 "Assisted-by: My AI Tool"'''
+
+[revsets]
+# Make `jj bookmark advance` / `jj b a` only move bookmarks that point to
+# mutable commits, and move them to the most recent non-empty descendant.
+bookmark-advance-from = "heads(::to & bookmarks()) & ~immutable_heads()"
+bookmark-advance-to = 'heads(::@ & ~(description("") & empty() & ~merges()))'
 ```
+
+As well as this per-repository configuration (added to `.jj/config.toml`)
+describing how your GitHub checkout is configured:
+
+```toml
+[remotes.origin]
+# Automatically track all remote bookmarks.
+auto-track-bookmarks = "*"
+
+[revset-aliases]
+# Treat github.com/carbon-language/carbon-lang as immutable, but treat your fork
+# as mutable.
+"immutable_heads()" = "remote_bookmarks(*, upstream)"
+```
+
+The above assumes that you have configured the remote name `origin` to refer to
+your fork and `upstream` to refer to `github.com/carbon-language/carbon-lang`,
+and will need to be adjusted if you use different remote names.
 
 #### AI assistants
 
