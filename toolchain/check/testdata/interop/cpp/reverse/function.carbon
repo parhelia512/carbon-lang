@@ -35,23 +35,14 @@ void G() {
 }
 ''';
 
-// --- fail_todo_non_void.carbon
+// --- return_int.carbon
 
 library "[[@TEST_NAME]]";
 
-// CHECK:STDERR: fail_todo_non_void.carbon:[[@LINE+5]]:1: in import [InImport]
-// CHECK:STDERR: other.carbon:4:1: error: semantics TODO: `unsupported: C++ calling a Carbon function with return type other than `()`` [SemanticsTodo]
-// CHECK:STDERR: fn F2() -> i32 { return 0; }
-// CHECK:STDERR: ^~~~~~~~~~~~~~~~
-// CHECK:STDERR:
 import Other;
 import Cpp inline '''
-void G() {
-  // CHECK:STDERR: fail_todo_non_void.carbon:[[@LINE+4]]:18: error: no member named 'F2' in namespace 'Carbon::Other' [CppInteropParseError]
-  // CHECK:STDERR:    16 |   Carbon::Other::F2();
-  // CHECK:STDERR:       |                  ^~
-  // CHECK:STDERR:
-  Carbon::Other::F2();
+int G() {
+  return Carbon::Other::F2();
 }
 ''';
 

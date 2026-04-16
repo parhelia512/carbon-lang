@@ -261,13 +261,13 @@ static auto HasDeclaredReturnType(Context& context,
 
 auto PerformThunkCall(Context& context, SemIR::LocId loc_id,
                       SemIR::FunctionId function_id,
+                      llvm::ArrayRef<SemIR::InstId> param_pattern_ids,
                       llvm::ArrayRef<SemIR::InstId> call_arg_ids,
                       SemIR::InstId callee_id) -> SemIR::InstId {
   auto& function = context.functions().Get(function_id);
 
-  auto [args_vec, ignored_call_args] =
-      ThunkPatternMatch(context, function.self_param_id,
-                        function.param_patterns_id, call_arg_ids);
+  auto [args_vec, ignored_call_args] = ThunkPatternMatch(
+      context, function.self_param_id, param_pattern_ids, call_arg_ids);
   llvm::ArrayRef<SemIR::InstId> args = args_vec;
 
   // If we have a self parameter, form `self.<callee_id>` if needed.
@@ -287,7 +287,10 @@ auto PerformThunkCall(Context& context, SemIR::LocId loc_id,
 // Build a call to a function that forwards the arguments of the enclosing
 // function, for use when constructing a thunk.
 static auto BuildThunkCall(Context& context, SemIR::FunctionId function_id,
-                           SemIR::InstId callee_id) -> SemIR::InstId {
+                           SemIR::InstId callee_id,
+                           llvm::ArrayRef<SemIR::InstId> param_pattern_ids,
+                           llvm::ArrayRef<SemIR::InstId> call_arg_ids)
+    -> SemIR::InstId {
   auto& function = context.functions().Get(function_id);
 
   // Build a `NameRef` naming the callee, and a `SpecificConstant` if needed.
@@ -297,31 +300,40 @@ static auto BuildThunkCall(Context& context, SemIR::FunctionId function_id,
   callee_id = BuildNameRef(context, loc_id, function.name_id, callee_id,
                            callee_type.specific_id);
 
-  auto call_params = context.inst_blocks().Get(function.call_params_id);
-  return PerformThunkCall(context, loc_id, function_id, call_params, callee_id);
+  return PerformThunkCall(context, loc_id, function_id, param_pattern_ids,
+                          call_arg_ids, callee_id);
 }
 
-auto BuildThunkDefinition(Context& context, SemIR::FunctionId signature_id,
-                          SemIR::FunctionId function_id, SemIR::InstId thunk_id,
-                          SemIR::InstId callee_id) -> void {
+static auto StartThunkFunctionDefinition(Context& context,
+                                         SemIR::FunctionId function_id,
+                                         SemIR::InstId thunk_id,
+                                         SemIR::InstId callee_id) {
+  // The check below produces diagnostics referring to the signature, so also
+  // note the callee.
+  Diagnostics::AnnotationScope annot_scope(
+      &context.emitter(), [&](DiagnosticBuilder& builder) {
+        CARBON_DIAGNOSTIC(ThunkCallee, Note,
+                          "while building thunk calling this function");
+        builder.Note(callee_id, ThunkCallee);
+      });
+
+  StartFunctionDefinition(context, thunk_id, function_id);
+}
+
+// Given a declaration of a thunk and the function that it should call, build
+// the thunk body.
+static auto BuildThunkDefinition(Context& context,
+                                 SemIR::FunctionId signature_id,
+                                 SemIR::FunctionId function_id,
+                                 SemIR::InstId thunk_id,
+                                 SemIR::InstId callee_id) -> void {
   // TODO: Improve the diagnostics produced here. Specifically, it would likely
   // be better for the primary error message to be that we tried to produce a
   // thunk because of a type mismatch, but couldn't, with notes explaining
   // why, rather than the primary error message being whatever went wrong
   // building the thunk.
 
-  {
-    // The check below produces diagnostics referring to the signature, so also
-    // note the callee.
-    Diagnostics::AnnotationScope annot_scope(
-        &context.emitter(), [&](DiagnosticBuilder& builder) {
-          CARBON_DIAGNOSTIC(ThunkCallee, Note,
-                            "while building thunk calling this function");
-          builder.Note(callee_id, ThunkCallee);
-        });
-
-    StartFunctionDefinition(context, thunk_id, function_id);
-  }
+  StartThunkFunctionDefinition(context, function_id, thunk_id, callee_id);
 
   // The checks below produce diagnostics pointing at the callee, so also note
   // the signature.
@@ -334,7 +346,15 @@ auto BuildThunkDefinition(Context& context, SemIR::FunctionId signature_id,
                      ThunkSignature);
       });
 
-  auto call_id = BuildThunkCall(context, function_id, callee_id);
+  const auto& function = context.functions().Get(function_id);
+  llvm::ArrayRef<SemIR::InstId> param_pattern_ids;
+  if (function.param_patterns_id.has_value()) {
+    param_pattern_ids = context.inst_blocks().Get(function.param_patterns_id);
+  }
+  auto call_param_ids = context.inst_blocks().Get(function.call_params_id);
+
+  auto call_id = BuildThunkCall(context, function_id, callee_id,
+                                param_pattern_ids, call_param_ids);
   if (HasDeclaredReturnType(context, function_id)) {
     BuildReturnWithExpr(context, SemIR::LocId(callee_id), call_id);
   } else {
@@ -343,6 +363,55 @@ auto BuildThunkDefinition(Context& context, SemIR::FunctionId signature_id,
   }
 
   FinishFunctionDefinition(context, function_id);
+}
+
+auto BuildThunkDefinitionForExport(Context& context,
+                                   SemIR::FunctionId thunk_function_id,
+                                   SemIR::FunctionId callee_function_id,
+                                   SemIR::InstId thunk_id,
+                                   SemIR::InstId callee_id) -> void {
+  auto& thunk_function = context.functions().Get(thunk_function_id);
+  auto& callee_function = context.functions().Get(callee_function_id);
+
+  StartThunkFunctionDefinition(context, thunk_function_id, thunk_id, callee_id);
+
+  const bool thunk_has_return_param =
+      callee_function.return_type_inst_id != SemIR::TypeInstId::None;
+
+  llvm::ArrayRef<SemIR::InstId> param_pattern_ids;
+  if (thunk_function.param_patterns_id.has_value()) {
+    param_pattern_ids =
+        context.inst_blocks().Get(thunk_function.param_patterns_id);
+  }
+  auto call_param_ids =
+      context.inst_blocks().Get(thunk_function.call_params_id);
+
+  if (thunk_has_return_param) {
+    param_pattern_ids = param_pattern_ids.drop_back();
+    call_param_ids = call_param_ids.drop_back();
+  }
+
+  auto call_id = BuildThunkCall(context, thunk_function_id, callee_id,
+                                param_pattern_ids, call_param_ids);
+  if (thunk_has_return_param) {
+    auto out_param_id =
+        context.inst_blocks().Get(thunk_function.call_params_id).back();
+
+    SemIR::LocId loc_id(out_param_id);
+    auto init_id =
+        Initialize(context, loc_id, out_param_id, call_id, /*for_return=*/true);
+    AddInst(context, loc_id,
+            SemIR::Assign{
+                .lhs_id = out_param_id,
+                .rhs_id = init_id,
+            });
+  } else {
+    DiscardExpr(context, call_id);
+  }
+
+  BuildReturnWithNoExpr(context, SemIR::LocId(callee_id));
+
+  FinishFunctionDefinition(context, thunk_function_id);
 }
 
 auto BuildThunkDefinition(Context& context,
