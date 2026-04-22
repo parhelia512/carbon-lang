@@ -57,6 +57,19 @@ void G() {
 }
 ''';
 
+// --- using.carbon
+
+library "[[@TEST_NAME]]";
+
+import Cpp;
+
+fn F();
+
+inline Cpp '''
+using Carbon::F;
+void G() { F(); }
+''';
+
 // --- fail_todo_generic.carbon
 
 library "[[@TEST_NAME]]";
