@@ -24,7 +24,7 @@
 #include "toolchain/lower/function_context.h"
 #include "toolchain/lower/options.h"
 #include "toolchain/lower/specific_coalescer.h"
-#include "toolchain/sem_ir/absolute_node_id.h"
+#include "toolchain/sem_ir/absolute_node_ref.h"
 #include "toolchain/sem_ir/diagnostic_loc_converter.h"
 #include "toolchain/sem_ir/entry_point.h"
 #include "toolchain/sem_ir/expr_info.h"
@@ -1566,21 +1566,8 @@ auto FileContext::BuildNonCppGlobalVariableDecl(SemIR::VarStorage var_storage)
 }
 
 auto FileContext::GetLocForDI(SemIR::InstId inst_id) -> Context::LocForDI {
-  auto abs_node_id = GetAbsoluteNodeId(sem_ir_, SemIR::LocId(inst_id)).back();
-
-  if (abs_node_id.check_ir_id() == SemIR::CheckIRId::Cpp) {
-    // TODO: Consider asking our cpp_code_generator to map the location to a
-    // debug location, in order to use Clang's rules for (eg) macro handling.
-    auto loc =
-        sem_ir().clang_source_locs().Get(abs_node_id.clang_source_loc_id());
-    auto presumed_loc =
-        sem_ir().cpp_file()->source_manager().getPresumedLoc(loc);
-    return {.filename = presumed_loc.getFilename(),
-            .line_number = static_cast<int32_t>(presumed_loc.getLine()),
-            .column_number = static_cast<int32_t>(presumed_loc.getColumn())};
-  }
-
-  return context().GetLocForDI(abs_node_id);
+  auto abs_node_ref = GetAbsoluteNodeRef(sem_ir_, SemIR::LocId(inst_id)).back();
+  return context().GetLocForDI(abs_node_ref);
 }
 
 auto FileContext::BuildVtable(const SemIR::Vtable& vtable,
