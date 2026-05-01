@@ -9,6 +9,7 @@
 #include "toolchain/check/generic.h"
 #include "toolchain/check/handle.h"
 #include "toolchain/check/inst.h"
+#include "toolchain/check/period_self.h"
 #include "toolchain/check/subst.h"
 #include "toolchain/check/type.h"
 #include "toolchain/check/unused.h"
@@ -32,6 +33,12 @@ auto HandleParseNode(Context& context, Parse::WhereOperandId node_id) -> bool {
                       "left argument of `where` operator must be a facet type");
     context.emitter().Emit(self_node, WhereOnNonFacetType);
     self_with_constraints_type_id = SemIR::ErrorInst::TypeId;
+  }
+  if (self_with_constraints_type_id == SemIR::ErrorInst::TypeId) {
+    // Keep `self_id` in sync with `self_with_constraints_type_id`, if one is an
+    //  error they both are. Note that ExprAsType may have returned ErrorInst,
+    //  or we may have set it to ErrorInst in this function.
+    self_id = SemIR::ErrorInst::InstId;
   }
 
   // Strip off any constraints provided by a `WhereExpr` from the `Self` facet
@@ -62,12 +69,7 @@ auto HandleParseNode(Context& context, Parse::WhereOperandId node_id) -> bool {
   context.scope_stack().PushForSameRegion();
   // Introduce `.Self` as a symbolic binding. Its type is the value of the
   // expression to the left of `where`, so `MyInterface` in the example above.
-  auto period_self_inst_id =
-      MakePeriodSelfFacetValue(context, period_self_type_id);
-
-  // Save the `.Self` symbolic binding on the node stack. It will become the
-  // first argument to the `WhereExpr` instruction.
-  context.node_stack().Push(node_id, period_self_inst_id);
+  MakePeriodSelfFacetValue(context, period_self_type_id);
 
   // Going to put each requirement on `args_type_info_stack`, so we can have an
   // inst block with the varying number of requirements but keeping other
@@ -79,8 +81,7 @@ auto HandleParseNode(Context& context, Parse::WhereOperandId node_id) -> bool {
   context.args_type_info_stack().AddInstId(
       AddInstInNoBlock<SemIR::RequirementBaseFacetType>(
           context, SemIR::LocId(node_id),
-          {.base_type_inst_id =
-               context.types().GetTypeInstId(self_with_constraints_type_id)}));
+          {.base_type_inst_id = context.types().GetAsTypeInstId(self_id)}));
 
   // Add a context stack for tracking rewrite constraints, that will be used to
   // allow later constraints to read from them eagerly.
@@ -179,6 +180,11 @@ auto HandleParseNode(Context& context, Parse::RequirementImplsId node_id)
   // TODO: For things like `HashSet(.T) as type`, add an implied constraint
   // that `.T impls Hash`.
 
+  if (FindAndDiagnoseAmbiguousPeriodSelf(context, lhs_as_type.inst_id,
+                                         rhs_id)) {
+    rhs_as_type.inst_id = SemIR::ErrorInst::TypeInstId;
+  }
+
   // Build up the list of arguments for the `WhereExpr` inst.
   context.args_type_info_stack().AddInstId(
       AddInstInNoBlock<SemIR::RequirementImpls>(
@@ -202,8 +208,6 @@ static auto FindDesignator(Context& context,
   llvm::SmallVector<SemIR::InstId> requirements;
   requirements.reserve(block.size() * 2);
 
-  // These requirement instructions don't have a constant value, but they
-  // contain only canonical instructions.
   for (auto inst_id : block) {
     auto inst = context.insts().Get(inst_id);
     CARBON_KIND_SWITCH(inst) {
@@ -291,22 +295,20 @@ auto HandleParseNode(Context& context, Parse::WhereExprId node_id) -> bool {
   // Remove `PeriodSelf` from name lookup, undoing the `Push` done for the
   // `WhereOperand`.
   context.scope_stack().Pop(/*check_unused=*/true);
-  SemIR::InstId period_self_id =
-      context.node_stack().Pop<Parse::NodeKind::WhereOperand>();
   SemIR::InstBlockId requirements_id = context.args_type_info_stack().Pop();
 
+  auto type_id = SemIR::TypeType::TypeId;
   if (!FindDesignator(context, requirements_id)) {
     CARBON_DIAGNOSTIC(WhereWithoutDesignator, Error,
                       "`where` clause without a designator; expected `.Self` "
                       "to appear in a requirement, or a member of `.Self`");
     context.emitter().Emit(node_id, WhereWithoutDesignator);
-    period_self_id = SemIR::ErrorInst::InstId;
+    type_id = SemIR::ErrorInst::TypeId;
   }
 
-  AddInstAndPush<SemIR::WhereExpr>(context, node_id,
-                                   {.type_id = SemIR::TypeType::TypeId,
-                                    .period_self_id = period_self_id,
-                                    .requirements_id = requirements_id});
+  AddInstAndPush<SemIR::WhereExpr>(
+      context, node_id,
+      {.type_id = type_id, .requirements_id = requirements_id});
   return true;
 }
 
