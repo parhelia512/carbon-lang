@@ -848,6 +848,23 @@ static auto GetConstantValue(EvalContext& eval_context,
   return eval_context.entity_names().MakeCanonical(entity_name_id);
 }
 
+// Returns the constant value of `id` if it has a `GetConstantValue` overload,
+// and otherwise returns `id` itself.
+template <typename IdT>
+static auto GetConstantValueOrPassThrough(EvalContext& eval_context, IdT id,
+                                          Phase* phase) -> IdT;
+
+template <typename BundleT>
+static auto GetConstantValue(EvalContext& eval_context,
+                             SemIR::BundleId<BundleT> bundle_id, Phase* phase)
+    -> SemIR::BundleId<BundleT> {
+  return eval_context.context().bundles().AddCanonical(std::apply(
+      [&]<typename... Ids>(Ids... ids) -> BundleT {
+        return {GetConstantValueOrPassThrough(eval_context, ids, phase)...};
+      },
+      eval_context.context().bundles().GetAsTuple(bundle_id)));
+}
+
 // Replaces the specified field of the given typed instruction with its constant
 // value, if it has constant phase. Returns true on success, false if the value
 // has runtime phase.
@@ -877,6 +894,16 @@ static constexpr bool HasGetConstantValueOverload = requires {
   Accept<auto (*)(EvalContext&, IdT, Phase*)->IdT>(GetConstantValue);
 };
 
+template <typename IdT>
+static auto GetConstantValueOrPassThrough(EvalContext& eval_context, IdT id,
+                                          Phase* phase) -> IdT {
+  if constexpr (HasGetConstantValueOverload<IdT>) {
+    return GetConstantValue(eval_context, id, phase);
+  } else {
+    return id;
+  }
+}
+
 // Given the stored value `arg` of an instruction field and its corresponding
 // kind `kind`, returns the constant value to use for that field, if it has a
 // constant phase. `*phase` is updated to include the new constant value. If
@@ -886,15 +913,7 @@ static auto GetConstantValueForArg(EvalContext& eval_context,
                                    SemIR::IdAndKind arg_and_kind, Phase* phase)
     -> int32_t {
   return arg_and_kind.Dispatch<int32_t>([&]<typename IdT>(IdT id) -> int32_t {
-    if constexpr (HasGetConstantValueOverload<IdT>) {
-      // If we have a custom `GetConstantValue` overload, call it.
-      return SemIR::ToRaw(GetConstantValue(eval_context, id, phase));
-    } else if constexpr (std::same_as<IdT, SemIR::IdAndKind::InvalidType>) {
-      CARBON_FATAL("Unexpected invalid IdKind");
-    } else {
-      // Otherwise, we assume the value is already constant.
-      return SemIR::ToRaw(id);
-    }
+    return SemIR::ToRaw(GetConstantValueOrPassThrough(eval_context, id, phase));
   });
 }
 
@@ -1028,6 +1047,18 @@ static auto ResolveSpecificDeclForArg(EvalContext& /*eval_context*/, IdT /*id*/)
                  IdT::Label);
   }
 }
+
+template <typename BundleT>
+static auto ResolveSpecificDeclForArg(EvalContext& eval_context,
+                                      SemIR::BundleId<BundleT> bundle_id)
+    -> void {
+  std::apply(
+      [&](auto... ids) -> void {
+        (..., ResolveSpecificDeclForArg(eval_context, ids));
+      },
+      eval_context.context().bundles().GetAsTuple(bundle_id));
+}
+
 // Resolves the specific declarations for a specific id in any field of the
 // `inst` instruction.
 static auto ResolveSpecificDeclForInst(EvalContext& eval_context,
