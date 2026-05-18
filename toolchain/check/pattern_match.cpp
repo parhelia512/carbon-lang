@@ -605,7 +605,7 @@ auto MatchContext::DoVarPreWorkImpl(State state,
       // TODO: Find a more efficient way to put these insts in the global_init
       // block (or drop the distinction between the global_init block and the
       // file scope?)
-      if (context_.scope_stack().PeekIndex() == ScopeIndex::Package) {
+      if (UseGlobalInit(context_)) {
         context_.global_init().Resume();
       }
 
@@ -625,7 +625,7 @@ auto MatchContext::DoVarPreWorkImpl(State state,
                                {.lhs_id = storage_id, .rhs_id = init_id});
       }
 
-      if (context_.scope_stack().PeekIndex() == ScopeIndex::Package) {
+      if (UseGlobalInit(context_)) {
         context_.global_init().Suspend();
       }
       return storage_id;
