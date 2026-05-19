@@ -1925,6 +1925,8 @@ static auto ImportClassDefinition(ImportContext& context,
       context, import_scope, new_scope, new_class.first_owning_decl_id,
       SemIR::NameId::None, new_class.parent_scope_id);
   new_class.body_block_id = context.local_context().inst_block_stack().Pop();
+  new_scope.set_self_type_id(
+      context.local_types().GetTypeInstId(new_class.self_type_id));
 
   if (import_class.base_id.has_value()) {
     new_class.base_id = base_id;
@@ -2643,6 +2645,7 @@ static auto ImportImplDefinition(ImportContext& context,
     auto& new_scope = context.local_name_scopes().Get(new_impl.scope_id);
     new_scope.Set(new_impl.first_owning_decl_id, SemIR::NameId::None,
                   new_impl.parent_scope_id);
+    new_scope.set_self_type_id(new_impl.self_id);
     // Import the contents of the definition scope, if we might need it. Name
     // lookup is never performed into this scope by a user of the impl, so
     // this is only necessary in the same library that defined the impl, in
@@ -3090,7 +3093,7 @@ static auto TryResolveTypedInst(ImportRefResolver& resolver,
   InitializeNameScopeAndImportRefs(resolver, import_scope, new_scope, decl_id,
                                    SemIR::NameId::None,
                                    local_interface.scope_without_self_id);
-  new_scope.set_is_interface_definition();
+  new_scope.set_self_type_id(local_interface.self_param_id);
   local_interface.associated_entities_id =
       AddAssociatedEntities(resolver, local_interface.scope_with_self_id,
                             import_interface.associated_entities_id);
