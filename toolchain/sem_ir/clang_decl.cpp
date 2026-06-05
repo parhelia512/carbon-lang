@@ -81,28 +81,28 @@ auto ClangDecl::Print(llvm::raw_ostream& out) const -> void {
 ClangDeclStore::ClangDeclStore(CheckIRId check_ir_id) : values_(check_ir_id) {}
 
 auto ClangDeclStore::Add(ClangDecl value) -> ClangDeclId {
-  CARBON_CHECK(!isa<clang::VarDecl>(value.key.decl));
+  CARBON_CHECK(!isa<clang::VarDecl>(value.decl()));
   auto id = values_.Add(value);
   inst_id_to_clang_decl_id_.Insert(value.inst_id, id);
   return id;
 }
 
 auto ClangDeclStore::AddVar(ClangDecl value, InstId pattern_id) -> ClangDeclId {
-  CARBON_CHECK(isa<clang::VarDecl>(value.key.decl));
+  CARBON_CHECK(isa<clang::VarDecl>(value.decl()));
   auto id = values_.Add(value);
   inst_id_to_clang_decl_id_.Insert(pattern_id, id);
   return id;
 }
 
-auto ClangDeclStore::Lookup(ClangDeclKey key) const -> ClangDeclId {
+auto ClangDeclStore::LookupId(ClangDeclKey key) const -> ClangDeclId {
   return values_.Lookup(key);
 }
 
-auto ClangDeclStore::Lookup(InstId inst_id) const -> ClangDeclId {
+auto ClangDeclStore::Lookup(InstId inst_id) const -> const ClangDecl* {
   if (auto result = inst_id_to_clang_decl_id_.Lookup(inst_id)) {
-    return result.value();
+    return &Get(result.value());
   }
-  return ClangDeclId::None;
+  return nullptr;
 }
 
 auto ClangDeclStore::OutputYaml() const -> Yaml::OutputMapping {

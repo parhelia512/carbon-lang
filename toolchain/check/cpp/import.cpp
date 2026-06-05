@@ -378,7 +378,7 @@ static auto GetDeclContext(Context& context, SemIR::NameScopeId scope_id)
   auto scope_clang_decl_context_id =
       context.name_scopes().Get(scope_id).clang_decl_context_id();
   return dyn_cast<clang::DeclContext>(
-      context.clang_decls().Get(scope_clang_decl_context_id).key.decl);
+      context.clang_decls().Get(scope_clang_decl_context_id).decl());
 }
 
 // Returns true if the given Clang declaration is the implicit injected class
@@ -399,8 +399,7 @@ static auto IsDeclInjectedClassName(Context& context,
 
   const SemIR::ClangDecl& clang_decl = context.clang_decls().Get(
       context.name_scopes().Get(scope_id).clang_decl_context_id());
-  const auto* scope_record_decl =
-      cast<clang::CXXRecordDecl>(clang_decl.key.decl);
+  const auto* scope_record_decl = cast<clang::CXXRecordDecl>(clang_decl.decl());
 
   const clang::ASTContext& ast_context = context.ast_context();
   CARBON_CHECK(ast_context.getCanonicalTagType(scope_record_decl) ==
@@ -441,7 +440,7 @@ static auto ClangLookupName(Context& context, SemIR::NameScopeId scope_id,
 // Returns whether `decl` already mapped to an instruction.
 static auto IsClangDeclImported(Context& context, SemIR::ClangDeclKey key)
     -> bool {
-  return context.clang_decls().Lookup(key).has_value();
+  return context.clang_decls().LookupId(key).has_value();
 }
 
 // If `decl` already mapped to an instruction, returns that instruction.
@@ -449,7 +448,7 @@ static auto IsClangDeclImported(Context& context, SemIR::ClangDeclKey key)
 static auto LookupClangDeclInstId(Context& context, SemIR::ClangDeclKey key)
     -> SemIR::InstId {
   const auto& clang_decls = context.clang_decls();
-  if (auto context_clang_decl_id = clang_decls.Lookup(key);
+  if (auto context_clang_decl_id = clang_decls.LookupId(key);
       context_clang_decl_id.has_value()) {
     return clang_decls.Get(context_clang_decl_id).inst_id;
   }
@@ -2602,7 +2601,7 @@ auto ImportClassDefinitionForClangDecl(Context& context,
   CARBON_CHECK(cpp_file);
 
   auto* clang_decl =
-      cast<clang::TagDecl>(context.clang_decls().Get(clang_decl_id).key.decl);
+      cast<clang::TagDecl>(context.clang_decls().Get(clang_decl_id).decl());
   auto class_inst_id = context.types().GetAsTypeInstId(
       context.classes().Get(class_id).first_owning_decl_id);
 
@@ -2637,10 +2636,9 @@ auto GetAsClangVarDecl(Context& context, SemIR::InstId inst_id)
     -> clang::VarDecl* {
   if (const auto& var_storage =
           context.insts().TryGetAs<SemIR::VarStorage>(inst_id)) {
-    auto clang_decl_id = context.clang_decls().Lookup(var_storage->pattern_id);
-    if (clang_decl_id.has_value()) {
-      return cast<clang::VarDecl>(
-          context.clang_decls().Get(clang_decl_id).key.decl);
+    if (const auto* clang_decl =
+            context.clang_decls().Lookup(var_storage->pattern_id)) {
+      return cast<clang::VarDecl>(clang_decl->decl());
     }
   }
 

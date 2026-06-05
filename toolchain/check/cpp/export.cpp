@@ -38,7 +38,7 @@ static auto GetClangDeclContextForScope(Context& context,
   if (!clang_decl_context_id.has_value()) {
     return nullptr;
   }
-  auto* decl = context.clang_decls().Get(clang_decl_context_id).key.decl;
+  auto* decl = context.clang_decls().Get(clang_decl_context_id).decl();
   return cast<clang::DeclContext>(decl);
 }
 
@@ -137,11 +137,9 @@ auto ExportClassToCpp(Context& context, SemIR::LocId loc_id,
   // If this class was produced by importing a C++ declaration or has
   // already been exported to C++, return the corresponding Clang declaration.
   // That could either be a CXXRecordDecl or an EnumDecl.
-  if (auto clang_decl_id =
-          context.clang_decls().Lookup(class_info.first_decl_id());
-      clang_decl_id.has_value()) {
-    return cast<clang::TagDecl>(
-        context.clang_decls().Get(clang_decl_id).key.decl);
+  if (const auto* clang_decl =
+          context.clang_decls().Lookup(class_info.first_decl_id())) {
+    return cast<clang::TagDecl>(clang_decl->decl());
   }
 
   auto* identifier_info = GetClangIdentifierInfo(context, class_info.name_id);
@@ -308,12 +306,10 @@ auto ExportFieldToCpp(Context& context, SemIR::InstId field_inst_id,
   ExportAllFieldsToCpp(context, class_info);
 
   // Get the exported `clang::FieldDecl`.
-  auto clang_decl_id = context.clang_decls().Lookup(field_inst_id);
-  if (clang_decl_id == SemIR::ClangDeclId::None) {
-    return nullptr;
+  if (const auto* clang_decl = context.clang_decls().Lookup(field_inst_id)) {
+    return cast<clang::FieldDecl>(clang_decl->decl());
   }
-  return cast<clang::FieldDecl>(
-      context.clang_decls().Get(clang_decl_id).key.decl);
+  return nullptr;
 }
 
 auto CalculateCppFieldOffsets(
@@ -957,10 +953,9 @@ auto ExportVarToCpp(Context& context, SemIR::InstId inst_id,
   // Check if the variable was already exported and return the existing
   // `VarDecl` if so. Note that the `pattern_id` is used as the key
   // rather than the `InstId` for the `VarStorage`.
-  auto clang_decl_id = context.clang_decls().Lookup(var_storage.pattern_id);
-  if (clang_decl_id.has_value()) {
-    return cast<clang::VarDecl>(
-        context.clang_decls().Get(clang_decl_id).key.decl);
+  if (const auto* clang_decl =
+          context.clang_decls().Lookup(var_storage.pattern_id)) {
+    return cast<clang::VarDecl>(clang_decl->decl());
   }
 
   // Look up the entity name and check the scope.
