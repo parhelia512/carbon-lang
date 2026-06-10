@@ -32,7 +32,7 @@ fn F() {
 // CHECK:STDOUT: entry:
 // CHECK:STDOUT:   %.loc16_43.3.temp = alloca [6 x i32], align 4, !dbg !7
 // CHECK:STDOUT:   %var = alloca i32, align 4, !dbg !8
-// CHECK:STDOUT:   %.loc17_19.1.temp = alloca <{ i32, i1 }>, align 4, !dbg !8
+// CHECK:STDOUT:   %.loc17_19.3.temp = alloca <{ i32, i1 }>, align 4, !dbg !8
 // CHECK:STDOUT:   call void @llvm.lifetime.start.p0(ptr %.loc16_43.3.temp), !dbg !7
 // CHECK:STDOUT:   %.loc16_43.4.array.index = getelementptr inbounds [6 x i32], ptr %.loc16_43.3.temp, i32 0, i64 0, !dbg !7
 // CHECK:STDOUT:   %.loc16_43.7.array.index = getelementptr inbounds [6 x i32], ptr %.loc16_43.3.temp, i32 0, i64 1, !dbg !7
@@ -46,18 +46,18 @@ fn F() {
 // CHECK:STDOUT:   br label %for.next, !dbg !8
 // CHECK:STDOUT:
 // CHECK:STDOUT: for.next:                                         ; preds = %for.body, %entry
-// CHECK:STDOUT:   call void @llvm.lifetime.start.p0(ptr %.loc17_19.1.temp), !dbg !8
-// CHECK:STDOUT:   call void @"_CNext.e163a239f9fa927c:Iterate.Core.620427d555024fe2"(ptr %.loc17_19.1.temp, ptr @array.loc16_43.24, ptr %var), !dbg !8
-// CHECK:STDOUT:   %Optional.HasValue.call = call i1 @_CHasValue.Optional.Core.18012f5191ea64dc(ptr %.loc17_19.1.temp), !dbg !8
+// CHECK:STDOUT:   call void @llvm.lifetime.start.p0(ptr %.loc17_19.3.temp), !dbg !8
+// CHECK:STDOUT:   call void @"_CNext.e163a239f9fa927c:Iterate.Core.620427d555024fe2"(ptr %.loc17_19.3.temp, ptr @array.loc16_43.24, ptr %var), !dbg !8
+// CHECK:STDOUT:   %Optional.HasValue.call = call i1 @_CHasValue.Optional.Core.18012f5191ea64dc(ptr %.loc17_19.3.temp), !dbg !8
 // CHECK:STDOUT:   br i1 %Optional.HasValue.call, label %for.body, label %for.done, !dbg !8
 // CHECK:STDOUT:
 // CHECK:STDOUT: for.body:                                         ; preds = %for.next
-// CHECK:STDOUT:   %Optional.Get.call = call i32 @_CGet.Optional.Core.18012f5191ea64dc(ptr %.loc17_19.1.temp), !dbg !8
+// CHECK:STDOUT:   %Optional.Get.call = call i32 @_CGet.Optional.Core.18012f5191ea64dc(ptr %.loc17_19.3.temp), !dbg !8
 // CHECK:STDOUT:   call void @_CG.Main(i32 %Optional.Get.call), !dbg !9
 // CHECK:STDOUT:   br label %for.next, !dbg !10
 // CHECK:STDOUT:
 // CHECK:STDOUT: for.done:                                         ; preds = %for.next
-// CHECK:STDOUT:   call void @"_COp.ab782c7eec490fc7:core.Destroy.Core"(ptr %.loc17_19.1.temp), !dbg !8
+// CHECK:STDOUT:   call void @"_COp.ab782c7eec490fc7:core.Destroy.Core"(ptr %.loc17_19.3.temp), !dbg !8
 // CHECK:STDOUT:   call void @"_COp.5e27612b9dd31a14:core.Destroy.Core"(ptr %var), !dbg !8
 // CHECK:STDOUT:   call void @"_COp.3a5df7cec745952b:core.Destroy.Core"(ptr @array), !dbg !7
 // CHECK:STDOUT:   ret void, !dbg !11
@@ -276,7 +276,7 @@ fn F() {
 // CHECK:STDOUT: !49 = !{!15, !22}
 // CHECK:STDOUT: !50 = !{!51}
 // CHECK:STDOUT: !51 = !DILocalVariable(arg: 1, scope: !46, type: !22)
-// CHECK:STDOUT: !52 = !DILocation(line: 23, column: 46, scope: !46)
+// CHECK:STDOUT: !52 = !DILocation(line: 23, column: 38, scope: !46)
 // CHECK:STDOUT: !53 = distinct !DISubprogram(name: "Next", linkageName: "_CNext.e163a239f9fa927c:Iterate.Core.620427d555024fe2", scope: null, file: !47, line: 24, type: !54, spFlags: DISPFlagDefinition, unit: !2, retainedNodes: !56)
 // CHECK:STDOUT: !54 = !DISubroutineType(types: !55)
 // CHECK:STDOUT: !55 = !{!22, !22, !22}
@@ -360,4 +360,4 @@ fn F() {
 // CHECK:STDOUT: !133 = distinct !DISubprogram(name: "AsInt", linkageName: "_CAsInt.Int.9452f4c51951679b.Core:AnyInt.Core.be1e879c1ad406d8", scope: null, file: !82, line: 58, type: !127, spFlags: DISPFlagDefinition, unit: !2, retainedNodes: !134)
 // CHECK:STDOUT: !134 = !{!135}
 // CHECK:STDOUT: !135 = !DILocalVariable(arg: 1, scope: !133, type: !15)
-// CHECK:STDOUT: !136 = !DILocation(line: 58, column: 36, scope: !133)
+// CHECK:STDOUT: !136 = !DILocation(line: 58, column: 28, scope: !133)

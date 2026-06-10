@@ -39,7 +39,7 @@ library "[[@TEST_NAME]]";
 
 class Copyable {
   impl as Core.Copy {
-    fn Op[self: Self]() -> Self;
+    fn Op(self) -> Self;
   }
 }
 
@@ -492,8 +492,8 @@ fn F(c: Core.Optional(C*)) -> Core.Optional(C*) {
 // CHECK:STDOUT: !117 = !DIFile(filename: "{{.*}}/prelude/operators/as.carbon", directory: "")
 // CHECK:STDOUT: !118 = !{!119}
 // CHECK:STDOUT: !119 = !DILocalVariable(arg: 1, scope: !116, type: !7)
-// CHECK:STDOUT: !120 = !DILocation(line: 42, column: 45, scope: !116)
-// CHECK:STDOUT: !121 = !DILocation(line: 42, column: 38, scope: !116)
+// CHECK:STDOUT: !120 = !DILocation(line: 42, column: 40, scope: !116)
+// CHECK:STDOUT: !121 = !DILocation(line: 42, column: 33, scope: !116)
 // CHECK:STDOUT: !122 = distinct !DISubprogram(name: "Convert", linkageName: "_CConvert.538322f9fda4254f:ImplicitAs.a276ba298c70ba87.Core.6f97602f44c068f9", scope: null, file: !94, line: 105, type: !105, spFlags: DISPFlagDefinition, unit: !2, retainedNodes: !123)
 // CHECK:STDOUT: !123 = !{!124}
 // CHECK:STDOUT: !124 = !DILocalVariable(arg: 1, scope: !122, type: !7)
@@ -502,28 +502,28 @@ fn F(c: Core.Optional(C*)) -> Core.Optional(C*) {
 // CHECK:STDOUT: !127 = distinct !DISubprogram(name: "Convert", linkageName: "_CConvert.ef077c075a7e2432:ImplicitAs.ad22d1bbc0605210.Core.7e715d26c6bb9daa", scope: null, file: !117, line: 42, type: !105, spFlags: DISPFlagDefinition, unit: !2, retainedNodes: !128)
 // CHECK:STDOUT: !128 = !{!129}
 // CHECK:STDOUT: !129 = !DILocalVariable(arg: 1, scope: !127, type: !7)
-// CHECK:STDOUT: !130 = !DILocation(line: 42, column: 45, scope: !127)
-// CHECK:STDOUT: !131 = !DILocation(line: 42, column: 38, scope: !127)
+// CHECK:STDOUT: !130 = !DILocation(line: 42, column: 40, scope: !127)
+// CHECK:STDOUT: !131 = !DILocation(line: 42, column: 33, scope: !127)
 // CHECK:STDOUT: !132 = distinct !DISubprogram(name: "Convert", linkageName: "_CConvert.c18e58a62bf591fb:ImplicitAs.eb057aa32837c84e.Core.36d191ed69f42abb", scope: null, file: !117, line: 46, type: !105, spFlags: DISPFlagDefinition, unit: !2, retainedNodes: !133)
 // CHECK:STDOUT: !133 = !{!134}
 // CHECK:STDOUT: !134 = !DILocalVariable(arg: 1, scope: !132, type: !7)
-// CHECK:STDOUT: !135 = !DILocation(line: 46, column: 45, scope: !132)
-// CHECK:STDOUT: !136 = !DILocation(line: 46, column: 38, scope: !132)
+// CHECK:STDOUT: !135 = !DILocation(line: 46, column: 34, scope: !132)
+// CHECK:STDOUT: !136 = !DILocation(line: 46, column: 27, scope: !132)
 // CHECK:STDOUT: !137 = distinct !DISubprogram(name: "Convert", linkageName: "_CConvert.c18e58a62bf591fb:ImplicitAs.eb057aa32837c84e.Core.bd2b2818aef220bf", scope: null, file: !117, line: 46, type: !105, spFlags: DISPFlagDefinition, unit: !2, retainedNodes: !138)
 // CHECK:STDOUT: !138 = !{!139}
 // CHECK:STDOUT: !139 = !DILocalVariable(arg: 1, scope: !137, type: !7)
-// CHECK:STDOUT: !140 = !DILocation(line: 46, column: 45, scope: !137)
-// CHECK:STDOUT: !141 = !DILocation(line: 46, column: 38, scope: !137)
+// CHECK:STDOUT: !140 = !DILocation(line: 46, column: 34, scope: !137)
+// CHECK:STDOUT: !141 = !DILocation(line: 46, column: 27, scope: !137)
 // CHECK:STDOUT: !142 = distinct !DISubprogram(name: "Convert", linkageName: "_CConvert.c18e58a62bf591fb:ImplicitAs.eb057aa32837c84e.Core.7e715d26c6bb9daa", scope: null, file: !117, line: 46, type: !105, spFlags: DISPFlagDefinition, unit: !2, retainedNodes: !143)
 // CHECK:STDOUT: !143 = !{!144}
 // CHECK:STDOUT: !144 = !DILocalVariable(arg: 1, scope: !142, type: !7)
-// CHECK:STDOUT: !145 = !DILocation(line: 46, column: 45, scope: !142)
-// CHECK:STDOUT: !146 = !DILocation(line: 46, column: 38, scope: !142)
+// CHECK:STDOUT: !145 = !DILocation(line: 46, column: 34, scope: !142)
+// CHECK:STDOUT: !146 = !DILocation(line: 46, column: 27, scope: !142)
 // CHECK:STDOUT: !147 = distinct !DISubprogram(name: "Convert", linkageName: "_CConvert.c18e58a62bf591fb:ImplicitAs.eb057aa32837c84e.Core.7f331ac9d2b85055", scope: null, file: !117, line: 46, type: !105, spFlags: DISPFlagDefinition, unit: !2, retainedNodes: !148)
 // CHECK:STDOUT: !148 = !{!149}
 // CHECK:STDOUT: !149 = !DILocalVariable(arg: 1, scope: !147, type: !7)
-// CHECK:STDOUT: !150 = !DILocation(line: 46, column: 45, scope: !147)
-// CHECK:STDOUT: !151 = !DILocation(line: 46, column: 38, scope: !147)
+// CHECK:STDOUT: !150 = !DILocation(line: 46, column: 34, scope: !147)
+// CHECK:STDOUT: !151 = !DILocation(line: 46, column: 27, scope: !147)
 // CHECK:STDOUT: !152 = distinct !DISubprogram(name: "Has", linkageName: "_CHas.e8f8f92d3d08d149:OptionalStorage.Core.84588f41d61dafba", scope: null, file: !94, line: 172, type: !12, spFlags: DISPFlagDefinition, unit: !2, retainedNodes: !153)
 // CHECK:STDOUT: !153 = !{!154}
 // CHECK:STDOUT: !154 = !DILocalVariable(arg: 1, scope: !152, type: !14)
@@ -556,8 +556,8 @@ fn F(c: Core.Optional(C*)) -> Core.Optional(C*) {
 // CHECK:STDOUT: !181 = distinct !DISubprogram(name: "Convert", linkageName: "_CConvert.ef077c075a7e2432:ImplicitAs.ad22d1bbc0605210.Core.a1e92423fb5cda0f", scope: null, file: !117, line: 42, type: !105, spFlags: DISPFlagDefinition, unit: !2, retainedNodes: !182)
 // CHECK:STDOUT: !182 = !{!183}
 // CHECK:STDOUT: !183 = !DILocalVariable(arg: 1, scope: !181, type: !7)
-// CHECK:STDOUT: !184 = !DILocation(line: 42, column: 45, scope: !181)
-// CHECK:STDOUT: !185 = !DILocation(line: 42, column: 38, scope: !181)
+// CHECK:STDOUT: !184 = !DILocation(line: 42, column: 40, scope: !181)
+// CHECK:STDOUT: !185 = !DILocation(line: 42, column: 33, scope: !181)
 // CHECK:STDOUT: !186 = distinct !DISubprogram(name: "Some", linkageName: "_CSome.Optional.Core.442ff502447e2586", scope: null, file: !94, line: 33, type: !105, spFlags: DISPFlagDefinition, unit: !2, retainedNodes: !187)
 // CHECK:STDOUT: !187 = !{!188}
 // CHECK:STDOUT: !188 = !DILocalVariable(arg: 1, scope: !186, type: !7)
@@ -587,12 +587,12 @@ fn F(c: Core.Optional(C*)) -> Core.Optional(C*) {
 // CHECK:STDOUT: !212 = distinct !DISubprogram(name: "AsInt", linkageName: "_CAsInt.Int.9452f4c51951679b.Core:AnyInt.Core.be1e879c1ad406d8", scope: null, file: !198, line: 58, type: !199, spFlags: DISPFlagDefinition, unit: !2, retainedNodes: !213)
 // CHECK:STDOUT: !213 = !{!214}
 // CHECK:STDOUT: !214 = !DILocalVariable(arg: 1, scope: !212, type: !7)
-// CHECK:STDOUT: !215 = !DILocation(line: 58, column: 36, scope: !212)
+// CHECK:STDOUT: !215 = !DILocation(line: 58, column: 28, scope: !212)
 // CHECK:STDOUT: !216 = distinct !DISubprogram(name: "Op", linkageName: "_COp.a7c16f707f533a23:Copy.Core.5bd8d5767580997a", scope: null, file: !217, line: 23, type: !105, spFlags: DISPFlagDefinition, unit: !2, retainedNodes: !218)
 // CHECK:STDOUT: !217 = !DIFile(filename: "{{.*}}/prelude/copy.carbon", directory: "")
 // CHECK:STDOUT: !218 = !{!219}
 // CHECK:STDOUT: !219 = !DILocalVariable(arg: 1, scope: !216, type: !7)
-// CHECK:STDOUT: !220 = !DILocation(line: 23, column: 33, scope: !216)
+// CHECK:STDOUT: !220 = !DILocation(line: 23, column: 25, scope: !216)
 // CHECK:STDOUT: ; ModuleID = 'copy.carbon'
 // CHECK:STDOUT: source_filename = "copy.carbon"
 // CHECK:STDOUT:
