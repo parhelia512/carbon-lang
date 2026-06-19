@@ -868,8 +868,12 @@ static auto ConvertStructToClass(Context& context, SemIR::StructType src_type,
                target.storage_id.has_value());
   PendingBlock target_block(&context);
   auto& dest_class_info = context.classes().Get(dest_type.class_id);
-  CARBON_CHECK(is_partial ||
-               dest_class_info.inheritance_kind != SemIR::Class::Abstract);
+  if (!is_partial &&
+      dest_class_info.inheritance_kind == SemIR::Class::Abstract) {
+    CARBON_DIAGNOSTIC(AbstractTypeInInit, Error,
+                      "initialization of abstract class {0}", SemIR::TypeId);
+    context.emitter().Emit(value_id, AbstractTypeInInit, target.type_id);
+  }
   auto object_repr_id =
       dest_class_info.GetObjectRepr(context.sem_ir(), dest_type.specific_id);
   if (object_repr_id == SemIR::ErrorInst::TypeId) {
@@ -1957,58 +1961,33 @@ auto Convert(Context& context, SemIR::LocId loc_id, SemIR::InstId expr_id,
   }
   auto original_inner_expr_id = expr_id;
 
-  auto incomplete_diagnostic = [&](auto& builder) {
-    CARBON_CHECK(!target.is_initializer(),
-                 "Initialization of incomplete types is expected to be "
-                 "caught elsewhere.");
-    CARBON_DIAGNOSTIC(IncompleteTypeInValueConversion, Context,
-                      "forming value of incomplete type {0}", SemIR::TypeId);
-    CARBON_DIAGNOSTIC(IncompleteTypeInConversion, Context,
-                      "invalid use of incomplete type {0}", SemIR::TypeId);
-    builder.Context(loc_id,
-                    target.kind == ConversionTarget::Value
-                        ? IncompleteTypeInValueConversion
-                        : IncompleteTypeInConversion,
-                    target.type_id);
-  };
-
-  // Allow forming a value or reference of abstract class type, but not
-  // an initializer.
-  bool require_concrete =
-      target.is_initializer() ||
-      // TODO: relax this restriction.
-      !context.insts().Is<SemIR::ClassElementAccess>(expr_id);
-
   // TODO: Push this check down to the points where we perform operations that
   // need the type to be complete.
   if (ConversionNeedsCompleteTarget(context, expr_id, target)) {
-    if (require_concrete) {
-      if (target.diagnose) {
-        if (!RequireConcreteType(
-                context, target.type_id, loc_id, incomplete_diagnostic,
-                [&](auto& builder) {
-                  CARBON_DIAGNOSTIC(AbstractTypeInInit, Context,
-                                    "initialization of abstract type {0}",
-                                    SemIR::TypeId);
-                  builder.Context(loc_id, AbstractTypeInInit, target.type_id);
-                })) {
-          return SemIR::ErrorInst::InstId;
-        }
-      } else {
-        if (!TryIsConcreteType(context, target.type_id, loc_id)) {
-          return SemIR::ErrorInst::InstId;
-        }
+    if (target.diagnose) {
+      if (!RequireCompleteType(
+              context, target.type_id, loc_id, [&](auto& builder) {
+                CARBON_CHECK(
+                    !target.is_initializer(),
+                    "Initialization of incomplete types is expected to be "
+                    "caught elsewhere.");
+                CARBON_DIAGNOSTIC(IncompleteTypeInValueConversion, Context,
+                                  "forming value of incomplete type {0}",
+                                  SemIR::TypeId);
+                CARBON_DIAGNOSTIC(IncompleteTypeInConversion, Context,
+                                  "invalid use of incomplete type {0}",
+                                  SemIR::TypeId);
+                builder.Context(loc_id,
+                                target.kind == ConversionTarget::Value
+                                    ? IncompleteTypeInValueConversion
+                                    : IncompleteTypeInConversion,
+                                target.type_id);
+              })) {
+        return SemIR::ErrorInst::InstId;
       }
     } else {
-      if (target.diagnose) {
-        if (!RequireCompleteType(context, target.type_id, loc_id,
-                                 incomplete_diagnostic)) {
-          return SemIR::ErrorInst::InstId;
-        }
-      } else {
-        if (!TryToCompleteType(context, target.type_id, loc_id)) {
-          return SemIR::ErrorInst::InstId;
-        }
+      if (!TryToCompleteType(context, target.type_id, loc_id)) {
+        return SemIR::ErrorInst::InstId;
       }
     }
   }
