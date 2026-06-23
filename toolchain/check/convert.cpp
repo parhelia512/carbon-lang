@@ -2280,10 +2280,6 @@ auto FormExprAsForm(Context& context, SemIR::LocId loc_id,
     return Context::FormExpr::Error;
   }
 
-  form_inst_id = HandleAction<SemIR::RefineFormAction>(
-      context, loc_id, SemIR::FormType::TypeInstId,
-      {.type_id = SemIR::InstType::TypeId, .form_id = form_inst_id});
-
   auto form_const_id = context.constant_values().Get(form_inst_id);
   if (!form_const_id.is_constant()) {
     CARBON_DIAGNOSTIC(FormExprEvaluationFailure, Error,
