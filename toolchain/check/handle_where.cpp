@@ -98,7 +98,7 @@ auto HandleParseNode(Context& context, Parse::WhereOperandId node_id) -> bool {
 
   // Add a context stack for tracking constraints, that will be used to allow
   // later constraints to read from them eagerly.
-  context.where_stack().emplace_back();
+  context.where_stack().push_back({.loc_id = node_id});
 
   // Make rewrite constraints from the self facet type available immediately to
   // expressions in rewrite constraints for this `where` expression.
@@ -339,12 +339,6 @@ auto HandleParseNode(Context& context, Parse::RequirementImplsId node_id)
   // TODO: For things like `HashSet(.T) as type`, add an implied constraint
   // that `.T impls Hash`.
 
-  if (FindAndDiagnoseAmbiguousPeriodSelf(context, lhs_as_type.inst_id,
-                                         rhs_id)) {
-    rhs_as_type.type_id = SemIR::ErrorInst::TypeId;
-    rhs_as_type.inst_id = SemIR::ErrorInst::TypeInstId;
-  }
-
   // Build up the list of arguments for the `WhereExpr` inst.
   context.args_type_info_stack().AddInstId(
       AddInstInNoBlock<SemIR::RequirementImpls>(
@@ -387,6 +381,23 @@ auto HandleParseNode(Context& /*context*/, Parse::RequirementAndId /*node_id*/)
   return true;
 }
 
+// There are two ways to nest `where` expressions, this diagnoses a `where`
+// expression inside the RHS of another `where` expression.
+//
+// Whereas it is valid to nest a `where` expression on the LHS of another
+// `where` expression.
+static auto DiagnoseNestedWhere(Context& context, SemIR::LocId loc_id,
+                                SemIR::LocId outer_loc_id) -> void {
+  CARBON_DIAGNOSTIC(
+      NestedWhereInsideWhere, Error,
+      "found `where` expression nested on the right-hand side of `where`");
+  auto builder = context.emitter().Build(loc_id, NestedWhereInsideWhere);
+  CARBON_DIAGNOSTIC(NestedWhereInsideWhereOuterNote, Note,
+                    "on right-hand side of `where` here");
+  builder.Note(outer_loc_id, NestedWhereInsideWhereOuterNote);
+  builder.Emit();
+}
+
 auto HandleParseNode(Context& context, Parse::WhereExprId node_id) -> bool {
   context.where_stack().pop_back();
   // Remove `PeriodSelf` from name lookup, undoing the `Push` done for the
@@ -394,9 +405,17 @@ auto HandleParseNode(Context& context, Parse::WhereExprId node_id) -> bool {
   context.scope_stack().Pop(/*check_unused=*/true);
   SemIR::InstBlockId requirements_id = context.args_type_info_stack().Pop();
 
+  auto type_id = SemIR::TypeType::TypeId;
+  if (!context.where_stack().empty()) {
+    DiagnoseNestedWhere(context, node_id, context.where_stack().back().loc_id);
+    type_id = SemIR::ErrorInst::TypeId;
+  }
+
+  // TODO: Look at the constant value and diagnose NestedWhereInsideWhere if
+  // there are any non-extend constraints present.
   AddInstAndPush<SemIR::WhereExpr>(
       context, node_id,
-      {.type_id = SemIR::TypeType::TypeId, .requirements_id = requirements_id});
+      {.type_id = type_id, .requirements_id = requirements_id});
   return true;
 }
 
