@@ -184,6 +184,9 @@ The return type of a function or lambda can be specified using a return clause
     -   Because the return type is deduced and not explicitly known, functions
         defined using `=>` cannot have a separate forward declaration.
 
+> **TODO:** Update this section to cover extended return types, as discussed
+> [here](values.md#function-calls-and-returns).
+
 #### Unused parameters
 
 When a parameter introduced in a function definition is not used in the function
@@ -889,6 +892,13 @@ Other designs build upon basic function syntax to add advanced features:
 -   [Sigil for lambdas](/proposals/p003848-lambdas.md#alternative-considered-sigil)
 -   [Additional Positional Parameter Restriction](/proposals/p003848-lambdas.md#alternative-considered-additional-positional-parameter-restriction)
 -   [Recursive Self in lambdas](/proposals/p003848-lambdas.md#alternative-considered-recursive-self)
+-   [Keep the `:!` syntax](/proposals/p007254-replace-and-with-keywords-and-contextual-defaults.md#keep-the--syntax)
+-   [Alternative keyword names](/proposals/p007254-replace-and-with-keywords-and-contextual-defaults.md#alternative-keyword-names)
+-   [Use `template generic` instead of just `template`](/proposals/p007254-replace-and-with-keywords-and-contextual-defaults.md#use-template-generic-instead-of-just-template)
+-   [Context-independent syntax](/proposals/p007254-replace-and-with-keywords-and-contextual-defaults.md#context-independent-syntax)
+-   [Erased model for generics](/proposals/p007254-replace-and-with-keywords-and-contextual-defaults.md#erased-model-for-generics)
+-   [Context-sensitive defaults based on parameter type](/proposals/p007254-replace-and-with-keywords-and-contextual-defaults.md#context-sensitive-defaults-based-on-parameter-type)
+-   [Allow redundant phase keywords](/proposals/p007254-replace-and-with-keywords-and-contextual-defaults.md#allow-redundant-phase-keywords)
 
 ## References
 
@@ -908,3 +918,5 @@ Other designs build upon basic function syntax to add advanced features:
     [#3848: Lambdas](https://github.com/carbon-language/carbon-lang/pull/3848)
 -   Proposal
     [#5434: `ref` parameters, arguments, returns and `val` returns](https://github.com/carbon-language/carbon-lang/pull/5434)
+-   Proposal
+    [#7254: Replace `:!` and `:?` with keywords and contextual defaults](https://github.com/carbon-language/carbon-lang/pull/7254)
